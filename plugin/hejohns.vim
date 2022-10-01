@@ -45,12 +45,14 @@ if has('wildignore')
     set wildoptions=pum
 endif
 " default spell on
-" (dumb but non autocmd doesn't work for some reason)
+" (dumb but non autocmd gets clobbered by other syntax files)
 augroup spell_default_on
     autocmd!
+    " VimEnter for first window, WinEnter for the rest
     autocmd VimEnter,WinEnter * setlocal spell spelllang=en
     " sourcing one of the syntax files screws up the hi colors
-    autocmd VimEnter,WinEnter * call MySetSpellColors()
+    " (eg solarized)
+    autocmd VimEnter,SourcePost * call MySetSpellColors()
 augroup END
 set shortmess-=S
 set smarttab

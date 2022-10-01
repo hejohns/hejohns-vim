@@ -120,7 +120,7 @@ augroup remember_folds
 augroup END
 " # Function to permanently delete views created by 'mkview'
 function! MyDeleteView()
-    call hejohns#DeleteView()
+    call hejohns#delete_view()
 endfunction
 " # Command Delview (and it's abbreviation 'delview')
 command Delview call MyDeleteView() | set foldmethod=indent | set foldcolumn=0 | set foldlevel=99
@@ -183,4 +183,32 @@ function! MySetSpellColors()
     hi SpellCap gui=undercurl guisp=Blue
     hi SpellRare gui=undercurl guisp=Magenta
     hi SpellLocal gui=undercurl guisp=Cyan
+endfunction
+
+" vim-signify
+set updatetime=100
+let g:signify_sign_change = '∂'
+let g:mySignifyDiffToggle = 0
+augroup signify_toggle
+    autocmd!
+augroup END
+function! MySignifyDiffToggle()
+    call hejohns#signify_diff_toggle()
+endfunction
+nnoremap ;sigp :call MySignifyDiffToggle()<CR>
+nnoremap ;sigt :SignifyToggle<CR>
+nnoremap ;sigu :SignifyHunkUndo<CR>
+
+" undotree
+nnoremap ;u :UndotreeToggle<CR>
+
+" vim-dispatch
+function MyDispatchOnBufWrite()
+    call hejohns#dispatch_on_BufWrite()
+endfunc
+
+" deoplete
+" deoplete-faq-config
+function! s:check_back_space() abort
+    call hejohns#deoplete_check_back_space()
 endfunction

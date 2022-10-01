@@ -48,10 +48,9 @@ endif
 " (dumb but non autocmd doesn't work for some reason)
 augroup spell_default_on
     autocmd!
-    autocmd VimEnter * setlocal spell spelllang=en
-    autocmd WinNew * setlocal spell spelllang=en
+    autocmd VimEnter,WinEnter * setlocal spell spelllang=en
     " sourcing one of the syntax files screws up the hi colors
-    autocmd WinNew * call MySetSpellColors()
+    autocmd VimEnter,WinEnter * call MySetSpellColors()
 augroup END
 set shortmess-=S
 set smarttab

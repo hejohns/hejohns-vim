@@ -5,11 +5,11 @@ else
 endif
 
 " global (vimrc) settings
+set encoding=utf8
+scriptencoding utf8
 syntax on
 colorscheme solarized
 set background=dark
-set encoding=utf8
-scriptencoding utf8
 set tags=tags
 set autoindent
 set expandtab

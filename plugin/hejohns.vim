@@ -44,6 +44,15 @@ endif
 if has('wildignore')
     set wildoptions=pum
 endif
+" default spell on
+" (dumb but non autocmd doesn't work for some reason)
+augroup spell_default_on
+    autocmd!
+    autocmd VimEnter * setlocal spell spelllang=en
+    autocmd WinNew * setlocal spell spelllang=en
+    " sourcing one of the syntax files screws up the hi colors
+    autocmd WinNew * call MySetSpellColors()
+augroup END
 set shortmess-=S
 set smarttab
 inoremap kj <ESC>
@@ -170,3 +179,19 @@ endif
 " more highlighting matches
 call matchadd('Todo', '\<notes\?:\?\>\c')
 call matchadd('Todo', '\<todo:\?\>\c')
+
+" spell stuff cont
+" undercurl not available on term usually
+" apparantly nvim doesn't understand term or ctermul
+function! MySetSpellColors()
+    if !has('nvim')
+        hi SpellBad term=underline cterm=underline ctermul=Red
+        hi SpellCap term=underline cterm=underline ctermul=Blue
+        hi SpellRare term=underline cterm=underline ctermul=Magenta
+        hi SpellLocal term=underline cterm=underline ctermul=Cyan
+    endif
+    hi SpellBad gui=undercurl guisp=Red
+    hi SpellCap gui=undercurl guisp=Blue
+    hi SpellRare gui=undercurl guisp=Magenta
+    hi SpellLocal gui=undercurl guisp=Cyan
+endfunction

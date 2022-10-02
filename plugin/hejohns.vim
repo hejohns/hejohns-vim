@@ -225,6 +225,10 @@ EOF
         }
 EOF
     endif
+
+    if(!exists &executable){
+        die "do something";
+    }
 endif
 " (keeping this here for future ref)
 if has('perl')
@@ -403,7 +407,7 @@ if has('perl')
             # but it messes up the buffer local remappings
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
-                    my $pipExists = `sh -c 'command -v pip3' 2>&1`;
+                    my $pipExists = &executable('pip3');
                     if($? >> 8){
                         VIM::DoCommand("silent !echo '[warning] `pip3` not found. Not using language server.'");
                         last VOID_EVAL_LAST_WARNINGS;

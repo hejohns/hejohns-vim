@@ -226,9 +226,11 @@ EOF
 EOF
     endif
 
+    perl << EOF
     if(!exists &executable){
         die "do something";
     }
+EOF
 endif
 " (keeping this here for future ref)
 if has('perl')

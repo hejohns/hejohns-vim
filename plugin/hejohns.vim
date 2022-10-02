@@ -247,39 +247,6 @@ EOF
     endfunction
 endif
 
-" LanguageClient-neovim variables
-let g:myLSRunning = 0
-let g:myLSLangs = []
-if has('perl')
-    perl <<EOF
-    use strict;
-    use warnings FATAL => 'all', NONFATAL => 'redefine';
-
-    my $lsCmds = <<~"__EOF"
-        let g:LanguageClient_serverCommands = {
-        'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-        'haskell': ['haskell-language-server-wrapper', '--lsp'],
-        'reason': ['/home/hejohns/.vim/language-server/rls-linux/reason-language-server', '--stdio'],
-        'ocaml': ['ocamllsp'],
-        'perl': ['pls'],
-        'tex': ['texlab'],
-        'nix': ['rnix-lsp'],
-        'go': ['gopls'],
-        'ruby': ['solargraph'],
-        }
-        __EOF
-        ;
-    my @rows = split /\n/, $lsCmds; # for @langs
-    $lsCmds =~ s/\n//g; # vim doesn't like the newlines
-    VIM::DoCommand($lsCmds);
-    my @langs = map {/'(\S+)':/; $1} grep {/'(\S+)':/} @rows;
-    my @myLSLangs = map {"'$_',"} @langs;
-    VIM::DoCommand("let g:myLSLangs = [@myLSLangs]");
-EOF
-else
-    silent !echo '[warning] Need +perl to initialize language server correctly'
-endif
-
 " clang_complete
 " TODO: move the option setting to no_LS_opt2ft
 " this is how I used to write filetype specific options, but if I start vim on

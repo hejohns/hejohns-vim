@@ -190,6 +190,7 @@ endif
 if has('perl')
     if has('nvim')
         perl << EOF
+        use v5.32;
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
@@ -216,6 +217,7 @@ EOF
     " normal vim
     else
         perl << EOF
+        use v5.32;
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 

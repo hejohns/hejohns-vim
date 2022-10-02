@@ -190,18 +190,17 @@ endif
 if has('perl')
     if has('nvim')
         perl << EOF
-        use v5.32;
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
         # NOTE: nvim's VIM::Eval does not dereference like vim does
-        sub SEval :protype($){
+        sub SEval($){
             # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
             ($exists) ? VIM::Eval(shift) : return;
         }
-        sub AEval :protype($){
+        sub AEval($){
             # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
@@ -217,14 +216,13 @@ EOF
     " normal vim
     else
         perl << EOF
-        use v5.32;
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
-        sub SEval :protype($){
+        sub SEval($){
             VIM::Eval(shift);
         }
-        sub AEval :protype($){
+        sub AEval($){
             VIM::Eval(shift);
         }
 EOF

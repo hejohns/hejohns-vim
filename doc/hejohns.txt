@@ -1,0 +1,12 @@
+*hejohns-vim.txt* my vimrc as a (vim-plug) plugin for organization and autoload
+*hejohns-vim* *hejohns*
+
+Version: 2022-10-01
+=============================================================================
+CONTENTS                                                  *hejohns-contents*
+    1. Notes                                                 |hejohns-notes|
+=============================================================================
+NOTES                                                        *hejohns-notes*
+
+something
+

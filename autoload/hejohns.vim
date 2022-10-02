@@ -1,4 +1,5 @@
 scriptencoding utf8
+
 " fold settings
 " https://stackoverflow.com/a/54739345
 function! hejohns#delete_view() abort
@@ -16,6 +17,14 @@ function! hejohns#delete_view() abort
     echo 'Deleted: '.path
     " hejohns addition: vim gets stuck in diff mode a lot for some reason
     diffoff
+endfunction
+
+" LanguageClient-neovim
+function! hejohns#enable_ft_specific() abort
+    unlet g:myDisableFTSpecific
+endfunction
+function! hejohns#disable_ft_specific() abort
+    let g:myDisableFTSpecific = 1
 endfunction
 
 " vimtex

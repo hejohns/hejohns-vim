@@ -52,7 +52,7 @@ augroup spell_default_on
     autocmd VimEnter,WinNew * setlocal spell spelllang=en
     " sourcing one of the syntax files screws up the hi colors
     " (eg solarized)
-    autocmd VimEnter,SourcePost * call MySetSpellColors()
+    autocmd VimEnter,SourcePost * call s:set_spell_colors()
 augroup END
 set shortmess-=S
 set smarttab
@@ -75,7 +75,7 @@ noremap ;n :bNext<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>
 " spell stuff
-noremap ;son :setlocal spell spelllang=en<CR>:call MySetSpellColors()<CR>
+noremap ;son :setlocal spell spelllang=en<CR>:call s:set_spell_colors()<CR>
 noremap ;soff :setlocal spell spelllang=<CR>
 noremap <expr> ;st (&spelllang == '' ? ':set spelllang=en<CR>' : ':set spelllang=""<CR>')
 noremap ;sf viw<ESC>a<C-X><C-s>
@@ -119,13 +119,10 @@ augroup remember_folds
     autocmd BufWinEnter ?* silent! loadview
 augroup END
 " # Function to permanently delete views created by 'mkview'
-function! MyDeleteView()
-    call hejohns#delete_view()
-endfunction
 " # Command Delview (and it's abbreviation 'delview')
-command Delview call MyDeleteView() | set foldmethod=indent | set foldcolumn=0 | set foldlevel=99
+command Delview call hejohns#delete_view() | set foldmethod=indent | set foldcolumn=0 | set foldlevel=99
 " avoid BufWinLeave and mkview on :q
-command DelviewHard call MyDeleteView() | set foldmethod=indent | set foldcolumn=0 | set foldlevel=99 | noautocmd q
+command DelviewHard call hejohns#delete_view() | set foldmethod=indent | set foldcolumn=0 | set foldlevel=99 | noautocmd q
 " Lower-case user commands: http://vim.wikia.com/wiki/Replace_a_builtin_command_using_cabbrev
 cabbrev delview <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'Delview' : 'delview')<CR>
 
@@ -172,7 +169,7 @@ call matchadd('Todo', '\<todo:\?\>\c')
 " spell stuff cont
 " undercurl not available on term usually
 " apparantly nvim doesn't understand term or ctermul
-function! MySetSpellColors()
+function! s:set_spell_colors() abort
     if !has('nvim')
         hi SpellBad term=underline cterm=underline ctermul=Red
         hi SpellCap term=underline cterm=underline ctermul=Blue
@@ -197,13 +194,13 @@ if has('perl')
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
         # NOTE: nvim's VIM::Eval does not dereference like vim does
-        sub SEval($){
+        sub SEval :protype($){
             # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
             ($exists) ? VIM::Eval(shift) : return;
         }
-        sub AEval($){
+        sub AEval :protype($){
             # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
@@ -222,10 +219,10 @@ EOF
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
-        sub SEval($){
+        sub SEval :protype($){
             VIM::Eval(shift);
         }
-        sub AEval($){
+        sub AEval :protype($){
             VIM::Eval(shift);
         }
 EOF
@@ -295,7 +292,7 @@ endif
 " (and any pip stuff)
 " (and any filetype specific options)
 if has('perl')
-    function FiletypeSpecific(ft)
+    function s:ft_specific(ft)
         augroup filetype_specific
             autocmd! * <buffer>
         augroup END
@@ -303,9 +300,6 @@ if has('perl')
         if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
             perl filetype_options
         endif
-    endfunction
-    function MyDisableFTSpecific()
-        let g:myDisableFTSpecific = 1
     endfunction
     perl << EOF
     use strict;
@@ -316,7 +310,7 @@ if has('perl')
     my %no_LS_opt2ft = (
         'autocmd filetype_specific BufEnter <buffer> setlocal shiftwidth=2' =>
         ['haskell', 'cabal', 'cabalconfig', 'cabalproject', 'nix'],
-        'autocmd filetype_specific BufWritePost <buffer> call MyDispatchOnBufWrite()' =>
+        'autocmd filetype_specific BufWritePost <buffer> call hejohns#dispatch_on_BufWrite()' =>
         ['tex'],
         'nnoremap <buffer> <C-\>ll :let g:myDispatchToggle = (exists("g:myDispatchToggle") && g:myDispatchToggle) ? 0 : 1<CR>' =>
         ['tex'],
@@ -336,7 +330,7 @@ if has('perl')
         ['tex'],
         'vnoremap <buffer> ysi}c vi}<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'call MyVimtexOptions()' =>
+        'call hejohns#vimtex_options()' =>
         ['tex'],
         # TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
         # this hack ``just works''
@@ -378,8 +372,8 @@ if has('perl')
             # use deoplete so vim stops hanging on autocomplete
             # still needed for some reason even with g:deoplete#enable_at_startup
             VIM::DoCommand('call deoplete#enable()');
-            VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
-            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : <SID>check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
+            VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
+            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
             # deoplete-options-num_processes
             VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
             # NOTE: deoplete by default uses all sources?
@@ -458,13 +452,8 @@ endif
 augroup filetype_options
     autocmd!
     autocmd FileType plaintex setlocal filetype=tex
-    autocmd BufEnter * execute 'call FiletypeSpecific("' . &filetype . '")'
+    autocmd BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END
-
-" vimtex
-function MyVimtexOptions()
-    call hejohns#vimtex_options()
-endfunction
 
 " julia latex2unicode
 " `let g:latex_to_unicode_tab = "off"` to disable julia tab completion
@@ -529,23 +518,9 @@ let g:mySignifyDiffToggle = 0
 augroup signify_toggle
     autocmd!
 augroup END
-function! MySignifyDiffToggle()
-    call hejohns#signify_diff_toggle()
-endfunction
-nnoremap ;sigp :call MySignifyDiffToggle()<CR>
+nnoremap ;sigp :call hejohns#signify_diff_toggle()<CR>
 nnoremap ;sigt :SignifyToggle<CR>
 nnoremap ;sigu :SignifyHunkUndo<CR>
 
 " undotree
 nnoremap ;u :UndotreeToggle<CR>
-
-" vim-dispatch
-function MyDispatchOnBufWrite()
-    call hejohns#dispatch_on_BufWrite()
-endfunc
-
-" deoplete
-" deoplete-faq-config
-function! s:check_back_space() abort
-    call hejohns#deoplete_check_back_space()
-endfunction

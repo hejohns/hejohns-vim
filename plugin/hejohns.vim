@@ -195,13 +195,11 @@ if has('perl')
 
         # NOTE: nvim's VIM::Eval does not dereference like vim does
         sub SEval($){
-            # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
             ($exists) ? VIM::Eval(shift) : return;
         }
         sub AEval($){
-            # TODO: Does this make sense? Trying to patch an error nvim throws
             VIM::DoCommand("let g:myPerlArg_ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerlArg_');
             if($exists){
@@ -401,11 +399,8 @@ if has('perl')
             ($success, my $lsLangs) = AEval('g:myLSLangs');
             my @lsLangs = split(' ', $lsLangs);
             push @lsLangs, qw(vim); # vim-vint requires pip install
-            ($success, my $filetype) = SEval('&filetype');
-            $filetype //= '';
             # NOTE: can't figure out why plaintex shows up
             # but it messes up the buffer local remappings
-            $filetype =~ s/plaintex/tex/;
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
                     my $pipExists = `sh -c 'command -v pip3' 2>&1`;

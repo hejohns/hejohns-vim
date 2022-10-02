@@ -3,10 +3,13 @@
 
 Version: 2022-10-01
 =============================================================================
-CONTENTS                                                  *hejohns-contents*
-    1. Notes                                                 |hejohns-notes|
+CONTENTS                                                   *hejohns-contents*
+    1. TODOs                                                  |hejohns-TODOs|
 =============================================================================
-NOTES                                                        *hejohns-notes*
+TODOs                                                         *hejohns-TODOs*
 
-something
+C/C++: clang complete configuration not updated to hook into ft_specific
+    giant dispatch thing. Won't initialize correctly unless vim is started on a
+    C/C++ file
 
+In general the ft_specific logic is horrible

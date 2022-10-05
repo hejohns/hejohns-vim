@@ -538,6 +538,9 @@ nnoremap ;u :UndotreeToggle<CR>
 " vim-simple-complete
 " default g:vsc_completion_command is '\<C-N>'
 " try to hook it up w/ deoplete
-let g:vsc_completion_command = "\<TAB>"
+let g:vsc_completion_command = "TAB"
 " try to let the other autocomplete plugins take care of tab
 let g:vsc_tab_complete = 0
+" hack to not have TabComplete
+let g:loaded_vim_simple_complete = 0
+call plug#load('vim-simple-complete')

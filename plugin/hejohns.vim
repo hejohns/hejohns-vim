@@ -379,7 +379,7 @@ if has('perl')
             VIM::DoCommand('let g:myPerlArg_ = has(\'nvim\')');
             ($success, my $has_nvim) = SEval('g:myPerlArg_');
             $has_nvim //= 0;
-            if(has_nvim){
+            if($has_nvim){
                 VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
                 VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
             }

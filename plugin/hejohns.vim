@@ -376,8 +376,17 @@ if has('perl')
             # use deoplete so vim stops hanging on autocomplete
             # still needed for some reason even with g:deoplete#enable_at_startup
             VIM::DoCommand('call deoplete#enable()');
-            VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
-            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
+            VIM::DoCommand('let g:myPerlArg_ = has(\'nvim\')');
+            ($success, my $has_nvim) = SEval('g:myPerlArg_');
+            $has_nvim //= 0;
+            if(has_nvim){
+                VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
+                VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
+            }
+            else{ # normal vim will hang on deoplete#manual_complete
+                VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
+                VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
+            }
             # deoplete-options-num_processes
             VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
             # NOTE: deoplete by default uses all sources?
@@ -525,3 +534,10 @@ nnoremap ;sigu :SignifyHunkUndo<CR>
 
 " undotree
 nnoremap ;u :UndotreeToggle<CR>
+
+" vim-simple-complete
+" default g:vsc_completion_command is '\<C-N>'
+" try to hook it up w/ deoplete
+let g:vsc_completion_command = '\<TAB>'
+" try to let the other autocomplete plugins take care of tab
+let g:vsc_tab_complete = 0

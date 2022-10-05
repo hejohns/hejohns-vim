@@ -462,7 +462,8 @@ endif
 augroup filetype_options
     autocmd!
     autocmd FileType plaintex setlocal filetype=tex
-    autocmd BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
+    " other plugins may clobber our mappings
+    autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END
 
 " julia latex2unicode

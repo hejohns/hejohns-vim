@@ -171,3 +171,11 @@ function! hejohns#deoplete_check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col-1] =~# '\s'
 endfunction
+
+function! hejohns#deoplete_is_running() abort
+    if exists('*deoplete#is_enabled')
+        return deoplete#is_enabled()
+    else
+        return v:false
+    endif
+endfunction

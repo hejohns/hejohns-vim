@@ -59,8 +59,8 @@ set smarttab
 inoremap kj <ESC>
 inoremap jk <C-w>
 inoremap lk <ESC>ll
-inoremap <TAB> <C-n>
-inoremap <S-TAB> <C-p>
+inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<TAB>" : "\<C-n>"
+inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<S-TAB>" : "\<C-p>"
 inoremap df <BS>
 inoremap fd <DEL>
 "noremap DK kdd
@@ -380,11 +380,6 @@ if has('perl')
             ($success, my $has_nvim) = SEval('g:myPerlArg_');
             $has_nvim //= 0;
             # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-            # try to get it to never trigger synchronous autocomplete
-            VIM::DoCommand('iunmap <TAB>');
-            VIM::DoCommand('iunmap <S-TAB>');
-            VIM::DoCommand('inoremap <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
-            VIM::DoCommand('inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
             if($has_nvim){
                 VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
                 VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');

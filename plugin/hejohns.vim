@@ -59,8 +59,8 @@ set smarttab
 inoremap kj <ESC>
 inoremap jk <C-w>
 inoremap lk <ESC>ll
-inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<TAB>" : "\<C-n>"
-inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<S-TAB>" : "\<C-p>"
+inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call <SID>ft_specific(" .. &filetype .. ")" .. "\<CR>" : "\<C-n>"
+inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call <SID>ft_specific(" .. &filetype .. ")" .. "\<CR>" : "\<C-p>"
 inoremap df <BS>
 inoremap fd <DEL>
 "noremap DK kdd

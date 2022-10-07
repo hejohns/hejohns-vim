@@ -59,6 +59,8 @@ set smarttab
 inoremap kj <ESC>
 inoremap jk <C-w>
 inoremap lk <ESC>ll
+# this is so stupid
+# but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call <SID>ft_specific('" .. &filetype .. "')" .. "\<CR>" : "\<C-n>"
 inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call <SID>ft_specific('" .. &filetype .. "')" .. "\<CR>" : "\<C-p>"
 inoremap df <BS>

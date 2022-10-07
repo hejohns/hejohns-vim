@@ -311,6 +311,42 @@ if has('perl')
     function MyDeopleteConf()
         perl deoplete_options
     endfunction
+    function MyDeopleteTab()
+        if pumvisible()
+            return "\<C-n>"
+        elseif hejohns#deoplete_check_back_space()
+            return "\<TAB>"
+        else
+            deoplete#custom#option('auto_complete_popup', 'manual')
+            let l:can_complete = deoplete#can_complete()
+            deoplete#custom#option('auto_complete_popup', 'auto')
+            if l:can_complete
+                return deoplete#complete()
+            elseif has('nvim')
+                return deoplete#manual_complete()
+            else
+                return ''
+            endif
+        endif
+    endfunction
+    function MyDeopleteSTab()
+        if pumvisible()
+            return "\<C-p>"
+        elseif hejohns#deoplete_check_back_space()
+            return "\<S-TAB>"
+        else
+            deoplete#custom#option('auto_complete_popup', 'manual')
+            let l:can_complete = deoplete#can_complete()
+            deoplete#custom#option('auto_complete_popup', 'auto')
+            if l:can_complete
+                return deoplete#complete()
+            elseif has('nvim')
+                return deoplete#manual_complete()
+            else
+                return ''
+            endif
+        endif
+    endfunction
     perl << EOF
     use strict;
     use warnings FATAL => 'all', NONFATAL => 'redefine';
@@ -326,19 +362,9 @@ if has('perl')
             # use deoplete so vim stops hanging on autocomplete
             # still needed for some reason even with g:deoplete#enable_at_startup
             VIM::DoCommand('call deoplete#enable()');
-            VIM::DoCommand('let g:myPerlArg_ = has(\'nvim\')');
-            ($_success, my $has_nvim) = SEval('g:myPerlArg_');
-            $has_nvim //= 0;
             # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-            if($has_nvim){
-                VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
-                VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : deoplete#manual_complete()');
-            }
-            else{ # normal vim will hang on deoplete#manual_complete
-                VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
-                VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
-            }
-            VIM::DoCommand("call deoplete#custom#option('auto_complete_popup', 'manual')");
+            VIM::DoCommand('inoremap <buffer> <expr> <TAB> MyDeopleteTab()');
+            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()');
             # deoplete-options-num_processes
             VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
             # NOTE: deoplete by default uses all sources?

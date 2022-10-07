@@ -314,7 +314,7 @@ if has('perl')
     use strict;
     use warnings FATAL => 'all', NONFATAL => 'redefine';
 
-    my ($_success_, $lsLangs) = AEval('g:myLSLangs');
+    my ($_success, $lsLangs) = AEval('g:myLSLangs');
     my @lsLangs = split(' ', $lsLangs);
 
     sub deoplete_options{

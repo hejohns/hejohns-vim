@@ -302,6 +302,7 @@ if has('perl')
         augroup filetype_specific
             autocmd! * <buffer>
         augroup END
+        call MyDeopleteConf()
         let g:myPerlArg = a:ft
         if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
             perl filetype_options

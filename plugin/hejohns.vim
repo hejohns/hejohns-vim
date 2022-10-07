@@ -337,7 +337,7 @@ if has('perl')
                 VIM::DoCommand('inoremap <buffer> <expr> <TAB> pumvisible() ? "\<C-n>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
                 VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> pumvisible() ? "\<C-p>" : hejohns#deoplete_check_back_space() ? "\<TAB>" : deoplete#can_complete() ? deoplete#complete() : ""');
             }
-            VIM::DoCommand("call deoplete#custom#option('auto_complete_popup', 'manual');
+            VIM::DoCommand("call deoplete#custom#option('auto_complete_popup', 'manual')");
             # deoplete-options-num_processes
             VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
             # NOTE: deoplete by default uses all sources?

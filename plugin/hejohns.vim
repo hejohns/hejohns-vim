@@ -573,13 +573,16 @@ nnoremap ;sigu :SignifyHunkUndo<CR>
 " undotree
 nnoremap ;u :UndotreeToggle<CR>
 
-" vim-simple-complete
-" default g:vsc_completion_command is "\<C-N>"
-" try to hook it up w/ deoplete
-" (by not using it??)
-let g:vsc_completion_command = ""
-" try to let the other autocomplete plugins take care of tab
-let g:vsc_tab_complete = 0
-" hack to not have TabComplete
-let g:loaded_vim_simple_complete = 0
-call plug#load('vim-simple-complete')
+" not using this anymore, since deoplete has it's own autocomplete popup
+" TODO: could try to use this when deoplete isn't running
+" but doesn't seem worth it
+"" vim-simple-complete
+"" default g:vsc_completion_command is "\<C-N>"
+"" try to hook it up w/ deoplete
+"" (by not using it??)
+"let g:vsc_completion_command = ""
+"" try to let the other autocomplete plugins take care of tab
+"let g:vsc_tab_complete = 0
+"" hack to not have TabComplete
+"let g:loaded_vim_simple_complete = 0
+"call plug#load('vim-simple-complete')

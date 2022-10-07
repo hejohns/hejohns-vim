@@ -319,14 +319,14 @@ if has('perl')
 
     sub deoplete_options{
         VIM::DoCommand('let g:myPerlArg_ = deoplete#is_enabled()');
-        ($success, my $deopleteIs_enabled) = SEval('g:myPerlArg_');
+        ($_success, my $deopleteIs_enabled) = SEval('g:myPerlArg_');
         $deopleteIs_enabled //= 0;
         if($deopleteIs_enabled){
             # use deoplete so vim stops hanging on autocomplete
             # still needed for some reason even with g:deoplete#enable_at_startup
             VIM::DoCommand('call deoplete#enable()');
             VIM::DoCommand('let g:myPerlArg_ = has(\'nvim\')');
-            ($success, my $has_nvim) = SEval('g:myPerlArg_');
+            ($_success, my $has_nvim) = SEval('g:myPerlArg_');
             $has_nvim //= 0;
             # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
             if($has_nvim){

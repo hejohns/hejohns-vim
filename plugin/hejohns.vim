@@ -231,8 +231,9 @@ EOF
 EOF
     endif
 
+    " defined in vimrc since we need it there
     perl << EOF
-    if(!exists &executable){
+    if(!defined &executable){
         die "do something";
     }
 EOF
@@ -459,11 +460,11 @@ if has('perl')
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
                     my $pipExists = &executable('pip3');
-                    if($? >> 8){
+                    if(!$pipExists){
                         VIM::DoCommand("silent !echo '[warning] `pip3` not found. Not using language server.'");
                         last VOID_EVAL_LAST_WARNINGS;
                     }
-                    my @pipRequire = qw(vim-vint);
+                    my @pipRequire = qw(pynvim vim-vint);
                     for (@pipRequire){
                         my $pipHas = `pip3 list 2>&1 | grep '$_' 2>&1`;
                         if($? >> 8){

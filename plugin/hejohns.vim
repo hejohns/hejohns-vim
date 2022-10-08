@@ -70,9 +70,9 @@ inoremap fd <DEL>
 " ; is my main n leader
 noremap ;; :update<CR>
 " recover normal ; behavior
-noremap ;f ;
+map ;f <Plug>Sneak_;
 " to be more mnemonic consistent
-noremap ;b ,
+map ;b <Plug>Sneak_,
 noremap ;n :bNext<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>

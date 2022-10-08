@@ -314,15 +314,15 @@ if has('perl')
     function MyDeopleteConf()
         perl deoplete_options
     endfunction
-    function MyDeopleteTab()
+    function s:deoplete_tab()
         if pumvisible()
             return "\<C-n>"
         elseif hejohns#deoplete_check_back_space()
             return "\<TAB>"
         else
-            deoplete#custom#option('auto_complete_popup', 'manual')
+            call deoplete#custom#option('auto_complete_popup', 'manual')
             let l:can_complete = deoplete#can_complete()
-            deoplete#custom#option('auto_complete_popup', 'auto')
+            call deoplete#custom#option('auto_complete_popup', 'auto')
             if l:can_complete
                 return deoplete#complete()
             elseif has('nvim')
@@ -332,7 +332,7 @@ if has('perl')
             endif
         endif
     endfunction
-    function MyDeopleteSTab()
+    function s:deoplete_s_tab()
         if pumvisible()
             return "\<C-p>"
         elseif hejohns#deoplete_check_back_space()
@@ -366,8 +366,8 @@ if has('perl')
             # still needed for some reason even with g:deoplete#enable_at_startup
             VIM::DoCommand('call deoplete#enable()');
             # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-            VIM::DoCommand('inoremap <buffer> <expr> <TAB> MyDeopleteTab()');
-            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()');
+            VIM::DoCommand('inoremap <buffer> <expr> <TAB> s:deoplete_tab()');
+            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> s:deoplete_s_tab()');
             # deoplete-options-num_processes
             VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
             # NOTE: deoplete by default uses all sources?

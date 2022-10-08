@@ -196,6 +196,9 @@ if has('perl')
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
         # NOTE: nvim's VIM::Eval does not dereference like vim does
+        # TODO: The whole eval thing, as I've realized recently, is a total
+        # mess. eg we use `exists()`, but assume the argument is a variable.
+        # If you tried SEval('MyFunc()'), this will not work
         sub SEval($){
             VIM::DoCommand("let g:myPerl__ = exists('$_[0]')");
             my ($_success, $exists) = VIM::Eval('g:myPerl__');

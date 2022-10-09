@@ -68,7 +68,7 @@ function! s:lk() abort
     let l:ret = ''
     echom expand('<cword>')
     if strlen(system('aspell list', expand('<cword>') .. 'lk'))
-        if strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W'
+        if strcharpart(getline('.'), l:orig_cursorpos - 1, 1) =~# '\W'
             let l:ret = "\<ESC>ll"
         else
             let l:ret = 'lk'

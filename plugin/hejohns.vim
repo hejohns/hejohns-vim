@@ -74,6 +74,7 @@ function! s:lk() abort
             let l:ret = 'lk'
         endif
     else
+        echoe expand('<cword>')
         let l:ret =  'lk'
     endif
     call setcursorcharpos(0, l:orig_cursorpos)

@@ -61,22 +61,23 @@ inoremap jk <C-w>
 function! s:lk() abort
     if (charcol('.') == charcol('$'))
         return 'lk'
-    elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W')
-        return "\<ESC>ll"
-    else
-        " this is tricky...
-        let l:orig_cursorpos = charcol('.')
-        call setcursorcharpos(0, charcol('.') - 1)
-        let l:ret = ''
-        echom expand('<cword>')
-        if strlen(system('aspell list', expand('<cword>') .. 'lk'))
+    endif
+    " this is tricky...
+    let l:orig_cursorpos = charcol('.')
+    call setcursorcharpos(0, charcol('.') - 1)
+    let l:ret = ''
+    echom expand('<cword>')
+    if strlen(system('aspell list', expand('<cword>') .. 'lk'))
+        if strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W'
             let l:ret = "\<ESC>ll"
         else
-            let l:ret =  'lk'
+            let l:ret = 'lk'
         endif
-        call setcursorcharpos(0, l:orig_cursorpos)
-        return l:ret
+    else
+        let l:ret =  'lk'
     endif
+    call setcursorcharpos(0, l:orig_cursorpos)
+    return l:ret
 endfunction
 inoremap <expr> lk <SID>lk()
 " this is so stupid

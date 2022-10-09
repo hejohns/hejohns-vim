@@ -64,8 +64,17 @@ function! s:lk() abort
     elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W')
         return "\<ESC>ll"
     else
-        echo 'guessing how to handle i_lk'
-        return 'lk'
+        " this is tricky...
+        let l:orig_cursorpos = charcol('.')
+        call setcursorcharpos(0, charcol('.') - 1)
+        let l:ret = ''
+        if strlen(system('aspell list', expand('<cword>') .. 'lk'))
+            let l:ret = "\<ESC>ll"
+        else
+            let l:ret =  'lk'
+        endif
+        call setcursorcharpos(0, l:orig_cursorpos)
+        return l:ret
     endif
 endfunction
 inoremap <expr> lk <SID>lk()

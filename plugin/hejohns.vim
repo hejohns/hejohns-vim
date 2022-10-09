@@ -63,6 +63,9 @@ function! s:lk() abort
         return 'lk'
     elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W')
         return "\<ESC>ll"
+    else
+        echo 'guessing how to handle i_lk'
+        return 'lk'
     endif
 endfunction
 inoremap <expr> lk <SID>lk()

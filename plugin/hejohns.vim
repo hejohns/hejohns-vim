@@ -66,8 +66,9 @@ function! s:lk() abort
     else
         " this is tricky...
         let l:orig_cursorpos = charcol('.')
-        call setcursorcharpos(0, charcol('.') - 2)
+        call setcursorcharpos(0, charcol('.') - 1)
         let l:ret = ''
+        echom expand('<cword>')
         if strlen(system('aspell list', expand('<cword>') .. 'lk'))
             let l:ret = "\<ESC>ll"
         else

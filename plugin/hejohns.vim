@@ -61,7 +61,7 @@ inoremap jk <C-w>
 function! s:lk() abort
     if (charcol('.') == charcol('$'))
         return 'lk'
-    elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.'), 1) =~# '\W')
+    elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.') - 1, 1) =~# '\W')
         return "\<ESC>ll"
     endif
 endfunction

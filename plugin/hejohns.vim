@@ -58,7 +58,14 @@ set shortmess-=S
 set smarttab
 inoremap kj <ESC>
 inoremap jk <C-w>
-inoremap <expr> lk (charcol('.') + 1 == charcol('$')) ? 'lk' : (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.'), 1) =~# '\W') ? "\<ESC>ll" : 'lk'
+function! s:lk() abort
+    if (charcol('.') + 1 == charcol('$'))
+        return 'lk'
+    elseif (getline('.') =~# '{') || (strcharpart(getline('.'), charcol('.'), 1) =~# '\W')
+        return "\<ESC>ll"
+    endif
+endfunction
+inoremap <expr> lk s:lk()
 " this is so stupid
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

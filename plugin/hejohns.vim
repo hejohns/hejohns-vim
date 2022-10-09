@@ -65,7 +65,7 @@ function! s:lk() abort
         return "\<ESC>ll"
     endif
 endfunction
-inoremap <expr> lk call s:lk()
+inoremap <expr> lk <SID>lk()
 " this is so stupid
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

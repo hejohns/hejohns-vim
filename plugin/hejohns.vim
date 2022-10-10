@@ -63,20 +63,21 @@ function! s:lk() abort
         return 'lk'
     endif
     " this is tricky...
+    let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
+    call feedkeys('lk', 'i')
     call setcursorcharpos(0, charcol('.') - 1)
     let l:ret = ''
-    echom expand('<cword>')
-    if strlen(system('aspell list', expand('<cword>') .. 'lk'))
+    if strlen(system('aspell list', expand('<cword>')))
         "if strcharpart(getline('.'), l:orig_cursorpos - 1, 1) =~# '\W'
             let l:ret = "\<ESC>ll"
         "else
         "    let l:ret = 'lk'
         "endif
     else
-        echoe expand('<cword>')
         let l:ret =  'lk'
     endif
+    call setline('.', l:orig_line)
     call setcursorcharpos(0, l:orig_cursorpos)
     return l:ret
 endfunction

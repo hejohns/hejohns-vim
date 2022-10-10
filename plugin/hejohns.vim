@@ -63,11 +63,9 @@ function! s:lk() abort
         return 'lk'
     endif
     " this is tricky...
-    let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
-    let l:modified_line = strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos)
-    call setline('.', l:modified_line)
-    call setcursorcharpos(0, charcol('.') + 1)
+    call feedkeys('lk', 'i')
+    call setcursorcharpos(0, charcol('.') - 1)
     let l:ret = ''
     if strlen(system('aspell list', expand('<cword>')))
         "if strcharpart(getline('.'), l:orig_cursorpos - 1, 1) =~# '\W'
@@ -78,8 +76,8 @@ function! s:lk() abort
     else
         let l:ret =  'lk'
     endif
-    call setline('.', l:orig_line)
     call setcursorcharpos(0, l:orig_cursorpos)
+    call feedkeys("\<BS>\<BS>", 'i')
     return l:ret
 endfunction
 inoremap <expr> lk <SID>lk()

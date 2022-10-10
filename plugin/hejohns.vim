@@ -70,7 +70,10 @@ function! s:lk() abort
     " avoid remappings
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
+    echom expand('<cword>')
+    echom 'he'
     call setcursorcharpos(0, l:orig_cursorpos + 2)
+    echom expand('<cword>')
     echom 'here'
     " try to stop the weirdness
     "stopinsert
@@ -80,9 +83,9 @@ function! s:lk() abort
     if strlen(system('aspell list', expand('<cword>')))
         echom expand('<cword>')
         call setline('.', l:orig_line)
-        echom 'here2'
+        echom 'here3'
         call setcursorcharpos(0, l:orig_cursorpos + 2)
-        echom 'here2'
+        echom 'here4'
     else
         call setcursorcharpos(0, charcol('.') + 2)
         startinsert

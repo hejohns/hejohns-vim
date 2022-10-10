@@ -70,6 +70,8 @@ function! s:lk() abort
     " avoid remappings
     normal! alk
     "call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
+    " try to stop the weirdness
+    stopinsert
     call setcursorcharpos(0, charcol('.') - 1)
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)

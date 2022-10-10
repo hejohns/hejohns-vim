@@ -64,23 +64,23 @@ function! s:lk() abort
     let l:orig_cursorpos = charcol('.')
     if (charcol('.') == charcol('$'))
         call setline('.', l:orig_line .. 'lk')
-        normal! $a
+        call setcursorcharpos(0. charcol('$'))
         return
     endif
     " avoid remappings
-    normal! alk
+    normal! ilk
     "call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     "call setcursorcharpos(0, charcol('.') + 1)
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
         call setcursorcharpos(0, l:orig_cursorpos)
-        normal! ll
+        stopinsert
+        call setcursorcharpos(0, charcol('.') + 2)
     else
-        normal! a
+        " no need to do anything
     endif
-    return
 endfunction
-inoremap lk <ESC>:call <SID>lk()<CR>
+inoremap lk <C-o>:call <SID>lk()<CR>
 " this is so stupid
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

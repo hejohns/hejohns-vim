@@ -76,7 +76,7 @@ function! s:lk() abort
     else
         let l:ret =  'lk'
     endif
-    call setcursorcharpos(0, l:orig_cursorpos)
+    call setcursorcharpos(0, charcol('.') + 1)
     call feedkeys("\<BS>\<BS>", 'i')
     return l:ret
 endfunction

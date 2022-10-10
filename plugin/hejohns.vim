@@ -62,7 +62,7 @@ inoremap jk <C-w>
 function! s:lk() abort
     let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
-    if (charcol('.') == charcol('$'))
+    if (charcol('$') == 1) || (charcol('.') + 1 == charcol('$'))
         call setline('.', l:orig_line .. 'lk')
         startinsert!
         return
@@ -73,9 +73,9 @@ function! s:lk() abort
     call setcursorcharpos(0, charcol('.') - 1)
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
-        call setcursorcharpos(0, l:orig_cursorpos + 1)
+        call setcursorcharpos(0, l:orig_cursorpos + 2)
     else
-        call setcursorcharpos(0, charcol('.') + 2)
+        call setcursorcharpos(0, charcol('.') + 1)
     endif
 endfunction
 inoremap lk <ESC>:call <SID>lk()<CR>

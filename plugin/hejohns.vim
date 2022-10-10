@@ -70,6 +70,7 @@ function! s:lk() abort
     " avoid remappings
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
+    return
     echom expand('<cword>')
     echom 'he'
     call setcursorcharpos(0, l:orig_cursorpos + 2)

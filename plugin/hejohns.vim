@@ -64,7 +64,7 @@ function! s:lk() abort
     let l:orig_cursorpos = charcol('.')
     if (charcol('.') == charcol('$'))
         call setline('.', l:orig_line .. 'lk')
-        call setcursorcharpos(0. charcol('$'))
+        startinsert!
         return
     endif
     " avoid remappings

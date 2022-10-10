@@ -75,7 +75,7 @@ function! s:lk() abort
         call setline('.', l:orig_line)
         call setcursorcharpos(0, l:orig_cursorpos + 2)
     else
-        call setcursorcharpos(0, charcol('.') + 1)
+        call setcursorcharpos(0, charcol('.') + 2)
         startinsert
     endif
 endfunction

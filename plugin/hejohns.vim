@@ -77,7 +77,7 @@ function! s:lk() abort
         stopinsert
         call setcursorcharpos(0, charcol('.') + 1)
     else
-        call setcursorcharpos(0, charcol('.') + 1)
+        call setcursorcharpos(0, charcol('.') + 2)
     endif
 endfunction
 inoremap lk <C-o>:call <SID>lk()<CR>

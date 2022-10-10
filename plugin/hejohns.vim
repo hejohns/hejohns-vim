@@ -70,26 +70,17 @@ function! s:lk() abort
     " avoid remappings
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
-    echom expand('<cword>')
-    echom 'he'
     " NOTE: setcursorcharpos(0, charcol('.')) moves the cursor when col > 61?????
     "call setcursorcharpos(0, l:orig_cursorpos + 2)
     call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
-    echom expand('<cword>')
-    echom 'here'
     " try to stop the weirdness
     "stopinsert
     "call setcursorcharpos(0, charcol('.') - 1)
     call setcharpos('.', [0, line('.'), charcol('.') - 1, 0])
-    echom 'here2'
-    echom expand('<cword>')
     if strlen(system('aspell list', expand('<cword>')))
-        echom expand('<cword>')
         call setline('.', l:orig_line)
-        echom 'here3'
         "call setcursorcharpos(0, l:orig_cursorpos + 2)
         call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
-        echom 'here4'
     else
         "call setcursorcharpos(0, charcol('.') + 2)
         call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])

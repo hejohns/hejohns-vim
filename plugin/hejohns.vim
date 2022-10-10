@@ -65,8 +65,9 @@ function! s:lk() abort
     " this is tricky...
     let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
-    call feedkeys('lk', 'i')
-    call setcursorcharpos(0, charcol('.') - 1)
+    let l:modified_line = strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos)
+    call setline('.', l:modified_line)
+    call setcursorcharpos(0, charcol('.') + 1)
     let l:ret = ''
     if strlen(system('aspell list', expand('<cword>')))
         "if strcharpart(getline('.'), l:orig_cursorpos - 1, 1) =~# '\W'

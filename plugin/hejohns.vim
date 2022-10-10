@@ -58,29 +58,28 @@ set shortmess-=S
 set smarttab
 inoremap kj <ESC>
 inoremap jk <C-w>
+" this is tricky...
 function! s:lk() abort
-    if (charcol('.') == charcol('$'))
-        return 'lk'
-    endif
-    " this is tricky...
+    let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
-    call feedkeys('lk', 'i')
-    call setcursorcharpos(0, charcol('.') - 1)
-    let l:ret = ''
-    if strlen(system('aspell list', expand('<cword>')))
-        "if strcharpart(getline('.'), l:orig_cursorpos - 1, 1) =~# '\W'
-            let l:ret = "\<ESC>ll"
-        "else
-        "    let l:ret = 'lk'
-        "endif
-    else
-        let l:ret =  'lk'
+    if (charcol('.') == charcol('$'))
+        call setline('.', l:orig_line .. 'lk')
+        call setcursorcharpos(0, charcol('$'))
+        normal! a
+        return
     endif
+    call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     call setcursorcharpos(0, charcol('.') + 1)
-    call feedkeys("\<BS>\<BS>", 'i')
-    return l:ret
+    if strlen(system('aspell list', expand('<cword>')))
+        call setline(l:orig_line)
+        call setcursorcharpos(0, l:orig_cursorpos)
+        normal! ll
+    else
+        normal! a
+    endif
+    return
 endfunction
-inoremap <expr> lk <SID>lk()
+inoremap lk <ESC>:call <SID>lk()<CR>
 " this is so stupid
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

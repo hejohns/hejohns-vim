@@ -71,19 +71,19 @@ function! s:lk() abort
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     " NOTE: setcursorcharpos(0, charcol('.')) moves the cursor when col > 61?????
-    "call setcursorcharpos(0, l:orig_cursorpos + 2)
-    call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
+    call setcursorcharpos(line('.'), l:orig_cursorpos + 2)
+    "call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
     " try to stop the weirdness
     "stopinsert
-    "call setcursorcharpos(0, charcol('.') - 1)
-    call setcharpos('.', [0, line('.'), charcol('.') - 1, 0])
+    call setcursorcharpos(line('.'), charcol('.') - 1)
+    "call setcharpos('.', [0, line('.'), charcol('.') - 1, 0])
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
-        "call setcursorcharpos(0, l:orig_cursorpos + 2)
-        call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
+        call setcursorcharpos(line('.'), l:orig_cursorpos + 2)
+        "call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
     else
-        "call setcursorcharpos(0, charcol('.') + 2)
-        call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])
+        call setcursorcharpos(line('.'), charcol('.') + 2)
+        "call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])
         startinsert
     endif
 endfunction

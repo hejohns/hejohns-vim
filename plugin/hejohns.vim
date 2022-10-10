@@ -68,19 +68,17 @@ function! s:lk() abort
         return
     endif
     " avoid remappings
-    normal! ilk
+    normal! alk
     "call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     call setcursorcharpos(0, charcol('.') - 1)
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
-        call setcursorcharpos(0, l:orig_cursorpos)
-        stopinsert
-        call setcursorcharpos(0, charcol('.') + 1)
+        call setcursorcharpos(0, l:orig_cursorpos + 1)
     else
         call setcursorcharpos(0, charcol('.') + 2)
     endif
 endfunction
-inoremap lk <C-o>:call <SID>lk()<CR>
+inoremap lk <ESC>:call <SID>lk()<CR>
 " this is so stupid
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

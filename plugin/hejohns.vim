@@ -71,7 +71,7 @@ function! s:lk() abort
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     call setcursorcharpos(0, charcol('.') + 1)
     if strlen(system('aspell list', expand('<cword>')))
-        call setline(l:orig_line)
+        call setline('.', l:orig_line)
         call setcursorcharpos(0, l:orig_cursorpos)
         normal! ll
     else

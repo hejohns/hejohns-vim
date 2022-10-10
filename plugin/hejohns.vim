@@ -71,12 +71,17 @@ function! s:lk() abort
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
     call setcursorcharpos(0, l:orig_cursorpos + 2)
+    echom 'here'
     " try to stop the weirdness
     "stopinsert
     call setcursorcharpos(0, charcol('.') - 1)
+    echom 'here2'
     if strlen(system('aspell list', expand('<cword>')))
+        echom expand('<cword>')
         call setline('.', l:orig_line)
+        echom 'here2'
         call setcursorcharpos(0, l:orig_cursorpos + 2)
+        echom 'here2'
     else
         call setcursorcharpos(0, charcol('.') + 2)
         startinsert

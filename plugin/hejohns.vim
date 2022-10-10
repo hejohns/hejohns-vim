@@ -76,6 +76,7 @@ function! s:lk() abort
     "stopinsert
     call setcursorcharpos(0, charcol('.') - 1)
     echom 'here2'
+    echom expand('<cword>')
     if strlen(system('aspell list', expand('<cword>')))
         echom expand('<cword>')
         call setline('.', l:orig_line)

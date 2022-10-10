@@ -64,12 +64,13 @@ function! s:lk() abort
     let l:orig_cursorpos = charcol('.')
     if (charcol('.') == charcol('$'))
         call setline('.', l:orig_line .. 'lk')
-        call setcursorcharpos(0, charcol('$'))
-        normal! a
+        normal! $a
         return
     endif
-    call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
-    call setcursorcharpos(0, charcol('.') + 1)
+    " avoid remappings
+    normal! alk
+    "call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
+    "call setcursorcharpos(0, charcol('.') + 1)
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
         call setcursorcharpos(0, l:orig_cursorpos)

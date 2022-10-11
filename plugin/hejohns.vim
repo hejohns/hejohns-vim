@@ -62,11 +62,11 @@ inoremap jk <C-w>
 function! s:lk() abort
     let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
-    if (charcol('$') == 1) || (charcol('.') + 1 == charcol('$'))
-        call setline('.', l:orig_line .. 'lk')
-        startinsert!
-        return
-    endif
+    "if (charcol('$') == 1) || (charcol('.') + 1 == charcol('$'))
+    "    call setline('.', l:orig_line .. 'lk')
+    "    startinsert!
+    "    return
+    "endif
     " avoid remappings
     "normal! alk
     call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))

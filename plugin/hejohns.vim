@@ -628,4 +628,4 @@ map f <Plug>Sneak_f
 map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
-nmap ;s H<Plug>SneakLabel_s
+nmap s H<Plug>SneakLabel_s

@@ -629,3 +629,8 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 nmap s H<Plug>SneakLabel_s
+
+" fzf
+" slowly learn the commands
+command SearchBuffers Lines
+command SearchBuffer BLines

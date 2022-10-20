@@ -82,9 +82,9 @@ function! s:lk() abort
         call setcursorcharpos(line('.'), l:orig_cursorpos + 2)
         "call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
     else
+        startinsert
         call setcursorcharpos(line('.'), charcol('.') + 2)
         "call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])
-        startinsert
     endif
 endfunction
 inoremap lk <ESC>:call <SID>lk()<CR>

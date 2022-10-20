@@ -629,6 +629,7 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 nmap s H<Plug>SneakLabel_s
+nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 
 " fzf
 " slowly learn the commands

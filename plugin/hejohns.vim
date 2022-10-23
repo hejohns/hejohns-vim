@@ -637,3 +637,21 @@ nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 " slowly learn the commands
 command SearchBuffers Lines
 command SearchBuffer BLines
+
+" vimtex
+" default g:vimtex_compiler_latexmk
+" plus --shell-escape for \usepackage{svg}
+let g:vimtex_compiler_latexmk = {
+    \ 'build_dir' : '',
+    \ 'callback' : 1,
+    \ 'continuous' : 1,
+    \ 'executable' : 'latexmk',
+    \ 'hooks' : [],
+    \ 'options' : [
+    \   '--shell-escape',
+    \   '-verbose',
+    \   '-file-line-error',
+    \   '-synctex=1',
+    \   '-interaction=nonstopmode',
+    \ ],
+    \}

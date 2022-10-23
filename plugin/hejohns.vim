@@ -648,7 +648,7 @@ let g:vimtex_compiler_latexmk = {
     \ 'executable' : 'latexmk',
     \ 'hooks' : [],
     \ 'options' : [
-    \   '--shell-escape',
+    \   '-lualatex="lualatex --shell-escape"',
     \   '-verbose',
     \   '-file-line-error',
     \   '-synctex=1',

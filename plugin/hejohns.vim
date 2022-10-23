@@ -418,19 +418,21 @@ if has('perl')
         ['tex'],
         'vnoremap <buffer> ysc <Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'nnoremap <buffer> ysiWc viW<Plug>(vimtex-cmd-create)' =>
+        'nnoremap <buffer> ysWc viW<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'vnoremap <buffer> ysiWc viW<Plug>(vimtex-cmd-create)' =>
+        'vnoremap <buffer> ysWc viW<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'nnoremap <buffer> ysi{c vi{<Plug>(vimtex-cmd-create)' =>
+        'nnoremap <buffer> ys{c vi{<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'vnoremap <buffer> ysi{c vi{<Plug>(vimtex-cmd-create)' =>
+        'vnoremap <buffer> ys{c vi{<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'nnoremap <buffer> ysi}c vi}<Plug>(vimtex-cmd-create)' =>
+        'nnoremap <buffer> ys}c vi}<Plug>(vimtex-cmd-create)' =>
         ['tex'],
-        'vnoremap <buffer> ysi}c vi}<Plug>(vimtex-cmd-create)' =>
+        'vnoremap <buffer> ys}c vi}<Plug>(vimtex-cmd-create)' =>
         ['tex'],
         'call hejohns#vimtex_options()' =>
+        ['tex'],
+        'nnoremap <localleader>lt :call vimtex#fzf#run()<CR>' =>
         ['tex'],
         # TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
         # this hack ``just works''

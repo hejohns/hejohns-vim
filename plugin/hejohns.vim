@@ -414,22 +414,6 @@ if has('perl')
         ['tex'],
         'nnoremap <buffer> <C-\>ll :let g:myDispatchToggle = (exists("g:myDispatchToggle") && g:myDispatchToggle) ? 0 : 1<CR>' =>
         ['tex'],
-        'nnoremap <buffer> yscw <Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'vnoremap <buffer> yscw <Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'nnoremap <buffer> yscW viW<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'vnoremap <buffer> yscW viW<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'nnoremap <buffer> ysc{ vi{<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'vnoremap <buffer> ysc{ vi{<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'nnoremap <buffer> ysc} vi}<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
-        'vnoremap <buffer> ysc} vi}<Plug>(vimtex-cmd-create)' =>
-        ['tex'],
         'call hejohns#vimtex_options()' =>
         ['tex'],
         'nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>' =>

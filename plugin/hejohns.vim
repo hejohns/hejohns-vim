@@ -432,7 +432,7 @@ if has('perl')
         ['tex'],
         'call hejohns#vimtex_options()' =>
         ['tex'],
-        'nnoremap <localleader>lt :call vimtex#fzf#run()<CR>' =>
+        'nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>' =>
         ['tex'],
         # TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
         # this hack ``just works''

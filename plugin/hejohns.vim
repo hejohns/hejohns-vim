@@ -498,12 +498,12 @@ if has('perl')
                     for (@pipRequire){
                         my $pipHas = `pip3 list 2>&1 | grep '$_' 2>&1`;
                         if($? >> 8){
-                            our $triedPip = 0; # if pip fails everytime, the WinEnter latency is pretty bad
-                            if (!$triedPip){
-                                my $pipSuccess = `pip3 install $_ 2>&1`;
-                                $triedPip = 1;
+                            our $pipSuccess; # if pip fails everytime, the WinEnter latency is pretty bad
+                            if (!defined($pipSuccess)){
+                                `pip3 install $_ 2>&1`;
+                                $pipSuccess = $? >> 8;
                             }
-                            if($triedPip || $? >> 8){
+                            if($pipSuccess){
                                 VIM::DoCommand("silent !echo '[warning] `pip3 install $_` failed'");
                                 last VOID_EVAL_LAST_WARNINGS;
                             }

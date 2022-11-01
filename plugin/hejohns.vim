@@ -8,7 +8,11 @@ endif
 set encoding=utf8
 scriptencoding utf8
 syntax on
-colorscheme solarized
+try
+    colorscheme solarized
+finally
+    colorscheme desert
+endtry
 set background=dark
 set tags=tags
 set autoindent

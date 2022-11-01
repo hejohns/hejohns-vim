@@ -53,10 +53,20 @@ endif
 augroup spell_default_on
     autocmd!
     " VimEnter for first window, WinNew for the rest
-    autocmd VimEnter,WinNew * setlocal spell spelllang=en
+    if exists('##VimEnter')
+        autocmd VimEnter * setlocal spell spelllang=en
+    endif
+    if exists('##WinNew')
+        autocmd WinNew * setlocal spell spelllang=en
+    endif
     " sourcing one of the syntax files screws up the hi colors
     " (eg solarized)
-    autocmd VimEnter,SourcePost * call s:set_spell_colors()
+    if exists('##SourcePost')
+        autocmd  SourcePost * call s:set_spell_colors()
+    endif
+    if exists('##VimEnter')
+        autocmd VimEnter * call s:set_spell_colors()
+    endif
 augroup END
 set shortmess-=S
 set smarttab

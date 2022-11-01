@@ -45,8 +45,8 @@ set wildmode=longest:full,full
 if has('wildmenu')
     set wildmenu
 endif
-if has('wildignore')
-    set wildoptions=pum
+if has('wildignore') " why do we need 'wildignore' ?
+    silent! set wildoptions=pum
 endif
 " default spell on
 " (dumb but non autocmd gets clobbered by other syntax files)

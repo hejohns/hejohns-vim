@@ -621,6 +621,12 @@ nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 " slowly learn the commands
 command SearchBuffers Lines
 command SearchBuffer BLines
+if executable('bat') == 0
+    silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
+endif
+if executable('ag') == 0
+    silent !echo '[optional] Need `ag` for :Ag, :Lines, ...'
+endif
 
 " vimtex
 " default g:vimtex_compiler_latexmk
@@ -639,3 +645,11 @@ let g:vimtex_compiler_latexmk = {
     \   '-interaction=nonstopmode',
     \ ],
     \}
+if executable('inkskape') == 0
+    silent !echo '[optional] Need `inkskape` for latex gifs'
+endif
+
+" ack.vim
+if executable('ack') == 0
+    silent !echo '[optional] Need `ack` for :Ack'
+endif

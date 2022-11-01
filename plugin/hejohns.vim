@@ -502,10 +502,10 @@ if has('perl')
                             if (!$triedPip){
                                 my $pipSuccess = `pip3 install $_ 2>&1`;
                                 $triedPip = 1;
-                                if($? >> 8){
-                                    VIM::DoCommand("silent !echo '[warning] `pip3 install $_` failed'");
-                                    last VOID_EVAL_LAST_WARNINGS;
-                                }
+                            }
+                            if($triedPip || $? >> 8){
+                                VIM::DoCommand("silent !echo '[warning] `pip3 install $_` failed'");
+                                last VOID_EVAL_LAST_WARNINGS;
                             }
                         }
                     }

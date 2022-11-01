@@ -9,7 +9,7 @@ set encoding=utf8
 scriptencoding utf8
 syntax on
 try
-    colorscheme solarized
+    silent! colorscheme solarized
 finally
     colorscheme desert
 endtry

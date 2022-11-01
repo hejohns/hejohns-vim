@@ -10,7 +10,7 @@ scriptencoding utf8
 syntax on
 try
     silent! colorscheme solarized
-finally
+catch
     colorscheme desert
 endtry
 set background=dark

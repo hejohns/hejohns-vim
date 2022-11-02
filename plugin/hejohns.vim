@@ -663,8 +663,8 @@ let g:vimtex_compiler_latexmk = {
     \   '-interaction=nonstopmode',
     \ ],
     \}
-if executable('inkskape') == 0
-    silent !echo '[optional] Need `inkskape` for latex gifs'
+if executable('inkscape') == 0
+    silent !echo '[optional] Need `inkscape` for latex gifs'
 endif
 
 " ack.vim

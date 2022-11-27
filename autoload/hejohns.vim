@@ -155,7 +155,7 @@ function! hejohns#dispatch_on_BufWrite() abort
             use strict;
             use warnings FATAL => 'all', NONFATAL => 'redefine';
             if(-e 'Makefile' || -e 'makefile'){
-                my ($_success, $myDispatchToggle) = SEval('get(g:, \'myDispatchToggle\', 0');
+                my ($_success, $myDispatchToggle) = SEval("get(g:, 'myDispatchToggle', 0)");
                 $myDispatchToggle //= 0;
                 if($myDispatchToggle){
                     VIM::DoCommand(':Make');

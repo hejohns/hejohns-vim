@@ -30,18 +30,18 @@ endfunction
 " vimtex
 function! hejohns#vimtex_options() abort
     if &filetype ==# 'tex' || &filetype ==# 'plaintex'
-        if can_run('latexmk')
-            if can_run('okular')
+        if executable('latexmk')
+            if executable('okular')
                 let g:vimtex_view_general_viewer = 'okular'
                 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-            elseif can_run('evince')
+            elseif executable('evince')
                 let g:vimtex_view_general_viewer = 'evince'
-            elseif can_run('atril')
+            elseif executable('atril')
                 let g:vimtex_view_general_viewer = 'atril'
             else
                 silent !echo '[warning] no suitable pdf viewer found-- prepare for havoc'
             endif
-            if can_run('lualatex')
+            if executable('lualatex')
             " _ value modified
             let g:vimtex_compiler_latexmk_engines = {
                 \ '_'                : '-pdflua',

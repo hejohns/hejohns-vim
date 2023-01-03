@@ -277,7 +277,7 @@ EOF
 
     " defined in vimrc since we need it there
     perl << EOF
-    if(!defined &can_run){
+    if(!defined &executable){
         die "do something";
     }
 EOF
@@ -472,7 +472,7 @@ if has('perl')
         RETRY:
         ($success, my $ls_running) = SEval('g:myLSRunning');
         if($ls_running){
-            # TODO: check LS can_run is present or raise message
+            # TODO: check LS executable is present or raise message
             # and maybe autoinstall? (if we nix it enough)
             foreach my $k (keys %LS_opt2ft){
                 if(grep {/^$filetype$/} @{$LS_opt2ft{$k}}){
@@ -489,7 +489,7 @@ if has('perl')
             # but it messes up the buffer local remappings
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
-                    my $pipExists = &can_run('pip3');
+                    my $pipExists = &executable('pip3');
                     if(!$pipExists){
                         VIM::DoCommand("silent !echo '[warning] `pip3` not found. Not using language server.'");
                         last VOID_EVAL_LAST_WARNINGS;
@@ -639,10 +639,10 @@ nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 " slowly learn the commands
 command SearchBuffers Lines
 command SearchBuffer BLines
-if can_run('bat') == 0
+if executable('bat') == 0
     silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
 endif
-if can_run('ag') == 0
+if executable('ag') == 0
     silent !echo '[optional] Need `ag` for :Ag, :Lines, ...'
 endif
 
@@ -663,11 +663,11 @@ let g:vimtex_compiler_latexmk = {
     \   '-interaction=nonstopmode',
     \ ],
     \}
-if can_run('inkscape') == 0
+if executable('inkscape') == 0
     silent !echo '[optional] Need `inkscape` for latex gifs'
 endif
 
 " ack.vim
-if can_run('ack') == 0
+if executable('ack') == 0
     silent !echo '[optional] Need `ack` for :Ack'
 endif

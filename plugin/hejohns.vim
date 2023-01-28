@@ -671,6 +671,3 @@ endif
 if executable('ack') == 0
     silent !echo '[optional] Need `ack` for :Ack'
 endif
-
-" haskell-vim
-let g:haskell_indent_disable = 1

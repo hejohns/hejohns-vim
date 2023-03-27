@@ -672,3 +672,8 @@ endif
 if executable('ack') == 0
     silent !echo '[optional] Need `ack` for :Ack'
 endif
+
+" hindent-vim
+if executable('hindent') == 0
+    silent !echo '[optional] Need `hindent` for vim-hindent'
+endif

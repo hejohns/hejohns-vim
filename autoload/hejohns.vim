@@ -185,3 +185,42 @@ function! hejohns#deoplete_is_running() abort
         return v:false
     endif
 endfunction
+
+" clang_complete
+function! hejohns#initialize_clang_complete() abort
+    " set g:clang_library_path with highest clang version available
+    if has('perl')
+        perl <<EOF
+        use strict;
+        use warnings FATAL => 'all', NONFATAL => 'redefine';
+
+        my @clang_library_path = glob '/usr/lib/llvm-*/lib';
+        @clang_library_path = sort {
+            $a =~ m/usr\/lib\/llvm-(\d+)\/lib/ or die "Failed to match. $!";
+            my $aN = $1;
+            $b =~ m/usr\/lib\/llvm-(\d+)\/lib/ or die "Failed to match. $!";
+            my $bN = $1;
+            $aN <=> $bN;
+        } @clang_library_path;
+        if(@clang_library_path){
+            my $clang_library_path;
+            do {
+                $clang_library_path = pop @clang_library_path;
+            } while(defined($clang_library_path) && !-e "$clang_library_path/lib/libclang.so");
+            $clang_library_path //= '';
+            my @clangCmds = split /\n/, <<~"__EOF"
+                let g:clang_library_path='$clang_library_path'
+                set omnifunc='ClangComplete'
+                set completefunc='ClangComplete'
+                let g:clang_complete_auto = 1
+                let g:clang_complete_copen = 1
+                let g:clang_complete_pattern = 1
+                __EOF
+                ;
+            map {VIM::DoCommand($_)} @clangCmds;
+        }
+EOF
+    else
+        silent !echo '[warning] Need +perl to initialize clang_complete correctly'
+    endif
+endfunction

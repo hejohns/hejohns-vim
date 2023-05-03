@@ -178,12 +178,14 @@ cabbrev delview <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'Delview' : 'delvie
 " and :help undo-persistence
 if has('persistent_undo')
     let g:myUndodir = expand('~/.vim/undodir')
-    " TODO: could be more robust
+    " NOTE: could be more robust
     " eg if ~/.vim/undodir exists but is a regular file
     " some of the perl code below handles this somehow
+    " But it really isn't worth fixing. I mean who would create g:myUndodir as
+    " a regular file? Just manually delete it at that point
     if !isdirectory(g:myUndodir)
         if !mkdir(g:myUndodir, 'p', 0700)
-            silent !echo '[error] undo-persistence: see TODO s'
+            silent !echo '[error] undo-persistence: see NOTE s'
         endif
     endif
     let &undodir=g:myUndodir
@@ -299,50 +301,6 @@ EOF
     endfunction
 endif
 
-" clang_complete
-" TODO: move the option setting to no_LS_opt2ft
-" this is how I used to write filetype specific options, but if I start vim on
-" another filetype and open a c buffer, none of the right things get set
-" I just don't feel like fixing it rn
-
-" set g:clang_library_path with highest clang version available
-if has('perl')
-    perl <<EOF
-    use strict;
-    use warnings FATAL => 'all', NONFATAL => 'redefine';
-
-    sub smartCmp{
-        $a =~ m/usr\/lib\/llvm-(\d+)\/lib/ or die "Failed to match. $!";
-        my $aN = $1;
-        $b =~ m/usr\/lib\/llvm-(\d+)\/lib/ or die "Failed to match. $!";
-        my $bN = $1;
-        $bN <=> $aN; #descending sort
-    }
-    my @clang_library_path = glob '/usr/lib/llvm-*/lib';
-    @clang_library_path = sort smartCmp @clang_library_path;
-    if(@clang_library_path){
-        VIM::DoCommand(":let g:clang_library_path = '" . $clang_library_path[0] . "'");
-    }
-    my @clangLangs = qw(c cpp);
-    my $success; #don't bother...
-    ($success, my $filetype) = SEval('&filetype');
-    $filetype //= '';
-    if(grep {/^$filetype$/} @clangLangs){
-        my @clangCmds = split /\n/, <<~"__EOF"
-            set omnifunc='ClangComplete'
-            set completefunc='ClangComplete'
-            let g:clang_complete_auto = 1
-            let g:clang_complete_copen = 1
-            let g:clang_complete_pattern = 1
-            __EOF
-            ;
-        map {VIM::DoCommand($_)} @clangCmds;
-    }
-EOF
-else
-    silent !echo '[warning] Need +perl to initialize clang_complete correctly'
-endif
-
 " LanguageClient-neovim
 " (and any pip stuff)
 " (and any filetype specific options)
@@ -446,6 +404,8 @@ if has('perl')
         # hopefully you (I) don't need async autocomplete and unicode input together too often...
         'call EnableL2U()' =>
         ['tex'],
+        'call hejohns#initialize_clang_complete()' =>
+        ['c', 'cpp'],
     );
     my %LS_opt2ft = (
         'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>

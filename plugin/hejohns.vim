@@ -301,6 +301,10 @@ EOF
     endfunction
 endif
 
+" clang_complete
+" need to run this before VimEnter to silence clang_complete errors
+call hejohns#initialize_clang_complete()
+
 " LanguageClient-neovim
 " (and any pip stuff)
 " (and any filetype specific options)

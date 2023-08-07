@@ -116,8 +116,9 @@ noremap ;; :update<CR>
 map ;f <Plug>Sneak_;
 " to be more mnemonic consistent
 map ;b <Plug>Sneak_,
-noremap ;n :bnext<CR>
-noremap ;N :bNext<CR>
+noremap ;m :bnext<CR>
+"noremap ;N :bNext<CR>
+noremap ;n :bprevious<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>
 " spell stuff
@@ -524,8 +525,8 @@ nnoremap <C-\>loff :call DisableL2U()<CR>
 
 " fugitive
 " NOTE: I don't really use these...
-command GD vertical Gdiff
-command GS vertical Git
+"command GD vertical Gdiff
+"command GS vertical Git
 
 " syntastic
 let g:syntastic_vim_checkers = ['vint']

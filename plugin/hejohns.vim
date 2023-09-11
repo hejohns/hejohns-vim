@@ -362,7 +362,7 @@ if has('perl')
     my ($_success, $lsLangs) = AEval('g:myLSLangs');
     my @lsLangs = split(' ', $lsLangs);
 
-    sub deoplete_options{
+    sub deoplete_options{ # TODO: this had no need to be perl
         VIM::DoCommand('let g:myPerlArg_ = deoplete#is_enabled()');
         ($_success, my $deopleteIs_enabled) = SEval('g:myPerlArg_');
         $deopleteIs_enabled //= 0;
@@ -451,26 +451,8 @@ if has('perl')
             # but it messes up the buffer local remappings
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
-                    my $pipExists = &executable('pip3');
-                    if(!$pipExists){
-                        VIM::DoCommand("silent !echo '[warning] `pip3` not found. Not using language server.'");
-                        last VOID_EVAL_LAST_WARNINGS;
-                    }
                     my @pipRequire = qw(pynvim vim-vint);
-                    for (@pipRequire){
-                        my $pipHas = `pip3 list 2>&1 | grep '$_' 2>&1`;
-                        if($? >> 8){
-                            our $pipSuccess; # if pip fails everytime, the WinEnter latency is pretty bad
-                            if (!defined($pipSuccess)){
-                                `pip3 install $_ 2>&1`;
-                                $pipSuccess = $? >> 8;
-                            }
-                            if($pipSuccess){
-                                VIM::DoCommand("silent !echo '[warning] `pip3 install $_` failed'");
-                                last VOID_EVAL_LAST_WARNINGS;
-                            }
-                        }
-                    }
+                    VIM::DoCommand("silent !echo '[debug] python module $_ may be required'") for @pipRequire;
                     # https://github.com/jaredly/reason-language-server
                     # (which we're no longer using)
                     #my $pipHasNeovim = `pip3 list 2>&1 | grep 'neovim' 2>&1`;

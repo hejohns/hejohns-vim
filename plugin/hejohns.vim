@@ -407,6 +407,8 @@ if has('perl')
         ['tex'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
+        'map <buffer> x <Plug>(calendar_delete)' =>
+        ['calendar'],
     );
     my %LS_opt2ft = (
         'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>

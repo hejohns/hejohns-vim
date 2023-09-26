@@ -451,8 +451,6 @@ if has('perl')
             # but it messes up the buffer local remappings
             VOID_EVAL_LAST_WARNINGS: {
                 if($filetype && grep {/^$filetype$/} @lsLangs){
-                    my @pipRequire = qw(pynvim vim-vint);
-                    VIM::DoCommand("silent !echo '[debug] python module $_ may be required'") for @pipRequire;
                     # https://github.com/jaredly/reason-language-server
                     # (which we're no longer using)
                     #my $pipHasNeovim = `pip3 list 2>&1 | grep 'neovim' 2>&1`;

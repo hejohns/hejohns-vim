@@ -407,6 +407,8 @@ if has('perl')
         ['tex'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
+        'map <buffer> a <Plug>(calendar_add)' =>
+        ['calendar'],
     );
     my %LS_opt2ft = (
         'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>
@@ -620,3 +622,5 @@ endif
 if executable('hindent') == 0
     silent !echo '[optional] Need `hindent` for vim-hindent'
 endif
+
+" calendar.vim

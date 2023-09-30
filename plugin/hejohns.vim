@@ -618,3 +618,6 @@ endif
 if executable('hindent') == 0
     silent !echo '[optional] Need `hindent` for vim-hindent'
 endif
+
+" calendar.vim
+let g:calendar_first_day = 'monday'

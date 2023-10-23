@@ -106,8 +106,12 @@ inoremap lk <ESC>:call <SID>lk()<CR>
 " but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"
 inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-p>"
-inoremap df <BS>
-inoremap fd <DEL>
+" the df and fd mappings were originally for a standard QWERTY keyboard where
+" <BS> and <DEL> are hard to reach, but I don't need these on a kinesis
+" Advantage 2
+"
+" mnemonic ;re ;"remap"
+noremap ;re :normal inoremap df <BS> | inoremap fd <DEL><CR>
 "noremap DK kdd
 "noremap DJ jddk
 " ; is my main n leader

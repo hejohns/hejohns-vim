@@ -224,3 +224,21 @@ EOF
         silent !echo '[warning] Need +perl to initialize clang_complete correctly'
     endif
 endfunction
+
+" my remap toggles
+function! hejohns#remap_toggle() abort
+    if exists('g:myRemapToggle')
+        if g:myRemapToggle
+            inoremap df <BS>
+            inoremap fd <DEL>
+        else
+            iunmap df
+            iunmap fd
+        endif
+    else
+        let g:myRemapToggle = 1
+        call hejohns#remap_toggle()
+        return
+    endif
+    let g:myRemapToggle = !g:myRemapToggle
+endfunction

@@ -147,7 +147,7 @@ function! hejohns#weather_timer_cb(timer) abort
     timer_stop(a:timer)
 endfunction
 function! hejohns#weather_job() abort
-    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw'})
+    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'])
 endfunction
 
 " vim-signify

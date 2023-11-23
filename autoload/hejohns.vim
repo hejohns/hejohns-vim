@@ -135,21 +135,20 @@ function! hejohns#set_statusline() abort
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'
-        call hejohns#weather_job()
-    elseif job_status(g:myWeatherJob) ==# 'fail'
-        timer_stop(a:timer)
+        job_info(g:myWeatherJob)
+        if job_info(g:myWeatherJob)[exitval] == 0
+            let weather = ch_read(g:myWeatherJob)
+            let g:myWeather = '[' .. weather .. ']'
+            call hejohns#weather_job()
+            return
+        else
+            echoerr '[error] curl wttr.in failed'
+        endif
     endif
-endfunction
-function! hejohns#weather_job_cb(job, exit_status) abort
-    if a:exit_status == 0
-        let weather = ch_read(job_getchannel(a:job))
-        let g:myWeather = '[' .. weather .. ']'
-    else
-        echoerr '[error] curl wttr.in failed'
-    endif
+    timer_stop(a:timer)
 endfunction
 function! hejohns#weather_job() abort
-    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], { 'out_mode': 'raw' , 'exit_cb': 'hejohns#weather_job_cb' })
+    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw'})
 endfunction
 
 " vim-signify

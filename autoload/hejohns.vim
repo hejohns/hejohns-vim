@@ -149,7 +149,7 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#weather_job() abort
-    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'])
+    let g:myWeatherJob = job_start('echo hi')
     echomsg job_info(g:myWeatherJob)
 endfunction
 

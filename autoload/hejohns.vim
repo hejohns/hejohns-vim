@@ -113,7 +113,10 @@ function! hejohns#statusline() abort
         VIM::DoCommand("let g:mystatusline='$statusline'");
 EOF
     endif
-    return g:myWeather .. g:mystatusline
+    if exists('g:myWeather')
+        let g:mystatusline = g:myWeather .. g:mystatusline
+    endif
+    return g:mystatusline
 endfunction
 
 " initialize statusline
@@ -127,7 +130,7 @@ function! hejohns#set_statusline() abort
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
     " Now, the fancy stuff
-    if has('channel') && has('job') && has('timers') && has('lambda')
+    if has('channel') && has('job') && has('timers')
         let g:myWeather = '[⟳]'
         call hejohns#weather_job()
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
@@ -149,7 +152,7 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#weather_job() abort
-    let g:myWeatherJob = job_start('echo hi')
+    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw', 'drop': 'never'} )
     echomsg job_info(g:myWeatherJob)
 endfunction
 

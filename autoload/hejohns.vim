@@ -130,7 +130,7 @@ function! hejohns#set_statusline() abort
     echomsg 'testd'
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
-        hejohns#weather_job()
+        call hejohns#weather_job()
         timer_start(10000, function('hejohns#weather_timer_cb'), {'repeat': -1})
         echomsg 'testc'
     endif
@@ -138,7 +138,7 @@ endfunction
 function! hejohns#weather_timer_cb(timer) abort
     echomsg 'testb'
     if job_status(g:myWeatherJob) ==# 'dead'
-        hejohns#weather_job()
+        call hejohns#weather_job()
     elseif job_status(g:myWeatherJob) ==# 'fail'
         timer_stop(timer)
     endif

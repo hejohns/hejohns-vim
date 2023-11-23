@@ -129,7 +129,7 @@ function! hejohns#set_statusline() abort
     " Now, the fancy stuff
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
-        let weather_job_cb = (job, exit_status) => {
+        var weather_job_cb = (job, exit_status) => {
             if exit_status == 0
                 let weather = ch_read(job)
                 let g:myWeather = '[' .. weather .. ']'
@@ -137,7 +137,7 @@ function! hejohns#set_statusline() abort
                 echoerr '[error] curl wttr.in failed'
             endif
         }
-        let weather_job = () => {
+        var weather_job = () => {
             let g:myWeatherJob = job_start(
                 ['curl', '-s', 'wttr.in?format=%p+%c%t'],
                 { 'mode': 'raw'

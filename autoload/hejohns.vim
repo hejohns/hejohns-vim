@@ -126,7 +126,7 @@ function! hejohns#set_statusline() abort
     if has('channel') && has('job') && has('timers')
         let g:myWeather = '⟳'
         call hejohns#weather_job()
-        call timer_start(1000, 'hejohns#time_timer_cb', {'repeat': -1})
+        call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
     endif
 endfunction

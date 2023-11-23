@@ -109,35 +109,49 @@ function! hejohns#statusline() abort
         use warnings FATAL => 'all', NONFATAL => 'redefine';
 
         chomp(my $time = `date '+%r'`);
-        our $weather;
-        $weather //= '⟳';
-        our $weather_last_update;
-        chomp(my $s_now = `date '+%s'`);
-        $weather_last_update //= $s_now; # don't add curl to startup time
-        our $curl_tmp; # "async" curl
-        chomp($curl_tmp //= `mktemp --tmpdir tmp.vimrc.XXX`);
-        if(($s_now - $weather_last_update) >= 20){
-            $weather_last_update = $s_now;
-            `cp $curl_tmp $curl_tmp.old`;
-            `curl -s wttr.in?format=%p+%c%t > $curl_tmp &`;
-            # TODO: maybe don't spam the statusline if curl returns error code
-            chomp($weather = `cat $curl_tmp.old`);
-            $weather = '⟳' if $weather eq '';
-        }
-        my $statusline = "[$weather][$time]";
+        my $statusline = "[$time]";
         VIM::DoCommand("let g:mystatusline='$statusline'");
 EOF
     endif
-    return g:mystatusline
+    return g:myWeather .. g:mystatusline
 endfunction
 
-" Emulate default statusline
+" initialize statusline
 function! hejohns#set_statusline() abort
+    " Emulate default statusline in case the subsequent fancy features don't
+    " exist
     set statusline=%f\ %y%r%m%<\ %{FugitiveStatusline()}\ %{hejohns#statusline()}%=
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
     set statusline+=\ %-12.(%l,%c%V%)\ %P
+    " also because ^ took me forever to figure out
+    " Now, the fancy stuff
+    if has('channel') && has('job') && has('timers') && has('lambda')
+        let g:myWeather = '[⟳]'
+        let weather_job = () => {
+            let g:myWeatherJob = job_start(
+                ['curl', '-s', 'wttr.in?format=%p+%c%t'],
+                { 'mode': 'raw'
+                , 'exit_cb': (job , exit_status) => {
+                        if exit_status == 0
+                            let weather = ch_read(job)
+                            let g:myWeather = '[' .. weather .. ']'
+                        else
+                            echoerr '[error] curl wttr.in failed'
+                        endif
+                    }
+                }
+            )
+        }
+        timer_start(10000, (timer) => {
+            if job_status(g:myWeatherJob) ==# 'dead'
+                weather_job()
+            elseif job_status(g:myWeatherJob) ==# 'fail'
+                timer_stop(timer)
+            endif
+        }, {'repeat': -1})
+    endif
 endfunction
 
 " vim-signify

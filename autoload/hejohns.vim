@@ -127,16 +127,13 @@ function! hejohns#set_statusline() abort
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
     " Now, the fancy stuff
-    echomsg 'testd'
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
         call hejohns#weather_job()
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
-        echomsg 'testc'
     endif
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
-    echomsg 'testb'
     if job_status(g:myWeatherJob) ==# 'dead'
         call hejohns#weather_job()
     elseif job_status(g:myWeatherJob) ==# 'fail'
@@ -144,7 +141,6 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#weather_job_cb(job, exit_status) abort
-    echomsg 'test'
     if exit_status == 0
         let weather = ch_read(job)
         let g:myWeather = '[' .. weather .. ']'
@@ -153,10 +149,12 @@ function! hejohns#weather_job_cb(job, exit_status) abort
     endif
 endfunction
 function! hejohns#weather_job() abort
-    echomsg 'testa'
-    let g:myWeatherJob = job_start('echo hi')
-    "let g:myWeatherJob = job_start(['curl', '-s', 'wttr.in?format=%p+%c%t'])
-    " {'out_mode': 'raw', 'exit_cb': function('hejohns#weather_job_cb')})
+    let g:myWeatherJob = job_start(
+        ['curl', '-s', 'wttr.in?format=%p+%c%t'],
+        { 'out_mode': 'raw'
+        , 'exit_cb': 'hejohns#weather_job_cb'
+        }
+    )
 endfunction
 
 " vim-signify

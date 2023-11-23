@@ -131,7 +131,7 @@ function! hejohns#set_statusline() abort
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
         call hejohns#weather_job()
-        timer_start(10000, function('hejohns#weather_timer_cb'), {'repeat': -1})
+        call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
         echomsg 'testc'
     endif
 endfunction

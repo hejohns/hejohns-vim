@@ -135,7 +135,7 @@ function! hejohns#set_statusline() abort
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'
-        if job_info(g:myWeatherJob)[exitval] == 0
+        if job_info(g:myWeatherJob)['exitval'] == 0
             let weather = ch_read(g:myWeatherJob)
             let g:myWeather = '[' .. weather .. ']'
             call hejohns#weather_job()

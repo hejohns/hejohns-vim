@@ -134,6 +134,8 @@ function! hejohns#time_timer_cb(timer) abort
     let g:myTime = systemlist('date "+%r"')[0]
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
+    " do this in the timer callback, rather than job exit_cb, so we can fail
+    " the timer and stop it after a couple times
     if job_status(g:myWeatherJob) ==# 'dead'
         if job_info(g:myWeatherJob)['exitval'] == 0
             let g:myWeather = ch_read(g:myWeatherJob)

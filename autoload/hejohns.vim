@@ -141,6 +141,7 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#weather_job_cb(job, exit_status) abort
+    echo 'test'
     if exit_status == 0
         let weather = ch_read(job)
         let g:myWeather = '[' .. weather .. ']'

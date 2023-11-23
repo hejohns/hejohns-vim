@@ -154,7 +154,7 @@ function! hejohns#weather_job_cb(job, exit_status) abort
 endfunction
 function! hejohns#weather_job() abort
     echomsg 'testa'
-    let g:myWeatherJob = job_start(['curl', '-s', 'wttr.in?format=%p+%c%t'], {'mode': 'raw', 'exit_cb': function('hejohns#weather_job_cb')})
+    let g:myWeatherJob = job_start(['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw', 'exit_cb': function('hejohns#weather_job_cb')})
 endfunction
 
 " vim-signify

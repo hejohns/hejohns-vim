@@ -142,7 +142,7 @@ function! hejohns#weather_timer_cb(timer) abort
 endfunction
 function! hejohns#weather_job_cb(job, exit_status) abort
     if a:exit_status == 0
-        let weather = ch_read(a:job)
+        let weather = ch_read(g:myWeatherJob)
         let g:myWeather = '[' .. weather .. ']'
     else
         echoerr '[error] curl wttr.in failed'

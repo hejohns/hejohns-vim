@@ -157,7 +157,7 @@ function! hejohns#weather_job() abort
     let g:myWeatherJob = job_start(
         ['curl', '-s', 'wttr.in?format=%p+%c%t'],
         { 'mode': 'raw'
-        , 'exit_cb': hejohns#weather_job_cb
+        , 'exit_cb': function('hejohns#weather_job_cb')
         }
     )
 endfunction

@@ -131,7 +131,7 @@ function! hejohns#set_statusline() abort
     endif
 endfunction
 function! hejohns#time_timer_cb(timer) abort
-    let g:myTime = system('date "+%r"')
+    let g:myTime = systemlist('date "+%r"')[0]
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'

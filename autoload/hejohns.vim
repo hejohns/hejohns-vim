@@ -104,10 +104,10 @@ endfunction
 function! hejohns#statusline() abort
     let g:mystatusline = ''
     if exists('g:myTime')
-        let g:mystatusline = g:myTime .. g:mystatusline
+        let g:mystatusline = '[' .. g:myTime .. ']' .. g:mystatusline
     endif
     if exists('g:myWeather')
-        let g:mystatusline = g:myWeather .. g:mystatusline
+        let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
     endif
     return g:mystatusline
 endfunction
@@ -124,7 +124,7 @@ function! hejohns#set_statusline() abort
     " also because ^ took me forever to figure out
     " Now, the fancy stuff
     if has('channel') && has('job') && has('timers')
-        let g:myWeather = '[⟳]'
+        let g:myWeather = '⟳'
         call hejohns#weather_job()
         call timer_start(1000, 'hejohns#time_timer_cb', {'repeat': -1})
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
@@ -136,8 +136,7 @@ endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'
         if job_info(g:myWeatherJob)['exitval'] == 0
-            let weather = ch_read(g:myWeatherJob)
-            let g:myWeather = '[' .. weather .. ']'
+            let g:myWeather = ch_read(g:myWeatherJob)
             call hejohns#weather_job()
             return
         else

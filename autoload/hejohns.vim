@@ -1,3 +1,4 @@
+vim9script
 scriptencoding utf8
 
 " fold settings

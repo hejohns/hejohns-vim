@@ -129,30 +129,30 @@ function! hejohns#set_statusline() abort
     " Now, the fancy stuff
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
-        vim9cmd var weather_job_cb = (job, exit_status) => {
-            if exit_status == 0
-                let weather = ch_read(job)
-                let g:myWeather = '[' .. weather .. ']'
-            else
-                echoerr '[error] curl wttr.in failed'
-            endif
-        }
-        vim9cmd var weather_job = () => {
-            let g:myWeatherJob = job_start(
-                ['curl', '-s', 'wttr.in?format=%p+%c%t'],
-                { 'mode': 'raw'
-                , 'exit_cb': weather_job_cb
-                }
-            )
-        }
         timer_start(10000, (timer) => {
             if job_status(g:myWeatherJob) ==# 'dead'
-                weather_job()
+                hejohns#weather_job()
             elseif job_status(g:myWeatherJob) ==# 'fail'
                 timer_stop(timer)
             endif
         }, {'repeat': -1})
     endif
+endfunction
+function! hejohns#weather_job_cb(job, exit_status) abort
+    if exit_status == 0
+        let weather = ch_read(job)
+        let g:myWeather = '[' .. weather .. ']'
+    else
+        echoerr '[error] curl wttr.in failed'
+    endif
+endfunction
+function! hejohns#weather_job() abort
+    let g:myWeatherJob = job_start(
+        ['curl', '-s', 'wttr.in?format=%p+%c%t'],
+        { 'mode': 'raw'
+        , 'exit_cb': hejohns#weather_job_cb
+        }
+    )
 endfunction
 
 " vim-signify

@@ -131,9 +131,11 @@ function! hejohns#set_statusline() abort
         let g:myWeather = '[⟳]'
         hejohns#weather_job()
         timer_start(10000, function('hejohns#weather_timer_cb'), {'repeat': -1})
+        echo 'testc'
     endif
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
+    echo 'testb'
     if job_status(g:myWeatherJob) ==# 'dead'
         hejohns#weather_job()
     elseif job_status(g:myWeatherJob) ==# 'fail'
@@ -150,6 +152,7 @@ function! hejohns#weather_job_cb(job, exit_status) abort
     endif
 endfunction
 function! hejohns#weather_job() abort
+    echo 'testa'
     let g:myWeatherJob = job_start(
         ['curl', '-s', 'wttr.in?format=%p+%c%t'],
         { 'mode': 'raw'

@@ -127,12 +127,12 @@ function! hejohns#set_statusline() abort
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
     " Now, the fancy stuff
-    call ch_logfile('~/Downloads/chlog.log', 'w')
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
         call hejohns#weather_job()
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
     endif
+    call ch_logfile('~/Downloads/chlog.log', 'w')
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'

@@ -127,16 +127,16 @@ function! hejohns#set_statusline() abort
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
     " Now, the fancy stuff
-    echoerr 'testd'
+    echomsg 'testd'
     if has('channel') && has('job') && has('timers') && has('lambda')
         let g:myWeather = '[⟳]'
         hejohns#weather_job()
         timer_start(10000, function('hejohns#weather_timer_cb'), {'repeat': -1})
-        echoerr 'testc'
+        echomsg 'testc'
     endif
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
-    echoerr 'testb'
+    echomsg 'testb'
     if job_status(g:myWeatherJob) ==# 'dead'
         hejohns#weather_job()
     elseif job_status(g:myWeatherJob) ==# 'fail'
@@ -144,7 +144,7 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#weather_job_cb(job, exit_status) abort
-    echoerr 'test'
+    echomsg 'test'
     if exit_status == 0
         let weather = ch_read(job)
         let g:myWeather = '[' .. weather .. ']'
@@ -153,7 +153,7 @@ function! hejohns#weather_job_cb(job, exit_status) abort
     endif
 endfunction
 function! hejohns#weather_job() abort
-    echoerr 'testa'
+    echomsg 'testa'
     let g:myWeatherJob = job_start(
         ['curl', '-s', 'wttr.in?format=%p+%c%t'],
         { 'mode': 'raw'

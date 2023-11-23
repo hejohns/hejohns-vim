@@ -132,7 +132,7 @@ function! hejohns#set_statusline() abort
         call hejohns#weather_job()
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
     endif
-    call ch_logfile('~/Downloads/chlog.log', 'w')
+    call ch_logfile('/home/hejohns/Downloads/chlog.log', 'w')
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'

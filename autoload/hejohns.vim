@@ -102,12 +102,17 @@ endfunction
 
 " statusline
 function! hejohns#statusline() abort
-    let g:mystatusline = ''
-    if exists('g:myTime')
-        let g:mystatusline = '[' .. g:myTime .. ']' .. g:mystatusline
-    endif
-    if exists('g:myWeather')
-        let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
+    " this probably doesn't significantly affect keystroke latency, but at
+    " least try to make an effort
+    if g:myStatuslineUpdated
+        let g:mystatusline = ''
+        if exists('g:myTime')
+            let g:mystatusline = '[' .. g:myTime .. ']' .. g:mystatusline
+        endif
+        if exists('g:myWeather')
+            let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
+        endif
+    else
     endif
     return g:mystatusline
 endfunction
@@ -125,13 +130,20 @@ function! hejohns#set_statusline() abort
     " Now, the fancy stuff
     if has('channel') && has('job') && has('timers')
         let g:myWeather = '⟳'
+        let g:myTime = '⟳'
+        call hejohns#time_job()
         call hejohns#weather_job()
         call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
         call timer_start(10000, 'hejohns#weather_timer_cb', {'repeat': -1})
     endif
 endfunction
 function! hejohns#time_timer_cb(timer) abort
-    let g:myTime = systemlist('date "+%r"')[0]
+    " should never fail
+    if job_status(g:myTimeJob) ==# 'dead'
+        let g:myTime = ch_read(g:myTimeJob)
+        let g:myStatuslineUpdated = 1
+        call hejohns#time_job
+    endif
 endfunction
 function! hejohns#weather_timer_cb(timer) abort
     " do this in the timer callback, rather than job exit_cb, so we can fail
@@ -139,14 +151,17 @@ function! hejohns#weather_timer_cb(timer) abort
     if job_status(g:myWeatherJob) ==# 'dead'
         if job_info(g:myWeatherJob)['exitval'] == 0
             let g:myWeather = ch_read(g:myWeatherJob)
+            let g:myStatuslineUpdated = 1
             call hejohns#weather_job()
-            return
         else
             echoerr '[error] curl wttr.in dead but failed'
         endif
     elseif job_status(g:myWeatherJob) ==# 'fail'
             echoerr '[error] curl wttr.in failed'
     endif
+endfunction
+function! hejohns#time_job() abort
+    let g:myTimeJob = job_start( ['date', '+%r'], {'out_mode': 'raw', 'drop': 'never'} )
 endfunction
 function! hejohns#weather_job() abort
     let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw', 'drop': 'never'} )

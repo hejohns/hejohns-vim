@@ -143,7 +143,7 @@ function! hejohns#time_timer_cb(timer) abort
     if job_status(g:myTimeJob) ==# 'dead'
         let g:myTime = ch_read(g:myTimeJob)
         let g:myStatuslineUpdated = 1
-        call hejohns#time_job
+        call hejohns#time_job()
     endif
 endfunction
 function! hejohns#weather_timer_cb(timer) abort

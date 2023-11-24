@@ -132,6 +132,7 @@ function! hejohns#set_statusline() abort
     if has('channel') && has('job') && has('timers')
         let g:myWeather = '⟳'
         let g:myTime = '⟳'
+        let g:myStatuslineUpdated = 1
         call hejohns#time_job()
         call hejohns#weather_job()
         call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
@@ -141,7 +142,7 @@ endfunction
 function! hejohns#time_timer_cb(timer) abort
     " should never fail
     if job_status(g:myTimeJob) ==# 'dead'
-        let g:myTime = ch_read(g:myTimeJob)
+        let g:myTime = trim(ch_read(g:myTimeJob))
         let g:myStatuslineUpdated = 1
         call hejohns#time_job()
     endif
@@ -151,7 +152,7 @@ function! hejohns#weather_timer_cb(timer) abort
     " the timer and stop it after a couple times
     if job_status(g:myWeatherJob) ==# 'dead'
         if job_info(g:myWeatherJob)['exitval'] == 0
-            let g:myWeather = ch_read(g:myWeatherJob)
+            let g:myWeather = trim(ch_read(g:myWeatherJob))
             let g:myStatuslineUpdated = 1
             call hejohns#weather_job()
         else

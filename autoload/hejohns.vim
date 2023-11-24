@@ -104,7 +104,8 @@ endfunction
 function! hejohns#statusline() abort
     " this probably doesn't significantly affect keystroke latency, but at
     " least try to make an effort
-    if g:myStatuslineUpdated
+    if exists('g:myStatuslineUpdated') && g:myStatuslineUpdated
+        let g:myStatuslineUpdated = 0
         let g:mystatusline = ''
         if exists('g:myTime')
             let g:mystatusline = '[' .. g:myTime .. ']' .. g:mystatusline

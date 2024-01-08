@@ -302,6 +302,6 @@ function! hejohns#calendar_sync_push() abort
 endfunction
 
 function! hejohns#calendar_ssh_agent() abort
-    let g:myCalenderSshAgent = trim(system('ssh-agent'))
+    let g:myCalenderSshAgent = trim(join(systemlist('ssh-agent')))
     execute '!' .. g:myCalenderSshAgent .. ' ssh-add'
 endfunction

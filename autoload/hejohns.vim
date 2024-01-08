@@ -277,7 +277,7 @@ endfunction
 function! hejohns#calendar_sync_pull() abort
     if executable('git')
         execute 'cd ' ..  g:myCalendarPath
-        if g:myCalendarSshAgent == 0
+        if !exists('g:myCalenderSshAgent')
             call hejohns#calendar_ssh_agent()
         endif
         execute '!' .. g:myCalenderSshAgent .. ' git pull'
@@ -291,7 +291,7 @@ endfunction
 function! hejohns#calendar_sync_push() abort
     if executable('git')
         execute 'cd ' ..  g:myCalendarPath
-        if g:myCalenderSshAgent == 0
+        if !exists('g:myCalenderSshAgent')
             call hejohns#calendar_ssh_agent()
         endif
         system('git add -A .')

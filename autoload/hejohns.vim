@@ -272,3 +272,36 @@ function! hejohns#remap_toggle() abort
     endif
     let g:myRemapToggle = !g:myRemapToggle
 endfunction
+
+" calendar.vim
+function! hejohns#calendar_sync_pull() abort
+    if executable('git')
+        cd g:myCalendarPath
+        if g:myCalendarSshAgent == 0
+            call hejohns#calendar_ssh_agent()
+        endif
+        execute '!' .. g:myCalenderSshAgent .. ' git pull'
+        cd -
+    else
+        silent !echo '[optional] Need `git` for syncing calendar.vim'
+    endif
+    Calendar
+endfunction
+
+function! hejohns#calendar_sync_push() abort
+    if executable('git')
+        cd g:myCalendarPath
+        if g:myCalenderSshAgent == 0
+            call hejohns#calendar_ssh_agent()
+        endif
+        system('git add -A .')
+        system('git commit -m "bump"')
+        execute '!' .. g:myCalenderSshAgent .. ' git push'
+        cd -
+    endif
+endfunction
+
+function! hejohns#calendar_ssh_agent() abort
+    let g:myCalenderSshAgent = trim(system('ssh-agent'))
+    execute '!' .. g:myCalenderSshAgent .. ' ssh-add'
+endfunction

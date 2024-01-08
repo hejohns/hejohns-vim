@@ -276,7 +276,7 @@ endfunction
 " calendar.vim
 function! hejohns#calendar_sync_pull() abort
     if executable('git')
-        cd g:myCalendarPath
+        execute 'cd ' ..  g:myCalendarPath
         if g:myCalendarSshAgent == 0
             call hejohns#calendar_ssh_agent()
         endif
@@ -290,7 +290,7 @@ endfunction
 
 function! hejohns#calendar_sync_push() abort
     if executable('git')
-        cd g:myCalendarPath
+        execute 'cd ' ..  g:myCalendarPath
         if g:myCalenderSshAgent == 0
             call hejohns#calendar_ssh_agent()
         endif

@@ -289,14 +289,16 @@ function! hejohns#calendar_sync_pull() abort
 endfunction
 
 function! hejohns#calendar_sync_push() abort
-    if executable('git')
+    if executable('git') && g:myCalendarDirty
         execute 'cd ' ..  g:myCalendarPath
-        if !exists('g:myCalenderSshAgent')
-            call hejohns#calendar_ssh_agent()
+        if strlen(system('git add -A -n'))
+            if !exists('g:myCalenderSshAgent')
+                call hejohns#calendar_ssh_agent()
+            endif
+            call system('git add -A .')
+            call system('git commit -m "bump"')
+            execute "call system('" .. g:myCalenderSshAgent .. ' git push'
         endif
-        call system('git add -A .')
-        call system('git commit -m "bump"')
-        execute "call system('" .. g:myCalenderSshAgent .. ' git push'
         cd -
     endif
 endfunction

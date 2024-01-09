@@ -311,7 +311,7 @@ function! hejohns#calendar_sync_push() abort
             endif
             call system('git add -A .')
             call system('git commit -m "bump"')
-            call hejohns#calendar_with_ssh_agent('git push')
+            call hejohns#calendar_with_ssh_env('git push')
         endif
         cd -
     endif

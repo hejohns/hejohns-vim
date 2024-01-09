@@ -289,7 +289,7 @@ function! hejohns#calendar_sync_pull() abort
 endfunction
 
 function! hejohns#calendar_sync_push() abort
-    if executable('git') && g:myCalendarDirty
+    if executable('git')
         execute 'cd ' ..  g:myCalendarPath
         if strlen(system('git add -A -n'))
             if !exists('g:myCalenderSshAgent')

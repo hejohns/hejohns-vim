@@ -626,6 +626,18 @@ endif
 " calendar.vim
 let g:calendar_first_day = 'monday'
 let g:myCalendarUrl = 'git@github.com:hejohns/cache_calendar.vim.git'
-let g:myCalendarPath = $HOME .. '/.cache/calendar.vim/'
+let g:myCalendarPath = expand('~/.cache/calendar.vim/')
+" this is horrible but I don't feel like doing file tests in vimscript
+filereadable
+if finddir(g:myCalendarPath)
+    try
+        call readdir(g:myCalendarPath)
+    catch
+        echoerr 'calendar.vim path "' .. g:myCalendarPath .. '" not readable. Update `g:myCalendarPath` or fix permissions.'
+    endtry
+else
+    " create cache directory for the first time
+    call system('mkdir -p ' .. g:myCalendarPath)
+endif
 command CalendarSync call hejohns#calendar_sync_pull()
 autocmd VimLeavePre * call hejohns#calendar_sync_push()

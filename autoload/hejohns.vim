@@ -311,3 +311,18 @@ function! hejohns#calendar_ssh_agent() abort
         execute "call system('" .. g:myCalenderSshAgent .. " ssh-add')"
     "endif
 endfunction
+
+" wrap this in a function, in case it errors, to protect plugin/hejohns.vim
+function! hejohns#calendar_create_cache_dir_if_needed() abort
+    " this is horrible but I don't feel like doing file tests in vimscript
+    if finddir(g:myCalendarPath)
+        try
+            call readdir(g:myCalendarPath)
+        catch
+            echoerr 'calendar.vim path "' .. g:myCalendarPath .. '" not readable. Update `g:myCalendarPath` or fix permissions.'
+        endtry
+    else
+        " create cache directory for the first time
+        call system('mkdir -p ' .. g:myCalendarPath)
+    endif
+endfunction

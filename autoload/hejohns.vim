@@ -276,31 +276,39 @@ endfunction
 " calendar.vim
 function! hejohns#calendar_sync_pull() abort
     if executable('git')
-        execute 'cd ' ..  g:myCalendarPath
         if !exists('g:myCalenderSshAgent')
             call hejohns#calendar_ssh_agent()
         endif
-        execute "call system('" .. g:myCalenderSshAgent .. " git pull')"
+        " clone git repo if needed
+        call hejohns#calendar_create_cache_dir_if_needed()
+        " git pull latest changes
+        execute 'cd ' ..  g:myCalendarPath
+        call hejohns#calendar_with_ssh_env('git pull')
         cd -
     else
         silent !echo '[optional] Need `git` for syncing calendar.vim'
     endif
+    " finally, call the original calendar.vim
     Calendar
 endfunction
 
 function! hejohns#calendar_sync_push() abort
     if executable('git')
         execute 'cd ' ..  g:myCalendarPath
-        if strlen(system('git add -A -n'))
+        if strlen(system('git add -A -n')) && !v:shell_error
             if !exists('g:myCalenderSshAgent')
                 call hejohns#calendar_ssh_agent()
             endif
             call system('git add -A .')
             call system('git commit -m "bump"')
-            execute "call system('" .. g:myCalenderSshAgent .. " git push')"
+            call hejohns#calendar_ssh_agent('git push')
         endif
         cd -
     endif
+endfunction
+
+function! hejohns#calendar_with_ssh_env(cmd) abort
+    return execute "call system('" .. g:myCalenderSshAgent .. ' ' .. a:cmd .. "')"
 endfunction
 
 function! hejohns#calendar_ssh_agent() abort
@@ -308,7 +316,7 @@ function! hejohns#calendar_ssh_agent() abort
     "    let g:myCalenderSshAgent = 'SSH_AUTH_SOCK=' .. $SSH_AUTH_SOCK .. ' SSH_AGENT_PID=' .. $SSH_AGENT_PID .. ' '
     "else
         let g:myCalenderSshAgent = trim(join(systemlist('ssh-agent')))
-        execute "call system('" .. g:myCalenderSshAgent .. " ssh-add')"
+        call hejohns#calendar_with_ssh_env('ssh-add')
     "endif
 endfunction
 
@@ -318,11 +326,17 @@ function! hejohns#calendar_create_cache_dir_if_needed() abort
     if finddir(g:myCalendarPath)
         try
             call readdir(g:myCalendarPath)
+            execute 'cd ' .. g:myCalendarPath
+            git
+            git init
+            git remote add
+            cd -
         catch
             echoerr 'calendar.vim path "' .. g:myCalendarPath .. '" not readable. Update `g:myCalendarPath` or fix permissions.'
         endtry
     else
         " create cache directory for the first time
         call system('mkdir -p ' .. g:myCalendarPath)
+        call hejohns#calendar_with_ssh_env('git clone ' .. g:myCalendarUrl .. ' ' .. g:myCalendarPath)
     endif
 endfunction

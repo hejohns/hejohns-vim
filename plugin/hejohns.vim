@@ -627,6 +627,5 @@ endif
 let g:calendar_first_day = 'monday'
 let g:myCalendarUrl = 'git@github.com:hejohns/cache_calendar.vim.git'
 let g:myCalendarPath = expand('~/.cache/calendar.vim/')
-call hejohns#calendar_create_cache_dir_if_needed()
 command CalendarSync call hejohns#calendar_sync_pull()
 autocmd VimLeavePre * call hejohns#calendar_sync_push()

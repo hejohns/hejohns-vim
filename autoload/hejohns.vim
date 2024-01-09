@@ -297,6 +297,11 @@ function! hejohns#calendar_sync_push() abort
         try
             execute 'cd ' ..  g:myCalendarPath
         catch
+            " TODO: this will not work, since terminal is already getting
+            " repainted and stuff
+            " (idk how terminals really work)
+            "
+            " This only works before vim takes control of the screen
             silent !echo '[warning] "' .. g:myCalendarPath .. '" may not exist'
             return
         endtry

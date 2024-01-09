@@ -277,7 +277,7 @@ endfunction
 function! hejohns#calendar_sync_pull() abort
     if executable('git')
         if !exists('g:myCalenderSshAgent')
-            call hejohns#calendar_ssh_agent()
+            call hejohns#calendar_set_ssh_agent()
         endif
         " clone git repo if needed
         call hejohns#calendar_create_cache_dir_if_needed()
@@ -307,11 +307,11 @@ function! hejohns#calendar_sync_push() abort
         endtry
         if strlen(system('git add -A -n')) && !v:shell_error
             if !exists('g:myCalenderSshAgent')
-                call hejohns#calendar_ssh_agent()
+                call hejohns#calendar_set_ssh_agent()
             endif
             call system('git add -A .')
             call system('git commit -m "bump"')
-            call hejohns#calendar_ssh_agent('git push')
+            call hejohns#calendar_with_ssh_agent('git push')
         endif
         cd -
     endif
@@ -321,7 +321,7 @@ function! hejohns#calendar_with_ssh_env(cmd) abort
     return execute("call system('" .. g:myCalenderSshAgent .. ' ' .. a:cmd .. "')")
 endfunction
 
-function! hejohns#calendar_ssh_agent() abort
+function! hejohns#calendar_set_ssh_agent() abort
     "if exists('$SSH_AUTH_SOCK') && exists('$SSH_AGENT_PID')
     "    let g:myCalenderSshAgent = 'SSH_AUTH_SOCK=' .. $SSH_AUTH_SOCK .. ' SSH_AGENT_PID=' .. $SSH_AGENT_PID .. ' '
     "else

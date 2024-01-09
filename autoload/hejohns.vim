@@ -294,7 +294,12 @@ endfunction
 
 function! hejohns#calendar_sync_push() abort
     if executable('git')
-        execute 'cd ' ..  g:myCalendarPath
+        try
+            execute 'cd ' ..  g:myCalendarPath
+        catch
+            silent !echo '[warning] "' .. g:myCalendarPath .. '" may not exist'
+            return
+        endtry
         if strlen(system('git add -A -n')) && !v:shell_error
             if !exists('g:myCalenderSshAgent')
                 call hejohns#calendar_ssh_agent()

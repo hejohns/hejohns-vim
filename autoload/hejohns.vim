@@ -280,7 +280,7 @@ function! hejohns#calendar_sync_pull() abort
         if !exists('g:myCalenderSshAgent')
             call hejohns#calendar_ssh_agent()
         endif
-        execute "call system('" .. g:myCalenderSshAgent .. ' git pull'
+        execute "call system('" .. g:myCalenderSshAgent .. " git pull')"
         cd -
     else
         silent !echo '[optional] Need `git` for syncing calendar.vim'
@@ -297,7 +297,7 @@ function! hejohns#calendar_sync_push() abort
             endif
             call system('git add -A .')
             call system('git commit -m "bump"')
-            execute "call system('" .. g:myCalenderSshAgent .. ' git push'
+            execute "call system('" .. g:myCalenderSshAgent .. " git push')"
         endif
         cd -
     endif

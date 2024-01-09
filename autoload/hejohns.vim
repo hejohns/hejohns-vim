@@ -305,7 +305,7 @@ endfunction
 
 function! hejohns#calendar_ssh_agent() abort
     if exists('$SSH_AUTH_SOCK') && exists('$SSH_AGENT_PID')
-        let g:myCalenderSshAgent = 'SSH_AUTH_SOCK = ' .. $SSH_AUTH_SOCK .. 'SSH_AGENT_PID = ' .. $SSH_AGENT_PID .. ' '
+        let g:myCalenderSshAgent = 'SSH_AUTH_SOCK=' .. $SSH_AUTH_SOCK .. ' SSH_AGENT_PID=' .. $SSH_AGENT_PID .. ' '
     else
         let g:myCalenderSshAgent = trim(join(systemlist('ssh-agent')))
         execute "call system('" .. g:myCalenderSshAgent .. " ssh-add')"

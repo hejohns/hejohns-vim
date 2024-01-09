@@ -308,7 +308,8 @@ function! hejohns#calendar_sync_push() abort
 endfunction
 
 function! hejohns#calendar_with_ssh_env(cmd) abort
-    return execute "call system('" .. g:myCalenderSshAgent .. ' ' .. a:cmd .. "')"
+    let l:ret = execute "call system('" .. g:myCalenderSshAgent .. ' ' .. a:cmd .. "')"
+    return l:ret
 endfunction
 
 function! hejohns#calendar_ssh_agent() abort

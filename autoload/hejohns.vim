@@ -337,9 +337,9 @@ function! hejohns#calendar_create_cache_dir_if_needed() abort
         try
             call readdir(g:myCalendarPath)
             execute 'cd ' .. g:myCalendarPath
-            git
-            git init
-            git remote add
+            "git
+            "git init
+            "git remote add
             cd -
         catch
             echoerr 'calendar.vim path "' .. g:myCalendarPath .. '" not readable. Update `g:myCalendarPath` or fix permissions.'

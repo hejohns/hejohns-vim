@@ -635,4 +635,5 @@ let g:vimwiki_list = [{'syntax': 'markdown', 'ext': 'md'}]
 let g:vimwiki_global_ext = 0
 let g:zettel_format = 'hejohns-%file_no'
 let g:zettel_date_format = '%Y-%m-%d'
+" template is currently empty
 let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-template.tpl'}]

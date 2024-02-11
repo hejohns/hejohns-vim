@@ -630,6 +630,9 @@ let g:myCalendarPath = expand('~/.cache/calendar.vim/')
 command CalendarSync call hejohns#calendar_sync_pull()
 autocmd VimLeave * call hejohns#calendar_sync_push()
 
-" vimwiki
+" vimwiki and vim-zettel
 let g:vimwiki_list = [{'syntax': 'markdown', 'ext': 'md'}]
 let g:vimwiki_global_ext = 0
+let g:zettel_format = 'hejohns-%file_no'
+let g:zettel_date_format = '%Y-%m-%d'
+let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel_template.tpl'}]

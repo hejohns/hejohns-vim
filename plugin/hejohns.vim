@@ -636,3 +636,4 @@ let g:vimwiki_global_ext = 0
 let g:zettel_format = 'hejohns-%file_no'
 let g:zettel_date_format = '%Y-%m-%d'
 let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel_template.tpl'}]
+echo expand('<sfile>:p:h:h') .. '/etc/zettel_template.tpl'

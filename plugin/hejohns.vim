@@ -629,3 +629,7 @@ let g:myCalendarUrl = 'git@github.com:hejohns/cache_calendar.vim.git'
 let g:myCalendarPath = expand('~/.cache/calendar.vim/')
 command CalendarSync call hejohns#calendar_sync_pull()
 autocmd VimLeave * call hejohns#calendar_sync_push()
+
+" vimwiki
+let g:vimwiki_list = [{'syntax': 'markdown', 'ext': 'md'}]
+let g:vimwiki_global_ext = 0

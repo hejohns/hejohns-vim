@@ -70,7 +70,7 @@ augroup spell_default_on
 augroup END
 set shortmess-=S
 set smarttab
-set backspace='' " use vi <BS> setting for fun
+set backspace="" " use vi <BS> setting for fun
 inoremap kj <ESC>
 inoremap jk <C-w>
 " this is tricky...

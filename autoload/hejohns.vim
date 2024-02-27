@@ -353,8 +353,9 @@ endfunction
 
 " vim-plug
 function! hejohns#PlugUpdate() abort
-    " keep this close to the total number of plugins to minimize startup delay
-    let g:plug_threads = 32
+    " keep this just above the total number of plugins to minimize startup delay
+    " at the moment, this seems good for 37 plugins
+    let g:plug_threads = 64
     PlugUpdate --sync
     quit
 endfunction

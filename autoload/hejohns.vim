@@ -350,3 +350,11 @@ function! hejohns#calendar_create_cache_dir_if_needed() abort
         call hejohns#calendar_with_ssh_env('git clone ' .. g:myCalendarUrl .. ' ' .. g:myCalendarPath)
     endif
 endfunction
+
+" vim-plug
+function! hejohns#PlugUpdate() abort
+    " keep this close to the total number of plugins to minimize startup delay
+    let g:plug_threads = 32
+    PlugUpdate --sync
+    quit
+endfunction

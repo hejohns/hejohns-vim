@@ -353,10 +353,36 @@ endfunction
 
 " vim-plug
 function! hejohns#PlugUpdate() abort
-    " keep this just above the total number of plugins to minimize startup delay
-    " at the moment, this seems good for 37 plugins
-    let g:plug_threads = 64
-    let g:plug_window = 'botright 4new'
-    PlugUpdate --sync
-    quit
+    let g:myPlugUpdateNeeded = 1
+    if has('perl')
+        perl << EOF
+        use strict;
+        use warnings FATAL => 'all', NONFATAL => 'redefine';
+        use File::Spec;
+
+        our $marker = File::Spec->catfile(File::Spec->tmpdir(), 'vim_hejohns-PlugUpdate-last');
+        if(-e $marker && time - stat($marker)[9] < 60){
+            $PlugUpdateNeeded = 0;
+        }
+        else{
+            $PlugUpdateNeeded = 1;
+        }
+        VIM::DoCommand(":let g:myPlugUpdateNeeded = $PlugUpdateNeeded");
+EOF
+    else
+        silent !echo '[warning] Need +perl to only :PlugUpdate periodically'
+    endif
+    if g:myPlugUpdateNeeded
+        " keep this just above the total number of plugins to minimize startup delay
+        " at the moment, this seems good for 37 plugins
+        let g:plug_threads = 64
+        let g:plug_window = 'botright 4new'
+        PlugUpdate --sync
+        quit
+        if has('perl')
+            perl << EOF
+            open(my $fh, '>', $marker);
+            print $fh time;
+EOF
+    endif
 endfunction

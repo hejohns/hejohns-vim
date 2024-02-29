@@ -362,7 +362,7 @@ function! hejohns#PlugUpdate() abort
 
         our $marker = File::Spec->catfile(File::Spec->tmpdir(), 'vim_hejohns-PlugUpdate-last');
         my $PlugUpdateNeeded = 1;
-        if(-e $marker && time - stat($marker)[9] < 60){
+        if(-e $marker && time - (stat(_))[9] < 60){
             $PlugUpdateNeeded = 0;
         }
         VIM::DoCommand(":let g:myPlugUpdateNeeded = $PlugUpdateNeeded");

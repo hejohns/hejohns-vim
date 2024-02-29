@@ -379,6 +379,7 @@ EOF
         quit
         if has('perl')
             perl << EOF
+            our $marker = File::Spec->catfile(File::Spec->tmpdir(), 'vim_hejohns-PlugUpdate-last');
             open(my $fh, '>', $marker);
             print $fh time;
 EOF

@@ -353,35 +353,39 @@ endfunction
 
 " vim-plug
 function! hejohns#PlugUpdate() abort
-    let g:myPlugUpdateNeeded = 1
-    if has('perl')
-        perl << EOF
-        use strict;
-        use warnings FATAL => 'all', NONFATAL => 'redefine';
-        use File::Spec;
-
-        our $marker = File::Spec->catfile(File::Spec->tmpdir(), 'vim_hejohns-PlugUpdate-last');
-        my $PlugUpdateNeeded = 1;
-        if(-e $marker && time - (stat(_))[9] < 3600){
-            $PlugUpdateNeeded = 0;
-        }
-        VIM::DoCommand(":let g:myPlugUpdateNeeded = $PlugUpdateNeeded");
-EOF
-    else
-        silent !echo '[warning] Need +perl to only :PlugUpdate periodically'
-    endif
-    if g:myPlugUpdateNeeded
-        " keep this just above the total number of plugins to minimize startup delay
-        " at the moment, this seems good for 37 plugins
-        let g:plug_threads = 64
-        let g:plug_window = 'botright 4new'
-        PlugUpdate --sync
-        quit
+    try
+        let g:myPlugUpdateNeeded = 1
         if has('perl')
             perl << EOF
-            open(my $fh, '>', $marker);
-            print $fh time;
+            use strict;
+            use warnings FATAL => 'all', NONFATAL => 'redefine';
+            use File::Spec;
+
+            our $marker = File::Spec->catfile(File::Spec->tmpdir(), 'vim_hejohns-PlugUpdate-last');
+            my $PlugUpdateNeeded = 1;
+            if(-e $marker && time - (stat(_))[9] < 3600){
+                $PlugUpdateNeeded = 0;
+            }
+            VIM::DoCommand(":let g:myPlugUpdateNeeded = $PlugUpdateNeeded");
 EOF
+        else
+            silent !echo '[warning] Need +perl to only :PlugUpdate periodically'
         endif
-    endif
+        if g:myPlugUpdateNeeded
+            " keep this just above the total number of plugins to minimize startup delay
+            " at the moment, this seems good for 37 plugins
+            let g:plug_threads = 64
+            let g:plug_window = 'botright 4new'
+            PlugUpdate --sync
+            quit
+            if has('perl')
+                perl << EOF
+                open(my $fh, '>', $marker);
+                print $fh time;
+EOF
+            endif
+        endif
+    catch
+        echo "why?"
+    endtry
 endfunction

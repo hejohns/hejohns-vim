@@ -382,7 +382,11 @@ EOF
                     " at the moment, this seems good for 37 plugins
                     let g:plug_threads = 64
                     let g:plug_window = 'botright 4new'
-                    PlugUpdate --sync
+                    try
+                        PlugUpdate --sync
+                    catch
+                        echo 'sere'
+                    endtry
                     quit
                 catch
                     echo 'bere'

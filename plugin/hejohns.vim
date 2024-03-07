@@ -649,3 +649,6 @@ let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
 let g:lightline.component_function = {'gitbranch': 'FugitiveHead'}
 let g:lightline#bufferline#enable_nerdfont = 1
+if has('gui_running')
+    set guioptions -= e
+endif

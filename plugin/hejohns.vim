@@ -640,23 +640,12 @@ let g:zettel_date_format = '%Y-%m-%d'
 let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-template.tpl'}]
 
 " lightline
-" I would `set noshowmode` since lightlight does it already, but then I'd have
-" to set it when lightline isn't running, and I don't feel like doing that
-" super gross
+" super gross, but I don't know a better way
 autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set noshowmode | set showtabline=2 | endif
-let g:lightline = {
-    \ 'colorscheme': 'solarized',
-    \ 'tabline': {
-    \   'left': [ [ 'buffers' ] ],
-    \   'right': [ [ 'close' ] ]
-    \ },
-    \ 'component_expand': {
-    \   'buffers': 'lightline#bufferline#buffers'
-    \ },
-    \ 'component_type': {
-    \   'buffers': 'tabsel'
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'FugitiveHead'
-    \ }
-    \ } " TODO: see lightline.vim and lightline-bufferline docs
+let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
+let g:lightline.colorscheme = {'colorscheme': 'solarized'}
+let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type = {'buffers': 'tabsel'}
+let g:lightline.component_function = {'gitbranch': 'FugitiveHead'}
+let g:lightline#bufferline#enable_nerdfont = 1

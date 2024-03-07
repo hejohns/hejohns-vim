@@ -642,11 +642,13 @@ let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-tem
 " lightline
 " I would `set noshowmode` since lightlight does it already, but then I'd have
 " to set it when lightline isn't running, and I don't feel like doing that
+"set noshowmode
+"set showtabline=2
 let g:lightline = {
     \ 'colorscheme': 'solarized',
     \ 'tabline': {
-    \   'left': [ ['buffers'] ],
-    \   'right': [ ['close'] ]
+    \   'left': [ [ 'buffers' ] ],
+    \   'right': [ [ 'close' ] ]
     \ },
     \ 'component_expand': {
     \   'buffers': 'lightline#bufferline#buffers'
@@ -654,4 +656,7 @@ let g:lightline = {
     \ 'component_type': {
     \   'buffers': 'tabsel'
     \ },
+    \ 'component_function': {
+    \   'gitbranch': 'FugitiveHead'
+    \ }
     \ } " TODO: see lightline.vim and lightline-bufferline docs

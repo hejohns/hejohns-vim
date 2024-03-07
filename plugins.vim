@@ -27,7 +27,7 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'jordwalke/vim-reasonml', {'for': 'reason'}
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic', {'for': ['vim', 'pod']}
 Plug 'osyo-manga/vim-over'
 Plug 'alx741/vim-hindent', {'for': 'haskell'}
 Plug 'tpope/vim-surround'

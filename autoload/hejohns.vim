@@ -377,12 +377,16 @@ EOF
         endtry
         try
             if g:myPlugUpdateNeeded
-                " keep this just above the total number of plugins to minimize startup delay
-                " at the moment, this seems good for 37 plugins
-                let g:plug_threads = 64
-                let g:plug_window = 'botright 4new'
-                PlugUpdate --sync
-                quit
+                try
+                    " keep this just above the total number of plugins to minimize startup delay
+                    " at the moment, this seems good for 37 plugins
+                    let g:plug_threads = 64
+                    let g:plug_window = 'botright 4new'
+                    PlugUpdate --sync
+                    quit
+                catch
+                    echo 'bere'
+                endtry
                 if has('perl')
                     perl << EOF
                     open(my $fh, '>', $marker);

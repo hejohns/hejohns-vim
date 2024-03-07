@@ -643,7 +643,7 @@ let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-tem
 " super gross, but I don't know a better way
 autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set noshowmode | set showtabline=2 | endif
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
-let g:lightline.colorscheme = {'colorscheme': 'solarized'}
+let g:lightline.colorscheme = 'solarized'
 let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}

@@ -56,4 +56,4 @@ Plug 'michal-h21/vim-zettel'
 Plug 'michal-h21/vimwiki-sync'
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline', {'do': ':set noshowmode'}
+Plug 'mengelbrecht/lightline-bufferline'

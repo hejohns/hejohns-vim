@@ -375,6 +375,7 @@ EOF
     catch
         echo '???'
     endtry
+    try
     if g:myPlugUpdateNeeded
         " keep this just above the total number of plugins to minimize startup delay
         " at the moment, this seems good for 37 plugins
@@ -389,6 +390,9 @@ EOF
 EOF
         endif
     endif
+    catch
+        echo 'here'?
+    endtry
     catch
         echo "why?"
     endtry

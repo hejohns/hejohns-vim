@@ -40,8 +40,8 @@ Plug 'tpope/vim-dispatch', {'for': ['tex', 'ocaml', 'c', 'cpp']} " NOTE: but we 
 if !has('nvim')
     Plug 'vim-utils/vim-man' " replaces ``builtin'' :Man ?
 endif
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'mileszs/ack.vim'
@@ -50,8 +50,10 @@ Plug 'itchyny/calendar.vim'
 Plug 'tpope/vim-characterize'
 Plug 'https://github.com/kshenoy/vim-signature'
 " these plugins don't seem to support {'for': ['markdown', 'vimwiki']}
-" they misbehave
+" -- they misbehave
 Plug 'vimwiki/vimwiki'
 Plug 'michal-h21/vim-zettel'
 Plug 'michal-h21/vimwiki-sync'
 Plug 'altercation/vim-colors-solarized'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'

@@ -638,3 +638,20 @@ let g:zettel_format = 'hejohns-%file_no'
 let g:zettel_date_format = '%Y-%m-%d'
 " template is currently empty
 let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-template.tpl'}]
+
+" lightline
+" I would `set noshowmode` since lightlight does it already, but then I'd have
+" to set it when lightline isn't running, and I don't feel like doing that
+let g:lightline = {
+    \ 'colorscheme': 'solarized',
+    \ 'tabline': {
+    \   'left': [ ['buffers'] ],
+    \   'right': [ ['close'] ]
+    \ },
+    \ 'component_expand': {
+    \   'buffers': 'lightline#bufferline#buffers'
+    \ },
+    \ 'component_type': {
+    \   'buffers': 'tabsel'
+    \ },
+    \ } " TODO: see lightline.vim and lightline-bufferline docs

@@ -142,8 +142,9 @@ else
 endif
 nnoremap Q gq
 vnoremap Q gq
-"inoremap <C-Y> <ESC><C-Y>a
-"inoremap <C-E> <ESC><C-E>a
+" NOTE: I'm assuming we don't need to default behavior
+inoremap <C-Y> <ESC><C-Y>a
+inoremap <C-E> <ESC><C-E>a
 " <C-\> is my leader for infrequent keys
 noremap <C-\>rn :set invrelativenumber<CR>
 noremap <C-\>n :set invnumber<CR>
@@ -154,6 +155,7 @@ nnoremap <expr> gl &diff ? ':diffget LOCAL<CR>]c' : 'gl'
 nnoremap <expr> gr &diff ? ':diffget REMOTE<CR>]c' : 'gr'
 filetype detect
 let g:tex_flavor = 'latex'
+" very ad-hoc but it's sometimes useful
 inoremap <C-\>^e ê
 inoremap <C-\>"o ö
 " https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
@@ -596,7 +598,7 @@ if has('gui_running')
 endif
 
 " deoplete
-autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
+autocmd VimEnter * ++once call MyDeopleteInit()
 " needs to run before deoplete does, but after the deoplete is sourced
 function MyDeopleteConf() abort
     " these have to be set "before using deoplete", since they're not source
@@ -623,6 +625,12 @@ function MyDeopleteConf() abort
     call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
     inoremap <expr> <TAB> MyDeopleteTab()
     inoremap <expr> <S-TAB> MyDeopleteSTab()
+endfunction
+function MyDeopleteInit() abort
+    if exists('g:loaded_deoplete')
+        call MyDeopleteConf()
+        call deoplete#initialize()
+    endif
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort

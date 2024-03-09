@@ -322,7 +322,6 @@ if has('perl')
         endif
     endfunction
     function MyDeopleteConf()
-        "perl deoplete_options
         if deoplete#is_enabled()
             " use deoplete so vim stops hanging on autocomplete
             " still needed for some reason even with g:deoplete#enable_at_startup
@@ -385,25 +384,6 @@ if has('perl')
 
     my ($_success, $lsLangs) = AEval('g:myLSLangs');
     my @lsLangs = split(' ', $lsLangs);
-
-    sub deoplete_options{ # TODO: this had no need to be perl
-        VIM::DoCommand('let g:myPerlArg_ = deoplete#is_enabled()');
-        ($_success, my $deopleteIs_enabled) = SEval('g:myPerlArg_');
-        $deopleteIs_enabled //= 0;
-        if($deopleteIs_enabled){
-            # use deoplete so vim stops hanging on autocomplete
-            # still needed for some reason even with g:deoplete#enable_at_startup
-            VIM::DoCommand('call deoplete#enable()');
-            # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-            VIM::DoCommand('inoremap <buffer> <expr> <TAB> MyDeopleteTab()');
-            VIM::DoCommand('inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()');
-            # deoplete-options-num_processes
-            VIM::DoCommand("call deoplete#custom#var('around', {'range_above': 10000, 'range_below': 10000})");
-            # NOTE: deoplete by default uses all sources?
-            VIM::DoCommand("call deoplete#custom#option('sources', {'_': []})");
-            VIM::DoCommand("call deoplete#custom#buffer_option('num_processes', 2)");
-        }
-    }
 
     my %no_LS_opt2ft = (
         'autocmd filetype_specific BufEnter <buffer> setlocal shiftwidth=2' =>

@@ -609,8 +609,12 @@ function MyDeopleteConf() abort
             let g:myDeopleteNumProcesses = 4
         endif
     endif
-    " vimscript coersion?
+    " I think we need to coerce the result of `trim ∘ system` to an integer,
+    " or else deoplete's message passing system tries to use
+    " `g:myDeopleteNumProcesses` as a string
     let g:myDeopleteNumProcesses += 0
+    " try to reduce flicker?
+    let g:myDeopleteNumProcesses = min([g:myDeopleteNumProcesses, 8])
     call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
 endfunction
 " Do we still need this anywhere?

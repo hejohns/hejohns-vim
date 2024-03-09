@@ -609,7 +609,7 @@ function MyDeopleteConf() abort
             let g:myDeopleteNumProcesses = 4
         endif
     endif
-    call deoplete#custom#buffer_option('num_processes', 4)
+    call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort
@@ -620,6 +620,7 @@ function MyDeopleteForceReenable() abort
         " I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
         inoremap <buffer> <expr> <TAB> MyDeopleteTab()
         inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
+        "call deoplete#custom#buffer_option('num_processes', 4)
     endif
 endfunction
 function MyDeopleteTab()

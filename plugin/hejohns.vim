@@ -315,67 +315,10 @@ if has('perl')
         augroup filetype_specific
             autocmd! * <buffer>
         augroup END
-        call MyDeopleteConf()
+        "call MyDeopleteConf()
         let g:myPerlArg = a:ft
         if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
             perl filetype_options
-        endif
-    endfunction
-    function MyDeopleteConf()
-        if deoplete#is_enabled()
-            " use deoplete so vim stops hanging on autocomplete
-            " still needed for some reason even with g:deoplete#enable_at_startup
-            call deoplete#enable()
-            " I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-            inoremap <buffer> <expr> <TAB> MyDeopleteTab()
-            inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
-            call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
-            call deoplete#custom#option('sources', {'_':[]})
-            " test this
-            if !exists('g:myDeopleteNumProcesses')
-                if filereadable('/proc/cpuinfo')
-                    let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))
-                else
-                    let g:myDeopleteNumProcesses = 4
-                endif
-            endif
-            call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)
-        endif
-    endfunction
-    function MyDeopleteTab()
-        if pumvisible()
-            return "\<C-n>"
-        elseif hejohns#deoplete_check_back_space()
-            return "\<TAB>"
-        else
-            call deoplete#custom#option('auto_complete_popup', 'manual')
-            let l:can_complete = deoplete#can_complete()
-            call deoplete#custom#option('auto_complete_popup', 'auto')
-            if l:can_complete
-                return deoplete#complete()
-            elseif has('nvim')
-                return deoplete#manual_complete()
-            else
-                return ''
-            endif
-        endif
-    endfunction
-    function MyDeopleteSTab()
-        if pumvisible()
-            return "\<C-p>"
-        elseif hejohns#deoplete_check_back_space()
-            return "\<S-TAB>"
-        else
-            deoplete#custom#option('auto_complete_popup', 'manual')
-            let l:can_complete = deoplete#can_complete()
-            deoplete#custom#option('auto_complete_popup', 'auto')
-            if l:can_complete
-                return deoplete#complete()
-            elseif has('nvim')
-                return deoplete#manual_complete()
-            else
-                return ''
-            endif
         endif
     endfunction
     perl << EOF
@@ -513,6 +456,8 @@ nnoremap <C-\>loff :call DisableL2U()<CR>
 "command GS vertical Git
 
 " syntastic
+" NOTE: we're cutting down our syntastic usage
+" also the plugin is being deprecated
 let g:syntastic_vim_checkers = ['vint']
 let g:syntastic_mode_map = {
             \ 'mode': 'passive',
@@ -652,3 +597,66 @@ let g:lightline#bufferline#enable_nerdfont = 1
 if has('gui_running')
     set guioptions -= e
 endif
+
+" deoplete
+function MyDeopleteConf()
+    call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
+    call deoplete#custom#option('sources', {'_':[]})
+    if !exists('g:myDeopleteNumProcesses')
+        if filereadable('/proc/cpuinfo')
+            let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))
+        else
+            let g:myDeopleteNumProcesses = 4
+        endif
+    endif
+    call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)
+endfunction
+" Do we still need this anywhere?
+function MyDeopleteForceReenable() abort
+    if deoplete#is_enabled()
+        " use deoplete so vim stops hanging on autocomplete
+        " still needed for some reason even with g:deoplete#enable_at_startup
+        call deoplete#enable()
+        " I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
+        inoremap <buffer> <expr> <TAB> MyDeopleteTab()
+        inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
+    endif
+endfunction
+function MyDeopleteTab()
+    if pumvisible()
+        return "\<C-n>"
+    elseif hejohns#deoplete_check_back_space()
+        return "\<TAB>"
+    else
+        call deoplete#custom#option('auto_complete_popup', 'manual')
+        let l:can_complete = deoplete#can_complete()
+        call deoplete#custom#option('auto_complete_popup', 'auto')
+        if l:can_complete
+            return deoplete#complete()
+        elseif has('nvim')
+            return deoplete#manual_complete()
+        else
+            return ''
+        endif
+    endif
+endfunction
+function MyDeopleteSTab()
+    if pumvisible()
+        return "\<C-p>"
+    elseif hejohns#deoplete_check_back_space()
+        return "\<S-TAB>"
+    else
+        deoplete#custom#option('auto_complete_popup', 'manual')
+        let l:can_complete = deoplete#can_complete()
+        deoplete#custom#option('auto_complete_popup', 'auto')
+        if l:can_complete
+            return deoplete#complete()
+        elseif has('nvim')
+            return deoplete#manual_complete()
+        else
+            return ''
+        endif
+    endif
+endfunction
+
+autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()

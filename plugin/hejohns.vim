@@ -324,10 +324,10 @@ if has('perl')
     function MyDeopleteConf()
         "perl deoplete_options
         if deoplete#is_enabled()
-            # use deoplete so vim stops hanging on autocomplete
-            # still needed for some reason even with g:deoplete#enable_at_startup
+            " use deoplete so vim stops hanging on autocomplete
+            " still needed for some reason even with g:deoplete#enable_at_startup
             call deoplete#enable()
-            # I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
+            " I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
             inoremap <buffer> <expr> <TAB> MyDeopleteTab()
             inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
             call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
@@ -338,6 +338,7 @@ if has('perl')
                     let l:num_processes = system('grep -c ^processor /proc/cpuinfo')
                 else
                     let l:num_processes = 4
+                endif
             endif
             call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)
         endif

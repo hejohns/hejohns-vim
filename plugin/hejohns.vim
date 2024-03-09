@@ -659,4 +659,5 @@ function MyDeopleteSTab()
     endif
 endfunction
 
-autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
+"autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
+autocmd VimEnter * ++once call deoplete#initialize()

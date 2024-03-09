@@ -334,9 +334,9 @@ if has('perl')
             let g:myDeopleteNumProcesses = v:null
             if g:myDeopleteNumProcesses is v:null
                 if filereadable('/proc/cpuinfo')
-                    let l:num_processes = system('grep -c ^processor /proc/cpuinfo')
+                    let g:myDeopleteNumProcesses = system('grep -c ^processor /proc/cpuinfo')
                 else
-                    let l:num_processes = 4
+                    let g:myDeopleteNumProcesses = 4
                 endif
             endif
             call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)

@@ -340,6 +340,7 @@ if has('perl')
         'setlocal filetype=tex' =>
         ['tex'],
         # vimtex-complete-auto
+        # NOTE: this blocks
         "silent! call deoplete#custom#var('omni', 'input_patterns', {'tex': g:vimtex#re#deoplete})" =>
         ['tex'],
         # NOTE: julia unicode input doesn't play well w/ deoplete
@@ -596,7 +597,7 @@ endif
 
 " deoplete
 function MyDeopleteConf() abort
-    call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
+    call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' '[↑]': , 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
     call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
@@ -630,7 +631,6 @@ endfunction
 inoremap <buffer> <expr> <C-h> deoplete#manual_complete()
 function MyDeopleteTab()
     if pumvisible()
-        g:done
         return "\<C-n>"
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"

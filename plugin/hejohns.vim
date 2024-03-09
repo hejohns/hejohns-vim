@@ -343,7 +343,7 @@ if has('perl')
         ['tex'],
         # vimtex-complete-auto
         # NOTE: this blocks
-        "silent! call deoplete#custom#var('omni', 'input_patterns', {'tex': g:vimtex#re#deoplete})" =>
+        "silent! call deoplete#custom#buffer_var('omni', 'input_patterns', {'tex': g:vimtex#re#deoplete})" =>
         ['tex'],
         # NOTE: julia unicode input doesn't play well w/ deoplete
         # when EnableL2U, autocomplete is sync and may hang vim

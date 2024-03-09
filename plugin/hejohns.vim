@@ -609,7 +609,9 @@ function MyDeopleteConf() abort
             let g:myDeopleteNumProcesses = 4
         endif
     endif
-    call deoplete#custom#option('num_processes', 4)
+    " vimscript coersion?
+    let g:myDeopleteNumProcesses += 0
+    call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort

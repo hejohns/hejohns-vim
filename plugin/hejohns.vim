@@ -651,23 +651,27 @@ function MyDeopleteTab()
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"
     else
+        " TODO: this case doesn't really do anything?
+        " what do we even want it to do?
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        "call deoplete#custom#option('auto_complete_popup', 'auto')
+        call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             return deoplete#complete()
         elseif has('nvim')
             return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
-            "deoplete#smart_close_popup()
             return ''
         endif
     endif
+endfunction
+function MyDeopleteTab()
 endfunction
 function MyDeopleteSTab()
     if pumvisible()
         return "\<C-p>"
     elseif hejohns#deoplete_check_back_space()
+        " TODO: what is i_<S-TAB> supposed to do?
         return "\<S-TAB>"
     else
         call deoplete#custom#option('auto_complete_popup', 'manual')
@@ -682,7 +686,3 @@ function MyDeopleteSTab()
         endif
     endif
 endfunction
-"" this is so stupid
-"" but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
-"inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"
-"inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-p>"

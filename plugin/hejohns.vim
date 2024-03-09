@@ -652,9 +652,9 @@ function MyDeopleteSTab()
     elseif hejohns#deoplete_check_back_space()
         return "\<S-TAB>"
     else
-        deoplete#custom#option('auto_complete_popup', 'manual')
+        call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        deoplete#custom#option('auto_complete_popup', 'auto')
+        call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             return deoplete#complete()
         elseif has('nvim')

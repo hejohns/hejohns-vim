@@ -103,10 +103,6 @@ function! s:lk() abort
     endif
 endfunction
 inoremap lk <ESC>:call <SID>lk()<CR>
-" this is so stupid
-" but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
-inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"
-inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-p>"
 " the df and fd mappings were originally for a standard QWERTY keyboard where
 " <BS> and <DEL> are hard to reach, but I don't need these on a kinesis
 " Advantage 2
@@ -616,6 +612,8 @@ function MyDeopleteConf() abort
     " try to reduce flicker?
     let g:myDeopleteNumProcesses = min([g:myDeopleteNumProcesses, 8])
     call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
+    inoremap <buffer> <expr> <TAB> MyDeopleteTab()
+    inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort
@@ -667,3 +665,7 @@ function MyDeopleteSTab()
 endfunction
 
 autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
+"" this is so stupid
+"" but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
+"inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"
+"inoremap <expr> <S-TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-p>"

@@ -600,7 +600,7 @@ endif
 
 " deoplete
 function MyDeopleteConf() abort
-    call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
+    "call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
     "call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
@@ -609,7 +609,7 @@ function MyDeopleteConf() abort
             let g:myDeopleteNumProcesses = 4
         endif
     endif
-    call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)
+    "call deoplete#custom#buffer_option('num_processes', g:myDeopleteNumProcesses)
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort

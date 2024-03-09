@@ -142,8 +142,8 @@ else
 endif
 nnoremap Q gq
 vnoremap Q gq
-inoremap <C-Y> <ESC><C-Y>a
-inoremap <C-E> <ESC><C-E>a
+"inoremap <C-Y> <ESC><C-Y>a
+"inoremap <C-E> <ESC><C-E>a
 " <C-\> is my leader for infrequent keys
 noremap <C-\>rn :set invrelativenumber<CR>
 noremap <C-\>n :set invnumber<CR>
@@ -630,6 +630,7 @@ endfunction
 inoremap <buffer> <expr> <C-h> deoplete#manual_complete()
 function MyDeopleteTab()
     if pumvisible()
+        g:done
         return "\<C-n>"
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"

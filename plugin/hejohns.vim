@@ -629,13 +629,10 @@ function MyDeopleteForceReenable() abort
 endfunction
 function MyDeopleteTab()
     if pumvisible()
-        echoerr "A"
         return "\<C-n>"
     elseif hejohns#deoplete_check_back_space()
-        echoerr "B"
         return "\<TAB>"
     else
-        echoerr "C"
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
         "call deoplete#custom#option('auto_complete_popup', 'auto')

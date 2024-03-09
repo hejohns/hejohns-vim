@@ -601,7 +601,7 @@ endif
 " deoplete
 function MyDeopleteConf() abort
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
-    "call deoplete#custom#option('sources', {'_':[]})
+    call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
             let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))

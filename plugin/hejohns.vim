@@ -331,9 +331,10 @@ if has('perl')
             inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
             call deoplete#custom#var('around', {'range_above': 10000, 'range_below':10000})
             call deoplete#custom#option('sources', {'_':[]})
+            " test this
             if !exists('g:myDeopleteNumProcesses')
                 if filereadable('/proc/cpuinfo')
-                    let g:myDeopleteNumProcesses = system('grep -c ^processor /proc/cpuinfo')
+                    let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))
                 else
                     let g:myDeopleteNumProcesses = 4
                 endif

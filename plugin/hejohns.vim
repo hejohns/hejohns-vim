@@ -612,8 +612,8 @@ function MyDeopleteConf() abort
     " try to reduce flicker?
     let g:myDeopleteNumProcesses = min([g:myDeopleteNumProcesses, 8])
     call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
-    inoremap <buffer> <expr> <TAB> MyDeopleteTab()
-    inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
+    inoremap <expr> <TAB> MyDeopleteTab()
+    inoremap <expr> <S-TAB> MyDeopleteSTab()
 endfunction
 " Do we still need this anywhere?
 function MyDeopleteForceReenable() abort
@@ -629,18 +629,20 @@ function MyDeopleteForceReenable() abort
 endfunction
 function MyDeopleteTab()
     if pumvisible()
+        echo "test"
         return "\<C-n>"
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"
     else
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        call deoplete#custom#option('auto_complete_popup', 'auto')
+        "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             return deoplete#complete()
         elseif has('nvim')
-            return deoplete#manual_complete()
+            return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
+            "deoplete#smart_close_popup()
             return ''
         endif
     endif

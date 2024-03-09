@@ -596,8 +596,16 @@ if has('gui_running')
 endif
 
 " deoplete
+autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
+" needs to run before deoplete does, but after the deoplete is sourced
 function MyDeopleteConf() abort
+    " these have to be set "before using deoplete", since they're not source
+    " variables
+    call deoplete#custom#source('buffer', 'mark', '[buf]')
+    call deoplete#custom#source('omni', 'mark', '[omni]')
+    " these could be set any time
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' : '[↑]', 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
+
     call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
@@ -666,8 +674,6 @@ function MyDeopleteSTab()
         endif
     endif
 endfunction
-
-autocmd VimEnter * ++once call MyDeopleteConf() | call deoplete#initialize()
 "" this is so stupid
 "" but may be necessary since I'm pretty sure LaTeXtoUnicode sometimes destroys my inoremap <buffer> <TAB>
 "inoremap <expr> <TAB> hejohns#deoplete_is_running() ? "\<C-o>" .. ":call MyDeopleteConf()" .. "\<CR>" : "\<C-n>"

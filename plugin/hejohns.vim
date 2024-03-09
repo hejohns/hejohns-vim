@@ -627,6 +627,7 @@ function MyDeopleteForceReenable() abort
         "call deoplete#custom#buffer_option('num_processes', 4)
     endif
 endfunction
+inoremap <buffer> <expr> <C-h> deoplete#manual_complete()
 function MyDeopleteTab()
     if pumvisible()
         return "\<C-n>"

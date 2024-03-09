@@ -665,8 +665,6 @@ function MyDeopleteTab()
         endif
     endif
 endfunction
-function MyDeopleteTab()
-endfunction
 function MyDeopleteSTab()
     if pumvisible()
         return "\<C-p>"

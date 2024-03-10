@@ -313,7 +313,6 @@ if has('perl')
         augroup filetype_specific
             autocmd! * <buffer>
         augroup END
-        "call MyDeopleteConf()
         let g:myPerlArg = a:ft
         if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
             perl filetype_options
@@ -502,20 +501,6 @@ nnoremap ;sigu :SignifyHunkUndo<CR>
 " undotree
 nnoremap ;u :UndotreeToggle<CR>
 
-" not using this anymore, since deoplete has it's own autocomplete popup
-" TODO: could try to use this when deoplete isn't running
-" but doesn't seem worth it
-"" vim-simple-complete
-"" default g:vsc_completion_command is "\<C-N>"
-"" try to hook it up w/ deoplete
-"" (by not using it??)
-"let g:vsc_completion_command = ""
-"" try to let the other autocomplete plugins take care of tab
-"let g:vsc_tab_complete = 0
-"" hack to not have TabComplete
-"let g:loaded_vim_simple_complete = 0
-"call plug#load('vim-simple-complete')
-
 " vim-sneak
 let g:sneak#s_next = 1
 let g:sneak#label = 1
@@ -605,9 +590,11 @@ function MyDeopleteConf() abort
     " variables
     call deoplete#custom#source('buffer', 'mark', '[buf]')
     call deoplete#custom#source('omni', 'mark', '[omni]')
+    call deoplete#custom#source('file', 'mark', '[🗎]')
     " these could be set any time
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' : '[↑]', 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
 
+    " NOTE: LanguageClient is supposed to provide a deoplete source automatically
     call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
@@ -632,19 +619,6 @@ function MyDeopleteInit() abort
         call deoplete#initialize()
     endif
 endfunction
-" Do we still need this anywhere?
-function MyDeopleteForceReenable() abort
-    if deoplete#is_enabled()
-        " use deoplete so vim stops hanging on autocomplete
-        " still needed for some reason even with g:deoplete#enable_at_startup
-        call deoplete#enable()
-        " I'm pretty sure the julia L2U stuff (LaTeXtoUnicode) is triggering global inoremap sometimes
-        inoremap <buffer> <expr> <TAB> MyDeopleteTab()
-        inoremap <buffer> <expr> <S-TAB> MyDeopleteSTab()
-        "call deoplete#custom#buffer_option('num_processes', 4)
-    endif
-endfunction
-inoremap <buffer> <expr> <C-h> deoplete#manual_complete()
 function MyDeopleteTab()
     if pumvisible()
         return "\<C-n>"

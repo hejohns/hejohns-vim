@@ -58,3 +58,4 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'lambdalisue/nerdfont.vim'
+Plug 'Shougo/neco-vim', {'for': ['vim']} " deoplete source

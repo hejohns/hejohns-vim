@@ -592,6 +592,8 @@ function MyDeopleteConf() abort
     call deoplete#custom#source('omni', 'mark', '[omni]')
     call deoplete#custom#source('file', 'mark', '[🗎]')
     call deoplete#custom#source('vim', 'rank', 50)
+    call deoplete#custom#source('dictionary', 'rank', 40)
+    call deoplete#custom#source('dictionary', 'mark', '[dict]')
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english
     call deoplete#custom#source('dictionary', 'sorters', [])

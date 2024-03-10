@@ -70,7 +70,7 @@ augroup spell_default_on
 augroup END
 set shortmess-=S
 set smarttab
-set backspace="nostop"
+set backspace=nostop
 inoremap kj <ESC>
 inoremap jk <C-w>
 " this is tricky...

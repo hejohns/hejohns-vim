@@ -167,6 +167,9 @@ function! hejohns#weather_timer_cb(timer) abort
     endif
 endfunction
 function! hejohns#time_job() abort
+    if empty($TZ)
+        let $TZ = 'America/New_York'
+    endif
     let g:myTimeJob = job_start( ['date', '+%r'], {'out_mode': 'raw', 'drop': 'never'} )
 endfunction
 function! hejohns#weather_job() abort

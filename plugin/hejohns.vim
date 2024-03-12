@@ -576,14 +576,24 @@ let g:lightline.colorscheme = 'solarized'
 let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
-let g:lightline.component_function = {'gitbranch': 'FugitiveHead'}
+let g:lightline.component_function = {'gitbranch': 'FugitiveStatusline', 'mystatusline': 'MyStatusline'}
 let g:lightline.active = {'left': {}, 'right': {}} " modify defaults
-let g:lightline.active.left = [['mode', 'paste'], ['readonly', 'filename', 'modified'], ['gitbranch']]
+let g:lightline.inactive = {'left': {}, 'right': {}} " modify defaults
+let g:lightline.active.left = [['mode', 'paste'], ['readonly', 'filename', 'modified'], ['gitbranch', 'mystatusline']]
 let g:lightline.active.right = [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+let g:lightline.inactive.left = [['filename'], ['gitbranch']]
+let g:lightline.inactive.right = [['lineinfo'], ['percent'], ['filetype']]
 let g:lightline#bufferline#enable_nerdfont = 1
 if has('gui_running')
     set guioptions -= e
 endif
+function MyStatusline() abort
+    if exists('*hejohns#statusline')
+	return hejohns#statusline()
+    else
+	return '[MyStatusline error]'
+    endif
+endfunction
 
 " deoplete
 autocmd VimEnter * ++once call MyDeopleteInit()

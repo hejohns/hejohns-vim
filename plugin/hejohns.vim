@@ -577,6 +577,7 @@ let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type = {'buffers': 'tabsel'}
 let g:lightline.component_function = {'gitbranch': 'FugitiveHead'}
+let g:g:lightline.active = {'left': {}, 'right': {}} " modify defaults
 let g:lightline.active.left = [['mode', 'paste'], ['readonly', 'filename', 'modified'], ['gitbranch']]
 let g:lightline.active.right = [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
 let g:lightline#bufferline#enable_nerdfont = 1

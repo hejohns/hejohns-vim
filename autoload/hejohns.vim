@@ -114,7 +114,7 @@ function! hejohns#statusline() abort
             let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
         endif
     endif
-    if exists('g:g:mystatusline')
+    if exists('g:mystatusline')
         return g:mystatusline
     else
         return ''

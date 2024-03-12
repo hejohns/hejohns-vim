@@ -472,7 +472,7 @@ let g:mystatusline = ''
 " if airline installed, will switch automatically
 " :AirlineToggle
 " TODO: we're no longer using syntastic
-"call hejohns#set_statusline()
+call hejohns#set_statusline()
 
 " vim-airline
 " airline has lots of cool extensions w/ other plugins

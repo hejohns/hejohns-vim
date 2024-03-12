@@ -113,9 +113,12 @@ function! hejohns#statusline() abort
         if exists('g:myWeather')
             let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
         endif
-    else
     endif
-    return g:mystatusline
+    if exists('g:g:mystatusline')
+        return g:mystatusline
+    else
+        return ''
+    endif
 endfunction
 
 " initialize statusline
@@ -123,9 +126,9 @@ function! hejohns#set_statusline() abort
     " Emulate default statusline in case the subsequent fancy features don't
     " exist
     set statusline=%f\ %y%r%m%<\ %{FugitiveStatusline()}\ %{hejohns#statusline()}%=
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+    "set statusline+=%#warningmsg#
+    "set statusline+=%{SyntasticStatuslineFlag()}
+    "set statusline+=%*
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
     " Now, the fancy stuff

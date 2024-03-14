@@ -609,7 +609,7 @@ function MyDeopleteConf() abort
     call deoplete#custom#source('dictionary', 'mark', '[dict]')
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english
-    call deoplete#custom#source('dictionary', 'sorters', ['sorter_shortlex'])
+    call deoplete#custom#source('dictionary', 'sorters', ['sorter_shortlex']) " I want shorter words to rank higher, not pure lexicographic
     " these could be set any time
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' : '[↑]', 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
 

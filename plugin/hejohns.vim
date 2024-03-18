@@ -585,7 +585,7 @@ let g:lightline.inactive.left = [['filename'], ['gitbranch']]
 let g:lightline.inactive.right = [['lineinfo'], ['percent'], ['filetype']]
 let g:lightline#bufferline#enable_nerdfont = 1
 if has('gui_running')
-    set guioptions -= e
+    set guioptions-=e
 endif
 function MyStatusline() abort
     if exists('*hejohns#statusline')

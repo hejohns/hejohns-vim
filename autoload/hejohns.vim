@@ -246,8 +246,8 @@ function! hejohns#initialize_clang_complete() abort
             $clang_library_path //= '';
             my @clangCmds = split /\n/, <<~"__EOF"
                 let g:clang_library_path = '$clang_library_path'
-                set omnifunc='ClangComplete'
-                set completefunc='ClangComplete'
+                set omnifunc=ClangComplete
+                set completefunc=ClangComplete
                 let g:clang_complete_auto = 1
                 let g:clang_complete_copen = 1
                 let g:clang_complete_pattern = 1

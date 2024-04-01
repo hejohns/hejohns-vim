@@ -577,10 +577,10 @@ autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set nosho
 function MyLightlineTabline()
     augroup lightline_bufferline
 	autocmd!
-	autocmd BufEnter * echo "foo" | let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
+	autocmd BufEnter * let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
     augroup END
 endfunction
-autocmd VimEnter * ++once if exists('g:g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif
+autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
 let g:lightline.enable = {'tabline': 1, 'statusline': 1}
 let g:lightline.colorscheme = 'solarized'

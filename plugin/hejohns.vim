@@ -577,7 +577,7 @@ autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set nosho
 function MyLightlineTabline() abort
     augroup lightline_bufferline
 	autocmd!
-	    autocmd BufEnter * let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0 | endif
+	autocmd BufEnter * let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
     augroup END
 endfunction
 autocmd VimEnter * ++once if exists('g:g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif

@@ -580,7 +580,7 @@ function MyLightlineTabline() abort
 	    autocmd BufEnter * let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0 | endif
     augroup END
 endfunction
-autocmd VinEnter * ++once if exists('g:g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif
+autocmd VimEnter * ++once if exists('g:g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
 let g:lightline.colorscheme = 'solarized'
 let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}

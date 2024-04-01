@@ -574,7 +574,6 @@ let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-tem
 autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set noshowmode | set showtabline=2 | endif
 " lightline tabline is way too slow when there are many buffers.
 " Anyways, having a tabline isn't super helpful in that case.
-let g:lightline.enable = {'tabline': 1, 'statusline': 1}
 function MyLightlineTabline() abort
     augroup lightline_bufferline
 	autocmd!
@@ -583,6 +582,7 @@ function MyLightlineTabline() abort
 endfunction
 autocmd VimEnter * ++once if exists('g:g:loaded_lightline_bufferline') | call MyLightlineTabline() | endif
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
+let g:lightline.enable = {'tabline': 1, 'statusline': 1}
 let g:lightline.colorscheme = 'solarized'
 let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}

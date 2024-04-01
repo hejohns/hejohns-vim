@@ -577,7 +577,7 @@ autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set nosho
 function MyLightlineBufferFilter(bufn)
     let l:current_bufn = bufnr("%")
     let l:bufn_alt = a:bufn - len(getbufinfo())
-    return (abs(a:bufn - l:current_bufn) < 5) || (abs(l:l:bufn_alt - l:current_bufn) < 5)
+    return (abs(a:bufn - l:current_bufn) < 5) || (abs(l:bufn_alt - l:current_bufn) < 5)
 endfunction
 let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs

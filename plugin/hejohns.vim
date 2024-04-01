@@ -586,7 +586,7 @@ function MyLightlineConditionalTabline()
     let l:tabline_enabled = g:lightline.enable.tabline
     let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
     if l:tabline_enabled != g:lightline.enable.tabline
-	lightline#bufferline#reload()
+	call lightline#bufferline#reload()
     endif
 endfunction
 autocmd VimEnter * ++once call MyLightlineInitTabline()

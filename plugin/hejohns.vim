@@ -573,25 +573,9 @@ let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-tem
 " super gross, but I don't know a better way
 autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set noshowmode | set showtabline=2 | endif
 " lightline tabline is way too slow when there are many buffers.
-" Anyways, having a tabline isn't super helpful in that case.
-function MyLightlineInitTabline()
-    if exists('g:loaded_lightline_bufferline')
-	augroup lightline_bufferline
-	    autocmd!
-	    autocmd BufEnter * call MyLightlineConditionalTabline()
-	augroup END
-    endif
-endfunction
-function MyLightlineConditionalTabline()
-"    let l:tabline_enabled = g:lightline.enable.tabline
-"    let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
-"    if l:tabline_enabled != g:lightline.enable.tabline
-"	call lightline#bufferline#reload()
-"    endif
-endfunction
-autocmd VimEnter * ++once call MyLightlineInitTabline()
+" Anyways, having a massive tabline isn't super helpful in that case.
 function MyLightlineBufferFilter(buffer)
-    return (abs(a:buffer - bufnr("%")) < 3) ? 1 : 0
+    return (abs(a:buffer - bufnr("%")) < 5) ? 1 : 0
 endfunction
 let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs

@@ -574,8 +574,10 @@ let g:zettel_options = [{'template': expand('<sfile>:p:h:h') .. '/etc/zettel-tem
 autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set noshowmode | set showtabline=2 | endif
 " lightline tabline is way too slow when there are many buffers.
 " Anyways, having a massive tabline isn't super helpful in that case.
-function MyLightlineBufferFilter(buffer)
-    return (abs(a:buffer - bufnr("%")) < 5) ? 1 : 0
+function MyLightlineBufferFilter(bufn)
+    let l:current_bufn = bufnr("%")
+    let l:bufn_alt = a:bufn - len(getbufinfo())
+    return (abs(a:bufn - l:current_bufn) < 5) || (abs(l:l:bufn_alt - l:current_bufn) < 5)
 endfunction
 let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs

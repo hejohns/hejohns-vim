@@ -583,13 +583,17 @@ function MyLightlineInitTabline()
     endif
 endfunction
 function MyLightlineConditionalTabline()
-    let l:tabline_enabled = g:lightline.enable.tabline
-    let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
-    if l:tabline_enabled != g:lightline.enable.tabline
-	call lightline#bufferline#reload()
-    endif
+"    let l:tabline_enabled = g:lightline.enable.tabline
+"    let g:lightline.enable.tabline = (len(getbufinfo()) < 50) ? 1 : 0
+"    if l:tabline_enabled != g:lightline.enable.tabline
+"	call lightline#bufferline#reload()
+"    endif
 endfunction
 autocmd VimEnter * ++once call MyLightlineInitTabline()
+function MyLightlineBufferFilter(buffer)
+    return (abs(a:buffer - bufnr("%")) < 25) ? 1 : 0
+endfunction
+let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs
 let g:lightline.enable = {'tabline': 1, 'statusline': 1}
 let g:lightline.colorscheme = 'solarized'

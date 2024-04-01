@@ -591,7 +591,7 @@ function MyLightlineConditionalTabline()
 endfunction
 autocmd VimEnter * ++once call MyLightlineInitTabline()
 function MyLightlineBufferFilter(buffer)
-    return (abs(a:buffer - bufnr("%")) < 25) ? 1 : 0
+    return (abs(a:buffer - bufnr("%")) < 3) ? 1 : 0
 endfunction
 let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs

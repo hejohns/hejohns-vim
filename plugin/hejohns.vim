@@ -591,9 +591,9 @@ let g:lightline.component_function = {'gitbranch': 'FugitiveStatusline', 'mystat
 let g:lightline.active = {'left': {}, 'right': {}} " modify defaults
 let g:lightline.inactive = {'left': {}, 'right': {}} " modify defaults
 let g:lightline.active.left = [['mode', 'paste'], ['readonly', 'filename', 'modified'], ['gitbranch', 'mystatusline']]
-let g:lightline.active.right = [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+let g:lightline.active.right = [['lineinfo'], ['percent'], ['filetype']]
 let g:lightline.inactive.left = [['filename'], ['gitbranch']]
-let g:lightline.inactive.right = [['lineinfo'], ['percent'], ['filetype']]
+let g:lightline.inactive.right = [['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
 let g:lightline#bufferline#enable_nerdfont = 1
 if has('gui_running')
     set guioptions-=e

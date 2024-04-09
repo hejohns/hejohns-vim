@@ -125,7 +125,7 @@ noremap ;: :OverCommandLine<CR>
 " spell stuff
 noremap ;son :setlocal spell spelllang=en<CR>:call s:set_spell_colors()<CR>
 noremap ;soff :setlocal spell spelllang=<CR>
-noremap <expr> ;st (&spelllang == '' ? ':set spelllang=en<CR>' : ':set spelllang=""<CR>')
+noremap <expr> ;st (&spelllang == '' ? ':setlocal spell spelllang=en<CR>' : ':setlocal spelllang=""<CR>')
 " spell fix
 noremap ;sf viw<ESC>a<C-X><C-s>
 " I'm dumb

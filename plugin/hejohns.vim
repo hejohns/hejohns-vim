@@ -353,6 +353,8 @@ if has('perl')
         ['tex'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
+        'setlocal virtualedit+=all' =>
+        ['vimwiki'],
     );
     my %LS_opt2ft = (
         'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>

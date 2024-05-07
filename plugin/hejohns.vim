@@ -327,7 +327,7 @@ if has('perl')
     my @lsLangs = split(' ', $lsLangs);
 
     my %no_LS_opt2ft = (
-        'autocmd filetype_specific BufEnter <buffer> setlocal shiftwidth=2' =>
+        'setlocal shiftwidth=2' =>
         ['haskell', 'cabal', 'cabalconfig', 'cabalproject', 'nix'],
         'autocmd filetype_specific BufWritePost <buffer> call hejohns#dispatch_on_BufWrite()' =>
         ['tex'],
@@ -427,6 +427,7 @@ endif
 augroup filetype_options
     autocmd!
     autocmd FileType plaintex setlocal filetype=tex
+    autocmd BufRead,BufNewFile *.tree setfiletype tex
     " other plugins may clobber our mappings
     autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END

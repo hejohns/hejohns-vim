@@ -62,3 +62,4 @@ Plug 'Shougo/neco-vim', {'for': ['vim']} " deoplete source
 Plug 'Shougo/neco-syntax' " deoplete source
 Plug 'deoplete-plugins/deoplete-jedi' " deoplete source
 Plug 'deoplete-plugins/deoplete-dictionary' " deoplete source
+Plug 'whonore/Coqtail'

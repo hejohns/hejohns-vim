@@ -121,6 +121,8 @@ map ;b <Plug>Sneak_,
 noremap ;m :bnext<CR>
 "noremap ;N :bNext<CR>
 noremap ;n :bprevious<CR>
+noremap ;t :tabnext<CR>
+noremap ;T :tabprev<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>
 " spell stuff

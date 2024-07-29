@@ -692,6 +692,3 @@ function MyDeopleteSTab()
         endif
     endif
 endfunction
-
-" coqtail
-let g:coqtail_map_prefix = 'c'

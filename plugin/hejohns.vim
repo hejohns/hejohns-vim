@@ -355,6 +355,8 @@ if has('perl')
         ['tex', 'coq'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
+        'let g:coqtail_map_prefix = "c"' =>
+        ['coq'],
     );
     my %LS_opt2ft = (
         'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>

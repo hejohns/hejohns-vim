@@ -352,7 +352,7 @@ if has('perl')
         # I can't find a easy way to dig into this problem
         # hopefully you (I) don't need async autocomplete and unicode input together too often...
         'call EnableL2U()' =>
-        ['tex'],
+        ['tex', 'coq'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
     );

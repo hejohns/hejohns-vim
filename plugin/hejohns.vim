@@ -662,6 +662,7 @@ function MyDeopleteTab()
     else
         " TODO: this case doesn't really do anything?
         " what do we even want it to do?
+        echo "test"
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
         call deoplete#custom#option('auto_complete_popup', 'auto')

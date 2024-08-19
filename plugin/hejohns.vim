@@ -622,6 +622,7 @@ function MyDeopleteConf() abort
     call deoplete#custom#source('vim', 'rank', 50)
     call deoplete#custom#source('dictionary', 'rank', 40)
     call deoplete#custom#source('dictionary', 'mark', '[dict]')
+    call deoplete#custom#source('dictionary', 'min_pattern_length', 5)
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english
     call deoplete#custom#source('dictionary', 'sorters', ['sorter_shortlex']) " I want shorter words to rank higher, not pure lexicographic

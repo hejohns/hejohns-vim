@@ -622,7 +622,6 @@ function MyDeopleteConf() abort
     call deoplete#custom#source('vim', 'rank', 50)
     call deoplete#custom#source('dictionary', 'rank', 40)
     call deoplete#custom#source('dictionary', 'mark', '[dict]')
-    call deoplete#custom#source('dictionary', 'min_pattern_length', 5)
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english
     call deoplete#custom#source('dictionary', 'sorters', ['sorter_shortlex']) " I want shorter words to rank higher, not pure lexicographic
@@ -630,7 +629,9 @@ function MyDeopleteConf() abort
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' : '[↑]', 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
 
     " NOTE: LanguageClient is supposed to provide a deoplete source automatically
+    " (2024-08-19) what does ^ mean? This just enables all sources for all files
     call deoplete#custom#option('sources', {'_':[]})
+    call deoplete#custom#option('ignore_sources', {'cpp' : ['dictionary']})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
             let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))

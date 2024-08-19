@@ -666,6 +666,7 @@ function MyDeopleteTab()
         let l:can_complete = deoplete#can_complete()
         echo l:can_complete
         "call deoplete#custom#option('auto_complete_popup', 'auto')
+        return deoplete#complete()
         return deoplete#manual_complete() " deoplete#manual_complete blocks
         if l:can_complete
             "return deoplete#complete_common_string()

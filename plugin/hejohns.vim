@@ -365,8 +365,6 @@ if has('perl')
         [(grep {!/^perl$/} @lsLangs)],
         'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
         ['go'],
-        "call deoplete#custom#buffer_option('auto_complete', v:false) | e" =>
-        ['c', 'cpp'],
     );
 
     sub filetype_options{
@@ -633,7 +631,6 @@ function MyDeopleteConf() abort
     " NOTE: LanguageClient is supposed to provide a deoplete source automatically
     " (2024-08-19) what does ^ mean? This just enables all sources for all files
     call deoplete#custom#option('sources', {'_':[]})
-    call deoplete#custom#option('ignore_sources', {'cpp' : ['dictionary']})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
             let g:myDeopleteNumProcesses = trim(system('grep -c ^processor /proc/cpuinfo'))

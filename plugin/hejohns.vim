@@ -666,15 +666,13 @@ function MyDeopleteTab()
         let l:can_complete = deoplete#can_complete()
         echo l:can_complete
         "call deoplete#custom#option('auto_complete_popup', 'auto')
-        return deoplete#manual_complete() " deoplete#manual_complete blocks
-        return deoplete#complete()
         if l:can_complete
-            "return deoplete#complete_common_string()
-            return deoplete#complete()
+            return deoplete#complete_common_string()
+            "return deoplete#complete()
         elseif has('nvim')
             return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
-            return ''
+            return deoplete#manual_complete() " deoplete#manual_complete blocks
         endif
     endif
 endfunction

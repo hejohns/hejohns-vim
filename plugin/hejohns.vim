@@ -365,7 +365,7 @@ if has('perl')
         [(grep {!/^perl$/} @lsLangs)],
         'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
         ['go'],
-        "call deoplete#custom#buffer_option('auto_complete', v:false) | e" =>
+        "call deoplete#custom#buffer_option('auto_complete', v:false)" =>
         ['c', 'cpp'],
     );
 
@@ -677,7 +677,6 @@ function MyDeopleteTab()
         "elseif has('nvim')
         "    return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
-            " is there a way to not have to manually list sources?
             return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         endif
     endif

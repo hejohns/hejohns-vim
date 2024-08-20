@@ -663,7 +663,6 @@ function MyDeopleteTab()
         " TODO: this case doesn't really do anything?
         " what do we even want it to do?
         call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
-        call deoplete#manual_complete() " deoplete#manual_complete blocks
         let l:can_complete = deoplete#can_complete()
         echo l:can_complete
         "call deoplete#custom#option('auto_complete_popup', 'auto')

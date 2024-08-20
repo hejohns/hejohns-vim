@@ -663,13 +663,13 @@ function MyDeopleteTab()
         " TODO: this case doesn't really do anything?
         " what do we even want it to do?
         call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
+        call deoplete#manual_complete() " deoplete#manual_complete blocks
         let l:can_complete = deoplete#can_complete()
         echo l:can_complete
         "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             "return deoplete#complete_common_string()
             return deoplete#insert_candidate(0)
-            return deoplete#complete()
         elseif has('nvim')
             return deoplete#manual_complete() " deoplete#manual_complete blocks
         else

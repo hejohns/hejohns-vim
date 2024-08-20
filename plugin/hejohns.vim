@@ -365,6 +365,8 @@ if has('perl')
         [(grep {!/^perl$/} @lsLangs)],
         'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
         ['go'],
+        "call deoplete#custom#buffer_option('auto_complete', v:false) | e" =>
+        ['c', 'cpp'],
     );
 
     sub filetype_options{
@@ -660,8 +662,11 @@ function MyDeopleteTab()
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"
     else
-        " TODO: this case doesn't really do anything?
-        " what do we even want it to do?
+        " NOTE: this should run iff deoplete auto_complete is disabled (v:false).
+        " We have to disable automatic completion sometimes
+        " eg c++ w/ clangd + LanguageClient + deoplete will delete part of the
+        " word under the cursor when it follows ::
+        " So we manually complete in these situations
         call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
         echo l:can_complete
@@ -670,10 +675,11 @@ function MyDeopleteTab()
             "return deoplete#complete_common_string()
             "return deoplete#insert_candidate(0)
             return deoplete#complete()
-        elseif has('nvim')
-            return deoplete#manual_complete() " deoplete#manual_complete blocks
+        "elseif has('nvim')
+        "    return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
-            return deoplete#manual_complete(['dictionary']) " deoplete#manual_complete blocks
+            " is there a way to not have to manually list sources?
+            return deoplete#manual_complete(['LanguageClient', 'dictionary']) " deoplete#manual_complete blocks
         endif
     endif
 endfunction

@@ -669,7 +669,6 @@ function MyDeopleteTab()
         " So we manually complete in these situations
         call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        echo l:can_complete
         "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             "return deoplete#complete_common_string()
@@ -679,7 +678,7 @@ function MyDeopleteTab()
         "    return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
             " is there a way to not have to manually list sources?
-            return deoplete#manual_complete(['LanguageClient', 'dictionary']) " deoplete#manual_complete blocks
+            return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         endif
     endif
 endfunction

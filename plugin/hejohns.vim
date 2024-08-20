@@ -666,17 +666,21 @@ function MyDeopleteTab()
         " We have to disable automatic completion sometimes
         " eg c++ w/ clangd + LanguageClient + deoplete will delete part of the
         " word under the cursor when it follows ::
-        " So we manually complete in these situations
+        " So in these situations, we manually complete (yes, it's a crude
+        " workaround. I don't know how to fix the root problem, or even what
+        " the root problem is.)
         call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
         "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             "return deoplete#complete_common_string()
             "return deoplete#insert_candidate(0)
-            return deoplete#complete()
+            return deoplete#complete() " brings up pop-up-menu
         "elseif has('nvim')
-        "    return deoplete#manual_complete() " deoplete#manual_complete blocks
+        "    return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         else
+            " generates completion candidates
+            " [] means "all sources" (see deoplete#custom#option('sources', []))
             return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         endif
     endif
@@ -688,15 +692,17 @@ function MyDeopleteSTab()
         " TODO: what is i_<S-TAB> supposed to do?
         return "\<S-TAB>"
     else
+        # see MyDeopleteTab
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        call deoplete#custom#option('auto_complete_popup', 'auto')
+        "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             return deoplete#complete()
-        elseif has('nvim')
-            return deoplete#manual_complete()
+        "elseif has('nvim')
+        "    return deoplete#manual_complete()
         else
-            return ''
+        "    return ''
+            return deoplete#manual_complete([])
         endif
     endif
 endfunction

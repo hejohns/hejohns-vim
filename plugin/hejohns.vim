@@ -673,7 +673,7 @@ function MyDeopleteTab()
         elseif has('nvim')
             return deoplete#manual_complete() " deoplete#manual_complete blocks
         else
-            return deoplete#manual_complete() " deoplete#manual_complete blocks
+            return deoplete#manual_complete(['dictionary']) " deoplete#manual_complete blocks
         endif
     endif
 endfunction

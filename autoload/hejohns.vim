@@ -245,7 +245,7 @@ function! hejohns#initialize_clang_complete() abort
             } while(defined($clang_library_path) && !-e "$clang_library_path/libclang.so");
             $clang_library_path //= '';
             my @clangCmds = split /\n/, <<~"__EOF"
-                let g:clang_library_path = '$clang_library_path'
+                let g:clang_library_path = '$clang_library_path/libclang.so'
                 set omnifunc=ClangComplete
                 set completefunc=ClangComplete
                 let g:clang_complete_auto = 1

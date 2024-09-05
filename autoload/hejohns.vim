@@ -229,6 +229,7 @@ function! hejohns#initialize_clang_complete() abort
         perl <<EOF
         use strict;
         use warnings FATAL => 'all', NONFATAL => 'redefine';
+        use File::Spec;
 
         my @clang_library_path = glob '/usr/lib/llvm-*/lib';
         @clang_library_path = sort {
@@ -242,10 +243,13 @@ function! hejohns#initialize_clang_complete() abort
             my $clang_library_path;
             do {
                 $clang_library_path = pop @clang_library_path;
-            } while(defined($clang_library_path) && !-e "$clang_library_path/libclang.so");
-            $clang_library_path //= '';
+            } while(defined($clang_library_path) && !-e File::Spec->catfile($clang_library_path, 'libclang.so'));
+            if(defined($clang_library_path)){
+                $clang_library_path = File::Spec->catfile($clang_library_path, 'libclang.so');
+            }
+            $clang_library_path //= ''; # not sure what to do if no libclang.so
             my @clangCmds = split /\n/, <<~"__EOF"
-                let g:clang_library_path = '$clang_library_path/libclang.so'
+                let g:clang_library_path = '$clang_library_path'
                 set omnifunc=ClangComplete
                 set completefunc=ClangComplete
                 let g:clang_complete_auto = 1

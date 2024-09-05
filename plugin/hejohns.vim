@@ -121,6 +121,8 @@ map ;b <Plug>Sneak_,
 noremap ;m :bnext<CR>
 "noremap ;N :bNext<CR>
 noremap ;n :bprevious<CR>
+noremap ;t :tabnext<CR>
+noremap ;T :tabprev<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>
 " spell stuff
@@ -350,7 +352,7 @@ if has('perl')
         # I can't find a easy way to dig into this problem
         # hopefully you (I) don't need async autocomplete and unicode input together too often...
         'call EnableL2U()' =>
-        ['tex'],
+        ['tex', 'coq'],
         'call hejohns#initialize_clang_complete()' =>
         ['c', 'cpp'],
     );
@@ -363,6 +365,8 @@ if has('perl')
         [(grep {!/^perl$/} @lsLangs)],
         'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
         ['go'],
+        "call deoplete#custom#buffer_option('auto_complete', v:false)" =>
+        ['c', 'cpp'],
     );
 
     sub filetype_options{
@@ -627,6 +631,7 @@ function MyDeopleteConf() abort
     call deoplete#custom#var('around', {'range_above': 10000, 'range_below' : 10000, 'mark_above' : '[↑]', 'mark_below' : '[↓]', 'mark_changes' : '[δ]'})
 
     " NOTE: LanguageClient is supposed to provide a deoplete source automatically
+    " (2024-08-19) what does ^ mean? This just enables all sources for all files
     call deoplete#custom#option('sources', {'_':[]})
     if !exists('g:myDeopleteNumProcesses')
         if filereadable('/proc/cpuinfo')
@@ -657,17 +662,26 @@ function MyDeopleteTab()
     elseif hejohns#deoplete_check_back_space()
         return "\<TAB>"
     else
-        " TODO: this case doesn't really do anything?
-        " what do we even want it to do?
-        call deoplete#custom#option('auto_complete_popup', 'manual')
+        " NOTE: this should run iff deoplete auto_complete is disabled (v:false).
+        " We have to disable automatic completion sometimes
+        " eg c++ w/ clangd + LanguageClient + deoplete will delete part of the
+        " word under the cursor when it follows ::
+        " So in these situations, we manually complete (yes, it's a crude
+        " workaround. I don't know how to fix the root problem, or even what
+        " the root problem is.)
+        call deoplete#custom#buffer_option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        call deoplete#custom#option('auto_complete_popup', 'auto')
+        "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
-            return deoplete#complete()
-        elseif has('nvim')
-            return deoplete#manual_complete() " deoplete#manual_complete blocks
+            "return deoplete#complete_common_string()
+            "return deoplete#insert_candidate(0)
+            return deoplete#complete() " brings up pop-up-menu
+        "elseif has('nvim')
+        "    return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         else
-            return ''
+            " generates completion candidates
+            " [] means "all sources" (see deoplete#custom#option('sources', []))
+            return deoplete#manual_complete([]) " deoplete#manual_complete blocks
         endif
     endif
 endfunction
@@ -678,15 +692,17 @@ function MyDeopleteSTab()
         " TODO: what is i_<S-TAB> supposed to do?
         return "\<S-TAB>"
     else
+        # see MyDeopleteTab
         call deoplete#custom#option('auto_complete_popup', 'manual')
         let l:can_complete = deoplete#can_complete()
-        call deoplete#custom#option('auto_complete_popup', 'auto')
+        "call deoplete#custom#option('auto_complete_popup', 'auto')
         if l:can_complete
             return deoplete#complete()
-        elseif has('nvim')
-            return deoplete#manual_complete()
+        "elseif has('nvim')
+        "    return deoplete#manual_complete()
         else
-            return ''
+        "    return ''
+            return deoplete#manual_complete([])
         endif
     endif
 endfunction

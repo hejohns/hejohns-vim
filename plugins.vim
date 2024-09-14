@@ -20,8 +20,8 @@ Plug 'roxma/vim-hug-neovim-rpc', has('nvim') ? {'for': []} : {}
 if !has('nvim')
     " the path to python3 is obtained through executing `:echo exepath('python3')` in vim
     let g:python3_host_prog = exepath('python3')
-    let g:deoplete#enable_at_startup = 1
 endif
+let g:deoplete#enable_at_startup = 1
 Plug 'lervag/vimtex', {'for': 'tex'}
 "Plug 'maxboisvert/vim-simple-complete'
 Plug 'JuliaEditorSupport/julia-vim'

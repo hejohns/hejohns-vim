@@ -2,7 +2,7 @@
 " between plug#begin and plug#end in vimrc
 " (see https://github.com/hejohns/.rc/blob/master/rc/vimrc)
 
-Plug 'https://github.com/xavierd/clang_complete.git' ", {'for': ['c', 'cpp']}
+Plug 'https://github.com/xavierd/clang_complete.git', {'for': []}
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'autozimu/LanguageClient-neovim', {

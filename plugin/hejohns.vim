@@ -531,7 +531,7 @@ command SearchBufferFzf BLines
 " Populates quickfix
 function MySearchBuffersVim(pat) abort
     cexpr []
-    bufdo vimgrepadd l:pat %
+    bufdo vimgrepadd a:pat %
     cwindow
 endfunction
 command -nargs=1 SearchBuffersVim call MySearchBuffersVim(<f-args>)

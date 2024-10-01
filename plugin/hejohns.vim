@@ -519,9 +519,22 @@ nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 
 " fzf
 " slowly learn the commands
+
+" This is the "modern" external grep search 
+" To populate quickfix, use <(S-)TAB> to select multiple entries from the popup
+" and :cwindow or :copen
 command SearchBuffersFzf Lines
 command SearchBufferFzf BLines
-command -nargs=1 SearchBuffersVim cexpr [] | bufdo vimgrepadd <args> % | cwindow
+" This is the traditional internal vimgrep search
+" which may come in handy when we really do want to load/unload each file as a
+" buffer (eg searching compressed files)
+" Populates quickfix
+function MySearchBuffersVim(pat) abort
+    cexpr []
+    bufdo vimgrepadd l:pat %
+    cwindow
+endfunction
+command -nargs=1 SearchBuffersVim call MySearchBuffersVim(<args>)
 if executable('bat') == 0
     silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
 endif

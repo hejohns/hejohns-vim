@@ -519,8 +519,9 @@ nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 
 " fzf
 " slowly learn the commands
-command SearchBuffers Lines
-command SearchBuffer BLines
+command SearchBuffersFzf Lines
+command SearchBufferFzf BLines
+command -nargs=1 SearchBuffersVim cexpr [] | bufdo vimgrepadd <args> % | cwindow
 if executable('bat') == 0
     silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
 endif

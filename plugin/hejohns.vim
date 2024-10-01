@@ -535,6 +535,7 @@ function MySearchBuffersVim(pat) abort
     cwindow
 endfunction
 command -nargs=1 SearchBuffersVim call MySearchBuffersVim(<f-args>)
+command -nargs=1 SearchBufferVim vimgrep <args> % | cwindow
 if executable('bat') == 0
     silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
 endif

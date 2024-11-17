@@ -514,10 +514,15 @@ map f <Plug>Sneak_f
 map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
-nmap s H<Plug>SneakLabel_s
+"nmap s H<Plug>SneakLabel_s
 " use <TAB> if there are too many sneak matches
 "nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
-autocmd User SneakLeave execute "call setcursorcharpos(line('.'), charcol('.') + 1)"
+function MySneakLabel_s() abort
+    autocmd User SneakLeave ++once call setcursorcharpos(line('.'), charcol('.') + 1)
+    normal H
+    call sneak#wrap('', 2, 0, 1, 2)
+endfunction
+nnoremap s :call MySneakLabel_s()<CR>
 
 " fzf
 " slowly learn the commands

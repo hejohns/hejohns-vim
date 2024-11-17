@@ -517,7 +517,7 @@ map T <Plug>Sneak_T
 nmap s H<Plug>SneakLabel_s
 " use <TAB> if there are too many sneak matches
 "nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
-autocmd User SneakLeave * execute "call setcursorcharpos(line('.'), charcol('.') + 1)"
+autocmd User SneakLeave execute "call setcursorcharpos(line('.'), charcol('.') + 1)"
 
 " fzf
 " slowly learn the commands

@@ -603,10 +603,20 @@ autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set nosho
 " lightline tabline is way too slow when there are many buffers.
 " Anyways, having a massive tabline isn't super helpful in that case.
 function MyLightlineBufferFilter(bufn)
-    let l:current_bufn = bufnr("%")
-    let l:bufn_alt = a:bufn - len(getbufinfo())
-    let l:bufn_alt_alt = len(getbufinfo()) + a:bufn
-    return (abs(a:bufn - l:current_bufn) < 5) || (abs(l:bufn_alt - l:current_bufn) < 5) || (abs(l:bufn_alt_alt - l:current_bufn) < 5)
+    " this is confusing, but we're using not the actual buffer number, but the index into
+    " TODO: I'm assuming getbufinfo returns a list sorted by bufnr
+    " I don't know if this is always the case
+    " Could sort it every time?
+    let l:bufinfo = sort(map(getbufinfo({'buflisted': 1}), 'v:val["bufnr"]'), 'n')
+    let l:bufn = index(l:bufinfo, a:bufn)
+    " do not show unlisted buffers
+    if l:bufn < 0
+        return 0
+    endif
+    let l:current_bufn = index(l:bufinfo, bufnr("%"))
+    let l:bufn_alt = l:bufn - len(l:bufinfo)
+    let l:bufn_alt_alt = len(l:bufinfo) + l:bufn
+    return (abs(l:bufn - l:current_bufn) < 5) || (abs(l:bufn_alt - l:current_bufn) < 5) || (abs(l:bufn_alt_alt - l:current_bufn) < 5)
 endfunction
 let g:lightline#bufferline#buffer_filter = "MyLightlineBufferFilter"
 let g:lightline = {} " TODO: see lightline.vim and lightline-bufferline docs

@@ -51,9 +51,9 @@ Plug 'tpope/vim-characterize'
 Plug 'https://github.com/kshenoy/vim-signature'
 " these plugins don't seem to support {'for': ['markdown', 'vimwiki']}
 " -- they misbehave
-Plug 'vimwiki/vimwiki'
-Plug 'michal-h21/vim-zettel'
-Plug 'michal-h21/vimwiki-sync'
+"Plug 'vimwiki/vimwiki'
+"Plug 'michal-h21/vim-zettel'
+"Plug 'michal-h21/vimwiki-sync'
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'

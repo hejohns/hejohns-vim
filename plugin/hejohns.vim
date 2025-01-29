@@ -738,3 +738,9 @@ function MyDeopleteSTab()
         endif
     endif
 endfunction
+
+" denops.vim
+" Interrupt the process of plugins via <C-c>
+noremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
+inoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
+cnoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>

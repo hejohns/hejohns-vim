@@ -65,5 +65,3 @@ Plug 'deoplete-plugins/deoplete-dictionary' " deoplete source
 "Plug 'whonore/Coqtail', {'for': ['coq']}
 Plug 'https://github.com/pangloss/vim-javascript'
 Plug 'vim-denops/denops.vim'
-" https://github.com/vim-denops/denops.vim
-Plug 'vim-denops/denops-helloworld.vim'

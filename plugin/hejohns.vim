@@ -745,4 +745,9 @@ noremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 inoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 cnoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 let g:denops_server_addr = 'localhost:32123'
-call denops_shared_server#install()
+system('systemctl --user status denops-shared-server')
+" only `call denops_shared_server#install()` if the service doesn't already
+" exist, since it blocks vim for 5 seconds
+if v:shell_error == 4 " denops-shared-server.service doesn't exist?
+    call denops_shared_server#install()
+endif

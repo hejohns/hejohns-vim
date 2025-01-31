@@ -763,4 +763,4 @@ endif
 function s:init_denops_subplugin() abort
   echo "this is the denops callback!"
 endfunction
-call denops#plugin#wait_async("hejohns-vim", s:init_denops_subplugin)
+call denops#plugin#wait_async("hejohns-vim", function(s:init_denops_subplugin))

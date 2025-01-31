@@ -752,4 +752,7 @@ if v:shell_error == 4 " denops-shared-server.service doesn't exist?
     call denops_shared_server#install()
 endif
 
-autocmd hejohns-vim User DenopsPluginPost:hejohns-vim call denops#notify('hejohns-vim', 'init', [])
+augroup hejohns-vim
+    autocmd!
+    autocmd User DenopsPluginPost:hejohns-vim call denops#notify('hejohns-vim', 'init', [])
+augroup END

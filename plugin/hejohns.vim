@@ -744,3 +744,4 @@ endfunction
 noremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 inoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 cnoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
+call denops_shared_server#install()

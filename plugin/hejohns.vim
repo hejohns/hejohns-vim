@@ -751,8 +751,16 @@ call system('systemctl --user status denops-shared-server')
 if v:shell_error == 4 " denops-shared-server.service doesn't exist?
     call denops_shared_server#install()
 endif
+" if the system doesn't have systemctl or otherwise the shared-server won't
+" work, don't use it
 
-augroup hejohns-vim
-    autocmd!
-    autocmd User DenopsPluginPost:hejohns-vim call denops#notify('hejohns-vim', 'init', [])
-augroup END
+" instead of:
+"augroup hejohns-vim
+"    autocmd!
+"    autocmd User DenopsPluginPost:hejohns-vim call denops#notify('hejohns-vim', 'init', [])
+"augroup END
+" do:
+function s:init_denops_subplugin() abort
+  echo "this is the denops callback!"
+endfunction
+denops#plugin#wait_async("hejohns-vim", s:init_denops_subplugin)

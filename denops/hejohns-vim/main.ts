@@ -7,6 +7,7 @@ import * as helper from "jsr:@denops/std/helper";
 export const main: Entrypoint = async (denops : Denops) => {
     denops.dispatcher = {
         async init(){
+            helper.echo(denops, "test this??");
         },
     };
 };

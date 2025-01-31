@@ -744,4 +744,5 @@ endfunction
 noremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 inoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
 cnoremap <silent> <C-c> <Cmd>call denops#interrupt()<CR><C-c>
+let g:denops_server_addr = 'localhost:32123'
 call denops_shared_server#install()

@@ -25,8 +25,8 @@ export const main: Entrypoint = async (denops : Denops) => {
                           stdout: "piped",
                         });
                         const { stdout } = await date_cmd.output();
-                        vars.globals.set(denops, "myTime", new TextDecoder().decode(stdout).trim())
-                        vars.globals.set(denops, "myStatuslineUpdated", 1)
+                        vars.globals.set(denops, "hejohns#time", new TextDecoder().decode(stdout).trim())
+                        vars.globals.set(denops, "hejohns#statusline_updated", 1)
                     }, 5000);
                 }
                 else{

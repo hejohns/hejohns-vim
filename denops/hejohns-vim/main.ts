@@ -1,4 +1,5 @@
 import type { Entrypoint, Denops } from "jsr:@denops/std";
+import * as std from "jsr:@std/assert";
 import * as batch from "jsr:@denops/std/batch";
 import * as fn from "jsr:@denops/std/function";
 import * as vars from "jsr:@denops/std/variable";
@@ -6,6 +7,18 @@ import * as helper from "jsr:@denops/std/helper";
 import { assert, is } from "jsr:@core/unknownutil";
 
 type interval_ID = number;
+
+async function system(cmd : string[]) : Promise<string> {
+    std.assert(cmd.length > 0);
+    const exec = cmd.shift();
+    assert(exec, is.String);
+    const system_cmd = new Deno.Command(exec, {
+      args: cmd,
+      stdout: "piped",
+    });
+    const { stdout } = await system_cmd.output();
+    return new TextDecoder().decode(stdout).trim();
+};
 
 export const main: Entrypoint = async (denops : Denops) => {
     let intervals : { [name: string]: interval_ID } = {};
@@ -24,13 +37,9 @@ export const main: Entrypoint = async (denops : Denops) => {
                         if(!Deno.env.has("TZ") || Deno.env.get("TZ")){
                             Deno.env.set("TZ", "America/Los_Angeles")
                         }
-                        const date_cmd = new Deno.Command("date", {
-                          args: ["+%r"],
-                          stdout: "piped",
-                        });
-                        const { stdout } = await date_cmd.output();
+                        const time = await system(["date", "+%r"]);
                         await batch.batch(denops, async (denops) => {
-                            await vars.globals.set(denops, "hejohns#time", new TextDecoder().decode(stdout).trim())
+                            await vars.globals.set(denops, "hejohns#time", time)
                             await vars.globals.set(denops, "hejohns#statusline_updated", 1)
                         });
                     }, 5000);
@@ -48,11 +57,20 @@ export const main: Entrypoint = async (denops : Denops) => {
             });
         },
         async PlugUpdate(plugs){
-            helper.echo(denops, typeof plugs);
-            return;
-            const PlugUpdate_cmd = new Deno.Command("vim", {
-                args: ["-c", "PlugUpdate | PlugUpdate --sync | qa"],
-                stdout: "piped",
+            assert(plugs, is.String);
+            const plugs_obj = JSON.parse(plugs)
+            const cwd = Deno.cwd(); // this should probably be in some sort of finalizer
+            Object.keys(plugs_obj).map(async (plugin) => {
+                const info = plugs_obj[plugin];
+                Deno.chdir(info['dir']);
+                const git_status = await system(["git", "status", "--porcelain", "-bz"]);
+                const re = /[behind \d+]$/;
+                if(re.test(git_status)){
+                    helper.echo(denops, "[hejohns-vim] A");
+                }
+                else{
+                    helper.echo(denops, "[hejohns-vim] B");
+                }
             });
         },
     };

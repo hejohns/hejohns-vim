@@ -319,8 +319,23 @@ function! hejohns#calendar_create_cache_dir_if_needed() abort
 endfunction
 
 " vim-plug
-function! hejohns#PlugUpdate() abort
-    let g:myPlugUpdateNeeded = 1
+function s:PlugUpdate_success(v) abort
+    if a:v
+        echo '[hejohns-vim] plugins updated?'
+    else
+        echo '[hejohns-vim] 0 plugins updated'
+    endif
+endfunction
+function s:PlugUpdate_failure(e) abort
+    echoerr '[hejohns-vim][error] hejohns#PlugUpdate_denops() failed to :PlugUpdate for some reason?'
+endfunction
+function hejohns#PlugUpdate_denops() abort
+    call denops#request_async('hejohns-vim', 'PlugUpdate', [g:plugs], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
+endfunction
+
+" this works okayish, but try to do this async instead
+function hejohns#PlugUpdate() abort
+    let g:hejohns#PlugUpdate_needed= 1
     if has('perl')
         perl << EOF
         use strict;
@@ -332,12 +347,12 @@ function! hejohns#PlugUpdate() abort
         if(-e $marker && time - (stat(_))[9] < (86400 * 2)){
             $PlugUpdateNeeded = 0;
         }
-        VIM::DoCommand(":let g:myPlugUpdateNeeded = $PlugUpdateNeeded");
+        VIM::DoCommand(":let g:hejohns#PlugUpdate_needed = $PlugUpdateNeeded");
 EOF
     else
         silent !echo '[warning] Need +perl to only :PlugUpdate periodically'
     endif
-    if g:myPlugUpdateNeeded
+    if g:hejohns#PlugUpdate_needed
         " keep this just above the total number of plugins to minimize startup delay
         " at the moment, this seems good for 37 plugins
         let g:plug_threads = 64

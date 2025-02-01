@@ -15,6 +15,10 @@ export const main: Entrypoint = async (denops : Denops) => {
         start_timers(names){
             assert(names, is.ArrayOf(is.String));
             names.forEach(name => {
+                if(Object.hasOwn(intervals, name)){
+                    helper.echo(denops, `[hejohns-vim][warning] timer '${name}' was stopped and restarted`);
+                    clearInterval(intervals[name]);
+                }
                 if(name == "statusline_time"){
                     intervals[name] = setInterval(async () => {
                         if(!Deno.env.has("TZ") || Deno.env.get("TZ")){
@@ -38,7 +42,18 @@ export const main: Entrypoint = async (denops : Denops) => {
         },
         stop_timers(names){
             assert(names, is.ArrayOf(is.String));
-            names.forEach(name => clearInterval(intervals[name]));
+            names.forEach(name => {
+                clearInterval(intervals[name]);
+                delete intervals[name];
+            });
+        },
+        async PlugUpdate(plugs){
+            helper.echo(denops, typeof plugs);
+            return;
+            const PlugUpdate_cmd = new Deno.Command("vim", {
+                args: ["-c", "PlugUpdate | PlugUpdate --sync | qa"],
+                stdout: "piped",
+            });
         },
     };
 };

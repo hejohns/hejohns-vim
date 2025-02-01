@@ -108,7 +108,7 @@ function hejohns#statusline() abort
         let g:hejohns#statusline_updated = 0
         let g:hejohns#statusline_string = '' " global, for debugging purposes
         if exists('g:hejohns#time')
-            let g:hejohns#time = '[' .. g:hejohns#time .. ']' .. g:hejohns#statusline
+            let g:hejohns#statusline_string = '[' .. g:hejohns#time .. ']' .. g:hejohns#statusline_string
         endif
     endif
     echo "A: " .. exists('g:hejohns#statusline_string')

@@ -752,7 +752,7 @@ if v:shell_error == 4 " denops-shared-server.service doesn't exist?
     call denops_shared_server#install()
 endif
 " if the system doesn't have systemctl or otherwise the shared-server won't
-" work, don't use it
+" work, don't use a shared-server
 
 " instead of:
 "augroup hejohns-vim
@@ -761,6 +761,6 @@ endif
 "augroup END
 " do:
 function s:init_denops_subplugin() abort
-  echo "this is the denops callback!"
+    call denops#notify('hejohns-vim', 'init', [])
 endfunction
-call denops#plugin#wait_async("hejohns-vim", function('s:init_denops_subplugin'))
+call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))

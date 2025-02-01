@@ -8,6 +8,14 @@ import { assert, is } from "jsr:@core/unknownutil";
 export const main: Entrypoint = async (denops : Denops) => {
     denops.dispatcher = {
         async init(){
+            setInterval(() => {
+                helper.echo(denops, 'test this timer');
+            }, 5000);
+        },
+        version(){
+            setInterval(() => {
+                helper.echo(denops, 'test this timer');
+            }, 5000);
         },
     };
 };

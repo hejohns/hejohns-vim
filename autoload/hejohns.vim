@@ -106,13 +106,13 @@ function hejohns#statusline() abort
     " least try to make an effort
     if exists('g:hejohns#statusline_updated') && g:hejohns#statusline_updated
         let g:hejohns#statusline_updated = 0
-        let g:hejohns#statusline = '' " global, for debugging purposes
+        let g:hejohns#statusline_string = '' " global, for debugging purposes
         if exists('g:hejohns#time')
             let g:hejohns#time = '[' .. g:hejohns#time .. ']' .. g:hejohns#statusline
         endif
     endif
-    if exists('g:hejohns#statusline')
-        return g:hejohns#statusline
+    if exists('g:hejohns#statusline_string')
+        return g:hejohns#statusline_string
     else
         return ''
     endif

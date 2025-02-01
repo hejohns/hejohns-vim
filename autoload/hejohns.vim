@@ -101,28 +101,25 @@ function! hejohns#vimtex_options() abort
 endfunction
 
 " statusline
-function! hejohns#statusline() abort
+function hejohns#statusline() abort
     " this probably doesn't significantly affect keystroke latency, but at
     " least try to make an effort
-    if exists('g:myStatuslineUpdated') && g:myStatuslineUpdated
-        let g:myStatuslineUpdated = 0
-        let g:mystatusline = ''
-        if exists('g:myTime')
-            let g:mystatusline = '[' .. g:myTime .. ']' .. g:mystatusline
+    if exists('g:hejohns#statusline_updated') && g:hejohns#statusline_updated
+        let g:hejohns#statusline_updated = 0
+        let g:hejohns#statusline = '' " global, for debugging purposes
+        if exists('g:hejohns#time')
+            let g:hejohns#time = '[' .. g:hejohns#time .. ']' .. g:hejohns#statusline
         endif
-        "if exists('g:myWeather')
-        "    let g:mystatusline = '[' .. g:myWeather .. ']' .. g:mystatusline
-        "endif
     endif
-    if exists('g:mystatusline')
-        return g:mystatusline
+    if exists('g:hejohns#statusline')
+        return g:hejohns#statusline
     else
         return ''
     endif
 endfunction
 
-" initialize statusline
-function! hejohns#set_statusline() abort
+" initialize default statusline
+function hejohns#set_statusline() abort
     " Emulate default statusline in case the subsequent fancy features don't
     " exist
     set statusline=%f\ %y%r%m%<\ %{FugitiveStatusline()}\ %{hejohns#statusline()}%=
@@ -131,53 +128,13 @@ function! hejohns#set_statusline() abort
     "set statusline+=%*
     set statusline+=\ %-12.(%l,%c%V%)\ %P
     " also because ^ took me forever to figure out
-    " Now, the fancy stuff
-    if has('channel') && has('job') && has('timers')
-        "let g:myWeather = '⟳'
-        let g:myTime = '⟳'
-        let g:myStatuslineUpdated = 1
-        "call hejohns#time_job()
-        "call hejohns#weather_job()
-        "call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
-        "call timer_start(10000, 'hejohns#weather_timer_cb')
-        "call timer_start(600000, 'hejohns#weather_timer_cb', {'repeat': -1})
-    endif
-endfunction
-function! hejohns#time_timer_cb(timer) abort
-    " should never fail
-    if job_status(g:myTimeJob) ==# 'dead'
-        let g:myTime = trim(ch_read(g:myTimeJob))
-        let g:myStatuslineUpdated = 1
-        call hejohns#time_job()
-    endif
-endfunction
-function! hejohns#weather_timer_cb(timer) abort
-    " do this in the timer callback, rather than job exit_cb, so we can fail
-    " the timer and stop it after a couple times
-    if job_status(g:myWeatherJob) ==# 'dead'
-        if job_info(g:myWeatherJob)['exitval'] == 0
-            let g:myWeather = trim(ch_read(g:myWeatherJob))
-            let g:myStatuslineUpdated = 1
-            call hejohns#weather_job()
-        else
-            echoerr '[error] curl wttr.in dead but failed'
-        endif
-    elseif job_status(g:myWeatherJob) ==# 'fail'
-            echoerr '[error] curl wttr.in failed'
-    endif
-endfunction
-function! hejohns#time_job() abort
-    if empty($TZ)
-        let $TZ = 'America/New_York'
-    endif
-    let g:myTimeJob = job_start( ['date', '+%r'], {'out_mode': 'raw', 'drop': 'never'} )
-endfunction
-function! hejohns#weather_job() abort
-    let g:myWeatherJob = job_start( ['curl', '-s', 'wttr.in?format=%p+%c%t'], {'out_mode': 'raw', 'drop': 'never'} )
+    " Now, the fancy stuff...
+    let g:hejohns#time = '⟳'
+    let g:hejohns#statusline_updated = 1
 endfunction
 
 " vim-signify
-function! hejohns#signify_diff_toggle() abort
+function hejohns#signify_diff_toggle() abort
     if g:mySignifyDiffToggle
         autocmd! signify_toggle User Signify
     else

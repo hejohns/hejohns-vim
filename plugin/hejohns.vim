@@ -473,14 +473,15 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " statusline
-let g:mystatusline = ''
+let g:hejohns#statusline = ''
 " Emulate default statusline
 " if airline installed, will switch automatically
 " :AirlineToggle
-" TODO: we're no longer using syntastic
 call hejohns#set_statusline()
 
-" vim-airline
+" NOTE: 2025-01-31: I think I had performance problems with
+" vim-airline, and moved to lightline
+
 " airline has lots of cool extensions w/ other plugins
 let g:airline_theme = 'solarized'
 let g:airline_solarized_bg = 'dark'
@@ -588,6 +589,7 @@ let g:myCalendarPath = expand('~/.cache/calendar.vim/')
 command CalendarSync call hejohns#calendar_sync_pull()
 autocmd VimLeave * call hejohns#calendar_sync_push()
 
+" NOTE: 2025-01-31: We use forester instead now
 " vimwiki and vim-zettel
 let g:vimwiki_list = [{'syntax': 'markdown', 'ext': 'md'}]
 let g:vimwiki_global_ext = 0
@@ -762,5 +764,6 @@ endif
 " do:
 function s:init_denops_subplugin() abort
     call denops#notify('hejohns-vim', 'init', [])
+    call denops#notify('hejohns-vim', 'start_timers', ['statusline_time'])
 endfunction
 call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))

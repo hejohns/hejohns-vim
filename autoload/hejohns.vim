@@ -331,7 +331,7 @@ function s:PlugUpdate_failure(e) abort
 endfunction
 function hejohns#PlugUpdate_denops() abort
     " for some reason, I can't get json_encode to directly encode the dict
-    call denops#request_async('hejohns-vim', 'PlugUpdate', [json_encode(string(g:plugs))], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
+    call denops#request_async('hejohns-vim', 'PlugUpdate', [string(g:plugs)], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
 endfunction
 
 " this works okayish, but try to do this async instead

@@ -111,6 +111,7 @@ function hejohns#statusline() abort
             let g:hejohns#time = '[' .. g:hejohns#time .. ']' .. g:hejohns#statusline
         endif
     endif
+    echo "A: " .. exists('g:hejohns#statusline_string')
     if exists('g:hejohns#statusline_string')
         return g:hejohns#statusline_string
     else

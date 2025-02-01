@@ -62,6 +62,8 @@ export const main: Entrypoint = async (denops : Denops) => {
             const cwd = Deno.cwd(); // this should probably be in some sort of finalizer
             Object.keys(plugs_obj).map(async (plugin) => {
                 const info = plugs_obj[plugin];
+                helper.echo(denops, "[hejohns-vim] " + JSON.stringify(info));
+                return;
                 Deno.chdir(info['dir']);
                 const git_status = await system(["git", "status", "--porcelain", "-bz"]);
                 const re = /[behind \d+]$/;

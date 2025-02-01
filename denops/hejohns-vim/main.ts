@@ -58,7 +58,7 @@ export const main: Entrypoint = async (denops : Denops) => {
         },
         async PlugUpdate(plugs){
             assert(plugs, is.String);
-            const plugs_obj = JSON.parse(plugs)
+            const plugs_obj = JSON.parse(JSON.parse(plugs))
             helper.echo(denops, "hejohns-vim][debug] " + JSON.stringify((plugs_obj)));
             await new Promise(r => setTimeout(r, 5000));
             helper.echo(denops, "hejohns-vim][debug] " + JSON.stringify(Object.keys(plugs_obj)));

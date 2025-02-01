@@ -473,7 +473,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " statusline
-let g:hejohns#statusline_string = ''
 " Emulate default statusline
 " if airline installed, will switch automatically
 " :AirlineToggle

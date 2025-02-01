@@ -112,6 +112,7 @@ function hejohns#statusline() abort
         endif
     endif
     echo "A: " .. exists('g:hejohns#statusline_string')
+    echo g:hejohns#statusline_string
     if exists('g:hejohns#statusline_string')
         return g:hejohns#statusline_string
     else

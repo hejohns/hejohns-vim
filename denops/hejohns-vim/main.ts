@@ -61,7 +61,7 @@ export const main: Entrypoint = async (denops : Denops) => {
             const plugs_obj = JSON.parse(plugs);
             helper.echo(denops, "hejohns-vim][debug] " + JSON.stringify((plugs_obj)));
             await new Promise(r => setTimeout(r, 6000));
-            Object.keys(plugs_obj).foreach((x) => {
+            Object.keys(plugs_obj).forEach((x) => {
                 await new Promise(r => setTimeout(r, 1000));
                 helper.echo(denops, x);
             });

@@ -764,6 +764,6 @@ endif
 " do:
 function s:init_denops_subplugin() abort
     call denops#notify('hejohns-vim', 'init', [])
-    call denops#notify('hejohns-vim', 'start_timers', ['statusline_time'])
+    call denops#notify('hejohns-vim', 'start_timers', [['statusline_time']])
 endfunction
 call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))

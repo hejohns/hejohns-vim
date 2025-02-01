@@ -17,7 +17,7 @@ export const main: Entrypoint = async (denops : Denops) => {
                   args: ["+%r"],
                 });
                 const { _code, stdout, _stderr } = await date_cmd.output();
-                vars.globals.set(denops, "myTime", new TextDecoder().decode(stdout))
+                vars.globals.set(denops, "myTime", new TextDecoder().decode(stdout).trim())
                 vars.globals.set(denops, "myStatuslineUpdated", 1)
             }, 5000);
         },

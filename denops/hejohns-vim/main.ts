@@ -59,6 +59,8 @@ export const main: Entrypoint = async (denops : Denops) => {
         async PlugUpdate(plugs){
             assert(plugs, is.String);
             const plugs_obj = JSON.parse(plugs)
+            helper.echo(denops, "hejohns-vim][debug] " + JSON.stringify(plugs_obj));
+            return;
             const cwd = Deno.cwd(); // this should probably be in some sort of finalizer
             Object.keys(plugs_obj).map(async (plugin) => {
                 const info = plugs_obj[plugin];

@@ -136,9 +136,9 @@ function! hejohns#set_statusline() abort
         "let g:myWeather = '⟳'
         let g:myTime = '⟳'
         let g:myStatuslineUpdated = 1
-        call hejohns#time_job()
+        "call hejohns#time_job()
         "call hejohns#weather_job()
-        call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
+        "call timer_start(5000, 'hejohns#time_timer_cb', {'repeat': -1})
         "call timer_start(10000, 'hejohns#weather_timer_cb')
         "call timer_start(600000, 'hejohns#weather_timer_cb', {'repeat': -1})
     endif

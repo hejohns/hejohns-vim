@@ -8,14 +8,20 @@ import { assert, is } from "jsr:@core/unknownutil";
 export const main: Entrypoint = async (denops : Denops) => {
     denops.dispatcher = {
         async init(){
-            setInterval(() => {
-                helper.echo(denops, 'test this timer');
+            // NOTE: if we want to stop the interval, we'd need the interval ID
+            setInterval(async () => {
+                if(!Deno.env.has("TZ") || Deno.env.get("TZ")){
+                    Deno.env.set("TZ", "America/Los_Angeles")
+                }
+                const date_cmd = new Deno.Command("date", {
+                  args: ["+%r"],
+                });
+                const { _code, stdout, _stderr } = await date_cmd.output();
+                vars.globals.set(denops, "g:myTime", stdout)
+                vars.globals.set(denops, "g:myStatuslineUpdated", 1)
             }, 5000);
         },
         version(){
-            setInterval(() => {
-                helper.echo(denops, 'test this timer');
-            }, 5000);
         },
     };
 };

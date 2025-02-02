@@ -1,6 +1,10 @@
 " NOTE: THIS SHOULD ONLY EVER BE SOURCED EXACTLY ONCE
 " between plug#begin and plug#end in vimrc
 " (see https://github.com/hejohns/.rc/blob/master/rc/vimrc)
+if exists('g:hejohns#plugins_sourced')
+    echoerr '[hejohns-vim][error] plugins.vim was sourced multiple times?!'
+endif
+let g:hejohns#plugins_sourced = 1
 
 Plug 'https://github.com/xavierd/clang_complete.git', {'for': []}
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }

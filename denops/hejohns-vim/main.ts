@@ -83,7 +83,7 @@ export const main: Entrypoint = async (denops : Denops) => {
                 std.assert(git_fetch.success);
                 const git_status = await system(["git", "status", "--porcelain", "-bz"]);
                 std.assert(git_status.success);
-                const re = /[behind \d+]$/;
+                const re = /behind \d+]$/;
                 if(re.test(git_status.stdout)){
                     const git_pull = await system2(["git", "pull"]);
                     if(git_pull.success){

@@ -323,7 +323,6 @@ function s:PlugUpdate_success(v) abort
     " NOTE: 2025-02-01: even though we should probably restart vim in general,
     " I usually don't run into huge issues and having to reopen vim is really
     " annoying
-    execute
     echomsg '[hejohns-vim] ' .. a:v .. " plugins updated" .. (a:v ? "\rPlease restart Vim to reload newly updated plugins if anything weird happens." : '')
 endfunction
 function s:PlugUpdate_failure(e) abort

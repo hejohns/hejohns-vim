@@ -320,10 +320,9 @@ endfunction
 
 " vim-plug
 function s:PlugUpdate_success(v) abort
-    let l:msg = '[hejohns-vim] ' .. a:v .. " plugins updated\n"
+    echomsg '[hejohns-vim] ' .. a:v .. " plugins updated\n"
     if a:v
-        l:msg = l:msg .. '[hejohns-vim] please restart vim to load newly updated plugins. Quitting...'
-        echo l:msg
+        echomsg '[hejohns-vim] please restart vim to load newly updated plugins. Quitting...'
         sleep 5
         quitall
     endif

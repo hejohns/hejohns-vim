@@ -320,18 +320,27 @@ endfunction
 
 " vim-plug
 function s:PlugUpdate_success(v) abort
+    echo '[hejohns-vim] ' .. a:v .. ' plugins updated'
     if a:v
-        echo '[hejohns-vim] plugins updated?'
-    else
-        echo '[hejohns-vim] 0 plugins updated'
+        echo '[hejohns-vim] please restart vim to load newly updated plugins. Quitting...'
+        sleep 5
+        quitall
     endif
 endfunction
 function s:PlugUpdate_failure(e) abort
     echoerr '[hejohns-vim][error] hejohns#PlugUpdate_denops() failed to :PlugUpdate for some reason?'
 endfunction
 function hejohns#PlugUpdate_denops() abort
-    " for some reason, I can't get json_encode to directly encode the dict
-    call denops#request_async('hejohns-vim', 'PlugUpdate', [string(g:plugs)], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
+    let l:plugs = deepcopy(g:plugs)
+    for key in keys(g:plugs)
+        " 'do' can contain a lambda/funcref
+        " (eg Plug 'junegunn/fzf', { 'do': { -> fzf#install() } })
+        " so remove them, or else json_encode fails
+        if has_key(l:plugs[key], 'do')
+            call remove(l:plugs[key], 'do')
+        endif
+    endfor
+    call denops#request_async('hejohns-vim', 'PlugUpdate', [json_encode(l:plugs)], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
 endfunction
 
 " this works okayish, but try to do this async instead

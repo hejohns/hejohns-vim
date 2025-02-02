@@ -25,13 +25,18 @@ interface CommandOutputStringStderr extends Deno.CommandStatus {
 };
 type CommandOutputString2 = CommandOutputStringStdout & CommandOutputStringStderr
 
-async function system(cmd : string[]) : Promise<CommandOutputStringStdout> {
-    const { stdout, ...rest } = await _system_Command(cmd, {stdout: "piped"}).output();
+async function system(cmd : string[], opt? : Deno.CommandOptions) : Promise<CommandOutputStringStdout> {
+    opt = opt ?? {}
+    opt.stdout = "piped";
+    const { stdout, ...rest } = await _system_Command(cmd, opt).output();
     return { stdout: new TextDecoder().decode(stdout).trim(), ...rest };
 };
 
-async function system2(cmd : string[]) : Promise<CommandOutputString2> {
-    const { stdout, stderr, ...rest } = await _system_Command(cmd, {stdout: "piped", stderr: "piped"}).output();
+async function system2(cmd : string[], opt? : Deno.CommandOptions) : Promise<CommandOutputString2> {
+    opt = opt ?? {}
+    opt.stdout = "piped"
+    opt.stderr = "piped"
+    const { stdout, stderr, ...rest } = await _system_Command(cmd, opt).output();
     const td = new TextDecoder()
     return { stdout: td.decode(stdout).trim(), stderr: td.decode(stderr).trim(), ...rest };
 };
@@ -75,17 +80,15 @@ export const main: Entrypoint = async (denops : Denops) => {
         async PlugUpdate(plugs){
             assert(plugs, is.String);
             const plugs_obj = JSON.parse(plugs);
-            const cwd = Deno.cwd(); // this should probably be in some sort of finalizer
             const plugins_updated = await Promise.all(Object.keys(plugs_obj).map(async (plugin) => {
                 const info = plugs_obj[plugin];
-                Deno.chdir(info['dir']);
-                const git_fetch = await system(["git", "fetch", "--all"]);
+                const git_fetch = await system(["git", "fetch", "--all"], {cwd: info['dir']});
                 std.assert(git_fetch.success);
-                const git_status = await system(["git", "status", "--porcelain", "-bz"]);
+                const git_status = await system(["git", "status", "--porcelain", "-bz"], {cwd: info['dir']});
                 std.assert(git_status.success);
-                const re = /behind \d+]$/;
+                const re = /behind \d+]/;
                 if(re.test(git_status.stdout)){
-                    const git_pull = await system2(["git", "pull"]);
+                    const git_pull = await system2(["git", "pull"], {cwd: info['dir']});
                     if(git_pull.success){
                         return true;
                     }

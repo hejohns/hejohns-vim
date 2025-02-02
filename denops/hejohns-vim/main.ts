@@ -79,6 +79,8 @@ export const main: Entrypoint = async (denops : Denops) => {
             const plugins_updated = await Promise.all(Object.keys(plugs_obj).map(async (plugin) => {
                 const info = plugs_obj[plugin];
                 Deno.chdir(info['dir']);
+                const git_fetch = await system(["git", "fetch", "--all"]);
+                std.assert(git_fetch.success);
                 const git_status = await system(["git", "status", "--porcelain", "-bz"]);
                 std.assert(git_status.success);
                 const re = /[behind \d+]$/;

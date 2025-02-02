@@ -98,7 +98,6 @@ export const main: Entrypoint = async (denops : Denops) => {
                 }
                 return false;
             }));
-            Deno.chdir(cwd);
             return plugins_updated.filter(x => x).length
         },
     };

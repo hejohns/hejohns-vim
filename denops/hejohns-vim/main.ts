@@ -5,7 +5,6 @@ import * as fn from "jsr:@denops/std/function";
 import * as vars from "jsr:@denops/std/variable";
 import * as helper from "jsr:@denops/std/helper";
 import { assert, ensure, is } from "jsr:@core/unknownutil";
-import { delay } from "jsr:@std/async";
 
 type interval_ID = number;
 

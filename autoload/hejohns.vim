@@ -329,7 +329,8 @@ function s:PlugUpdate_success(v) abort
     endif
 endfunction
 function s:PlugUpdate_failure(e) abort
-    echoerr '[hejohns-vim][error] hejohns#PlugUpdate_denops() failed to :PlugUpdate for some reason. Consider running `deno check denops/hejohns-vim/main.ts`'
+    echoerr "[hejohns-vim][error] hejohns#PlugUpdate_denops() failed to :PlugUpdate for some reason. (Consider running `deno check denops/hejohns-vim/main.ts`.)\nTrying +perl based hejohns#PlugUpdate..."
+    call hejohns#PlugUpdate()
 endfunction
 function hejohns#PlugUpdate_denops() abort
     let l:plugs = deepcopy(g:plugs)

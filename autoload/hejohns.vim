@@ -319,30 +319,7 @@ function! hejohns#calendar_create_cache_dir_if_needed() abort
 endfunction
 
 " vim-plug
-function s:PlugUpdate_success(v) abort
-    " NOTE: 2025-02-01: even though we should probably restart vim in general,
-    " I usually don't run into huge issues and having to reopen vim is really
-    " annoying
-    echomsg '[hejohns-vim] ' .. a:v .. " plugins updated" .. (a:v ? ". Please restart Vim to reload newly updated plugins if anything weird happens" : "")
-endfunction
-function s:PlugUpdate_failure(e) abort
-    echoerr "[hejohns-vim][error] hejohns#PlugUpdate_denops() failed to :PlugUpdate for some reason. (Consider running `deno check denops/hejohns-vim/main.ts`.)\nTrying +perl based hejohns#PlugUpdate..."
-    call hejohns#PlugUpdate()
-endfunction
-function hejohns#PlugUpdate_denops() abort
-    let l:plugs = deepcopy(g:plugs)
-    for key in keys(g:plugs)
-        " 'do' can contain a lambda/funcref
-        " (eg Plug 'junegunn/fzf', { 'do': { -> fzf#install() } })
-        " so remove them, or else json_encode fails
-        if has_key(l:plugs[key], 'do')
-            call remove(l:plugs[key], 'do')
-        endif
-    endfor
-    call denops#request_async('hejohns-vim', 'PlugUpdate', [json_encode(l:plugs)], {v -> s:PlugUpdate_success(v)}, {e -> s:PlugUpdate_failure(e)})
-endfunction
-
-" this works okayish, but try to do this async instead
+" this works okayish, but try to do this async instead with denops
 function hejohns#PlugUpdate() abort
     let g:hejohns#PlugUpdate_needed= 1
     if has('perl')

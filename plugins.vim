@@ -70,3 +70,4 @@ Plug 'deoplete-plugins/deoplete-dictionary' " deoplete source
 Plug 'https://github.com/pangloss/vim-javascript', {'for': ['javascript']}
 Plug 'vim-denops/denops.vim'
 Plug 'vim-denops/denops-shared-server.vim'
+Plug 'hejohns/denops-vim-plug-update'

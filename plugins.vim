@@ -24,7 +24,7 @@ endif
 let g:deoplete#enable_at_startup = 1
 Plug 'lervag/vimtex', {'for': 'tex'}
 "Plug 'maxboisvert/vim-simple-complete'
-Plug 'JuliaEditorSupport/julia-vim'
+Plug 'JuliaEditorSupport/julia-vim' " we need this for the L2U commands
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'jordwalke/vim-reasonml', {'for': 'reason'}
 Plug 'scrooloose/syntastic', {'for': ['vim', 'pod']}

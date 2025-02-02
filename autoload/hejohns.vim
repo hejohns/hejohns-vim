@@ -322,9 +322,10 @@ endfunction
 function s:PlugUpdate_success(v) abort
     echomsg '[hejohns-vim] ' .. a:v .. " plugins updated"
     if a:v
-        echomsg '[hejohns-vim] please restart vim to load newly updated plugins. Quitting...'
-        sleep 5
-        quitall
+        " even though we should probably restart vim in general, I usually
+        " don't run into huge issues and having to reopen vim is really
+        " annoying
+        echomsg '[hejohns-vim] Please restart Vim to reload newly updated plugins if anything weird happens.'
     endif
 endfunction
 function s:PlugUpdate_failure(e) abort

@@ -63,6 +63,6 @@ Plug 'Shougo/neco-syntax' " deoplete source
 Plug 'deoplete-plugins/deoplete-jedi' " deoplete source
 Plug 'deoplete-plugins/deoplete-dictionary' " deoplete source
 "Plug 'whonore/Coqtail', {'for': ['coq']}
-Plug 'https://github.com/pangloss/vim-javascript'
+Plug 'https://github.com/pangloss/vim-javascript', {'for': ['javascript']}
 Plug 'vim-denops/denops.vim'
 Plug 'vim-denops/denops-shared-server.vim'

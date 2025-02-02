@@ -320,7 +320,7 @@ endfunction
 
 " vim-plug
 function s:PlugUpdate_success(v) abort
-    echomsg '[hejohns-vim] ' .. a:v .. " plugins updated\n"
+    echomsg '[hejohns-vim] ' .. a:v .. " plugins updated"
     if a:v
         echomsg '[hejohns-vim] please restart vim to load newly updated plugins. Quitting...'
         sleep 5

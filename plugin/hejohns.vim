@@ -365,8 +365,8 @@ if has('perl')
         [(grep {!/^perl$/} @lsLangs)],
         'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
         ['go'],
-        "call deoplete#custom#buffer_option('auto_complete', has('nvim'))" =>
-        ['c', 'cpp'],
+        # "call deoplete#custom#buffer_option('auto_complete', has('nvim'))" =>
+        # ['c', 'cpp'],
     );
 
     sub filetype_options{

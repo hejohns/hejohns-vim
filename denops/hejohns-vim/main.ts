@@ -40,7 +40,7 @@ async function system2(cmd : string[], opt? : Deno.CommandOptions) : Promise<Com
     return { stdout: td.decode(stdout).trim(), stderr: td.decode(stderr).trim(), ...rest };
 };
 
-export const main: Entrypoint = async (denops : Denops) => {
+export const main: Entrypoint = (denops : Denops) => {
     let intervals : { [name: string]: interval_ID } = {};
     denops.dispatcher = {
         async init(){
@@ -75,29 +75,6 @@ export const main: Entrypoint = async (denops : Denops) => {
                 clearInterval(intervals[name]);
                 delete intervals[name];
             });
-        },
-        async PlugUpdate(plugs){
-            assert(plugs, is.String);
-            const plugs_obj = JSON.parse(plugs);
-            const plugins_updated = await Promise.all(Object.keys(plugs_obj).map(async (plugin) => {
-                const info = plugs_obj[plugin];
-                const git_fetch = await system(["git", "fetch", "--all"], {cwd: info['dir']});
-                std.assert(git_fetch.success);
-                const git_status = await system(["git", "status", "--porcelain", "-bz"], {cwd: info['dir']});
-                std.assert(git_status.success);
-                const re = /behind \d+]/;
-                if(re.test(git_status.stdout)){
-                    const git_pull = await system2(["git", "pull"], {cwd: info['dir']});
-                    if(git_pull.success){
-                        return true;
-                    }
-                    else{
-                        helper.echoerr(denops, `[hejohns-vim][error] git pull '${info['dir']}' failed: ${git_pull.stderr}`);
-                    }
-                }
-                return false;
-            }));
-            return plugins_updated.filter(x => x).length
         },
     };
 };

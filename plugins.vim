@@ -35,11 +35,11 @@ Plug 'osyo-manga/vim-over'
 Plug 'alx741/vim-hindent', {'for': 'haskell'}
 Plug 'tpope/vim-surround'
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'mhinz/vim-signify', (has('nvim') || has('patch-8.0.902')) : {} ? {'tag': 'legacy'}
+Plug 'mhinz/vim-signify', (has('nvim') || has('patch-8.0.902')) ? {} : {'tag': 'legacy'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-dispatch', {'for': ['tex', 'ocaml', 'c', 'cpp']} " NOTE: but we may want for more langs later
-Plug 'vim-utils/vim-man', has('nvim') : {'for': []} ? {} " replaces ``builtin'' :Man ?
+Plug 'vim-utils/vim-man', has('nvim') ? {'for': []} : {} " replaces ``builtin'' :Man ?
 " I had performance problems with airline
 "Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'

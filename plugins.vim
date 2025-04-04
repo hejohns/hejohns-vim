@@ -37,7 +37,7 @@ Plug 'tpope/vim-surround'
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 " for some reason, || doesn't work in the ternary (but && does)
 let s:vim_signify_pre = has('nvim') || has('patch-8.0.902')
-Plug 'mhinz/vim-signify', s:vim_signify_pre ? {} : {'tag': 'legacy'})
+Plug 'mhinz/vim-signify', s:vim_signify_pre ? {} : {'tag': 'legacy'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-dispatch', {'for': ['tex', 'ocaml', 'c', 'cpp']} " NOTE: but we may want for more langs later

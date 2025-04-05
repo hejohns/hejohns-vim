@@ -77,6 +77,7 @@ Plug 'https://github.com/LumaKernel/ddc-source-file', executable('deno') ? {} : 
 Plug 'https://github.com/Shougo/ddc-source-cmdline', executable('deno') ? {} : {'for': []} " ddc source
 Plug 'https://github.com/Shougo/ddc-source-cmdline_history', executable('deno') ? {} : {'for': []} " ddc source
 Plug 'https://github.com/Shougo/ddc-source-input', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/ddc-source-omni', executable('deno') ? {} : {'for': []} " ddc source
 Plug 'https://github.com/Shougo/pum.vim', executable('deno') ? {} : {'for': []} " required by ddc-ui-pum
 Plug 'https://github.com/Shougo/ddc-ui-pum', executable('deno') ? {} : {'for': []} " apparently required by a lot of ddc
 Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} " ddc filter

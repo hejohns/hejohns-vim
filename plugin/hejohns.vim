@@ -806,6 +806,21 @@ call ddc#custom#patch_global('sourceOptions', #{
       \     isVolatile: v:true,
       \   }
       \ })
+call ddc#custom#patch_global('sources', ['omni'])
+call ddc#custom#patch_global('sourceOptions', #{
+      \   omni: #{ mark: 'O' },
+      \ })
+" TODO: from ddc-source-omni README
+" Example: Use vimtex
+"call vimtex#init()
+"call ddc#custom#patch_filetype(['tex'], 'sourceOptions', #{
+"      \   omni: #{
+"      \     forceCompletionPattern: g:vimtex#re#deoplete,
+"      \   },
+"      \ })
+"call ddc#custom#patch_filetype(['tex'], 'sourceParams', #{
+"      \   omni: #{ omnifunc: 'vimtex#complete#omnifunc' },
+"      \ })
 
 " from ddc-option-cmdlineSources
 call ddc#custom#patch_global('cmdlineSources', {

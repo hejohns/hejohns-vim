@@ -71,3 +71,12 @@ Plug 'vim-denops/denops.vim', executable('deno') ? {} : {'for': []}
 Plug 'vim-denops/denops-shared-server.vim', executable('deno') ? {} : {'for': []}
 Plug 'hejohns/denops-vim-plug-update.vim', executable('deno') ? {} : {'for': []}
 Plug 'https://github.com/Shougo/ddc.vim', executable('deno') ? {} : {'for': []}
+Plug 'https://github.com/Shougo/ddc-source-around', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/ddc-source-line', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/LumaKernel/ddc-source-file', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/ddc-source-cmdline', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/ddc-source-cmdline_history', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/ddc-source-input', executable('deno') ? {} : {'for': []} " ddc source
+Plug 'https://github.com/Shougo/pum.vim', executable('deno') ? {} : {'for': []} " required by ddc-ui-pum
+Plug 'https://github.com/Shougo/ddc-ui-pum', executable('deno') ? {} : {'for': []} " apparently required by a lot of ddc
+Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} " ddc filter

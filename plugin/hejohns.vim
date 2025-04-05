@@ -846,6 +846,7 @@ inoremap <C-l> <Cmd>echo ddc#map#can_complete()<CR>
 imap <expr> <C-k> ddc#map#complete('pum')
 
 " ddc-fuzzy
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('sourceOptions', {
   \   '_': {
   \     'matchers': ['matcher_fuzzy'],

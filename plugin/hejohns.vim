@@ -832,7 +832,7 @@ call ddc#custom#patch_global('cmdlineSources', {
     \ '-': ['around', 'line'],
     \ '=': ['input'],
     \ })
-call ddc#custom#patch_global('ui', 'pum.vim')
+call ddc#custom#patch_global('ui', 'pum')
 call ddc#enable_terminal_completion()
 
 " pum.vim

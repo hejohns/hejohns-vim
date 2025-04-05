@@ -80,3 +80,4 @@ Plug 'https://github.com/Shougo/ddc-source-input', executable('deno') ? {} : {'f
 Plug 'https://github.com/Shougo/pum.vim', executable('deno') ? {} : {'for': []} " required by ddc-ui-pum
 Plug 'https://github.com/Shougo/ddc-ui-pum', executable('deno') ? {} : {'for': []} " apparently required by a lot of ddc
 Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} " ddc filter
+Plug 'https://github.com/matsui54/denops-popup-preview.vim', executable('deno') ? {} : {'for': []}  " TODO: I'm not sure what this does

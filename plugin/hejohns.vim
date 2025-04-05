@@ -768,13 +768,14 @@ endfunction
 autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))
 
 " ddc.vim
+" (in order of candidate rank, to use the deoplete terminology)
 call ddc#custom#patch_global('sources', [
             \ 'around',
-            \ 'line',
             \ 'file',
-            \  'cmdline',
+            \ 'cmdline',
             \ 'cmdline_history',
             \ 'input',
+            \ 'line',
             \ ])
 call ddc#custom#patch_global('sourceOptions', #{
       \   around: #{ mark: 'A' },

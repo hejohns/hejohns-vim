@@ -778,36 +778,30 @@ call ddc#custom#patch_global('sources', [
             \ 'line',
             \ ])
 call ddc#custom#patch_global('sourceOptions', #{
+      \   _: #{
+      \     matchers: ['matcher_fuzzy'],
+      \     sorters: ['sorter_fuzzy'],
+      \     converters: ['converter_fuzzy']
+      \   },
       \   around: #{ mark: 'A' },
-      \ })
-call ddc#custom#patch_global('sourceParams', #{
-      \   around: #{ maxSize: 1000 },
-      \ })
-call ddc#custom#patch_global('sourceOptions', #{
       \   line: #{ mark: 'line' },
-      \ })
-call ddc#custom#patch_global('sourceParams', #{
-      \   line: #{ maxSize: 1000 },
-      \ })
-call ddc#custom#patch_global('sourceOptions', {
-    \ 'file': {
-    \   'mark': 'F',
-    \   'isVolatile': v:true,
-    \   'forceCompletionPattern': '\S/\S*',
-    \ }})
-call ddc#custom#patch_global('sourceOptions', #{
+      \   file: #{
+      \     mark: 'F',
+      \     isVolatile: v:true,
+      \     forceCompletionPattern: '\S/\S*',
+      \   },
       \   cmdline: #{
       \     mark: 'cmdline',
-      \   }
-      \ })
-call ddc#custom#patch_global('sourceOptions', #{
+      \   },
       \   cmdline_history: #{ mark: 'history' },
-      \ })
-call ddc#custom#patch_global('sourceOptions', #{
       \   input: #{
       \     mark: 'input',
       \     isVolatile: v:true,
-      \   }
+      \   },
+      \ })
+call ddc#custom#patch_global('sourceParams', #{
+      \   around: #{ maxSize: 1000 },
+      \   line: #{ maxSize: 1000 },
       \ })
 "call ddc#custom#patch_global('sources', ['omni'])
 "call ddc#custom#patch_global('sourceOptions', #{
@@ -838,6 +832,8 @@ call ddc#custom#patch_global('cmdlineSources', {
 call ddc#custom#patch_global('ui', 'pum')
 call ddc#enable_terminal_completion()
 
+call ddc#enable()
+
 " pum.vim
 inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
 inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
@@ -847,15 +843,3 @@ inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 inoremap <C-l> <Cmd>echo ddc#map#can_complete()<CR>
 imap <expr> <C-k> ddc#map#complete('pum')
-
-" ddc-fuzzy
-call ddc#custom#patch_global('sourceOptions', {
-  \   '_': {
-  \     'matchers': ['matcher_fuzzy'],
-  \     'sorters': ['sorter_fuzzy'],
-  \     'converters': ['converter_fuzzy']
-  \   }
-  \ })
-
-" finally, enable ddc
-call ddc#enable()

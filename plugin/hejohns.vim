@@ -778,11 +778,6 @@ call ddc#custom#patch_global('sources', [
             \ 'line',
             \ ])
 call ddc#custom#patch_global('sourceOptions', #{
-      \   _: #{
-      \     matchers: ['matcher_fuzzy'],
-      \     sorters: ['sorter_fuzzy'],
-      \     converters: ['converter_fuzzy']
-      \   },
       \   around: #{ mark: 'A' },
       \   line: #{ mark: 'line' },
       \   file: #{
@@ -797,6 +792,11 @@ call ddc#custom#patch_global('sourceOptions', #{
       \   input: #{
       \     mark: 'input',
       \     isVolatile: v:true,
+      \   },
+      \   _: #{
+      \     matchers: ['matcher_fuzzy'],
+      \     sorters: ['sorter_fuzzy'],
+      \     converters: ['converter_fuzzy']
       \   },
       \ })
 call ddc#custom#patch_global('sourceParams', #{
@@ -819,6 +819,7 @@ call ddc#custom#patch_global('sourceParams', #{
 "      \   omni: #{ omnifunc: 'vimtex#complete#omnifunc' },
 "      \ })
 
+call ddc#custom#patch_global('backspaceCompletion', v:true)
 " from ddc-option-cmdlineSources
 call ddc#custom#patch_global('cmdlineSources', {
     \ ':': ['cmdline_history', 'cmdline', 'around'],

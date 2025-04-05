@@ -768,38 +768,40 @@ endfunction
 autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))
 
 " ddc.vim
-call ddc#custom#patch_global('sources', ['around'])
+call ddc#custom#patch_global('sources', [
+            \ 'around',
+            \ 'line',
+            \ 'file',
+            \  'cmdline',
+            \ 'cmdline_history',
+            \ 'input',
+            \ ])
 call ddc#custom#patch_global('sourceOptions', #{
       \   around: #{ mark: 'A' },
       \ })
 call ddc#custom#patch_global('sourceParams', #{
       \   around: #{ maxSize: 1000 },
       \ })
-call ddc#custom#patch_global('sources', ['line'])
 call ddc#custom#patch_global('sourceOptions', #{
       \   line: #{ mark: 'line' },
       \ })
 call ddc#custom#patch_global('sourceParams', #{
       \   line: #{ maxSize: 1000 },
       \ })
-call ddc#custom#patch_global('sources', ['file'])
 call ddc#custom#patch_global('sourceOptions', {
     \ 'file': {
     \   'mark': 'F',
     \   'isVolatile': v:true,
     \   'forceCompletionPattern': '\S/\S*',
     \ }})
-call ddc#custom#patch_global('sources', ['cmdline'])
 call ddc#custom#patch_global('sourceOptions', #{
       \   cmdline: #{
       \     mark: 'cmdline',
       \   }
       \ })
-call ddc#custom#patch_global('sources', ['cmdline_history'])
 call ddc#custom#patch_global('sourceOptions', #{
       \   cmdline_history: #{ mark: 'history' },
       \ })
-call ddc#custom#patch_global('sources', ['input'])
 call ddc#custom#patch_global('sourceOptions', #{
       \   input: #{
       \     mark: 'input',

@@ -824,9 +824,9 @@ call ddc#custom#patch_global('sourceOptions', #{
 
 " from ddc-option-cmdlineSources
 call ddc#custom#patch_global('cmdlineSources', {
-    \ ':': ['cmdline-history', 'cmdline', 'around'],
-    \ '@': ['cmdline-history', 'input', 'file', 'around'],
-    \ '>': ['cmdline-history', 'input', 'file', 'around'],
+    \ ':': ['cmdline_history', 'cmdline', 'around'],
+    \ '@': ['cmdline_history', 'input', 'file', 'around'],
+    \ '>': ['cmdline_history', 'input', 'file', 'around'],
     \ '/': ['around', 'line'],
     \ '?': ['around', 'line'],
     \ '-': ['around', 'line'],

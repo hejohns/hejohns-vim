@@ -806,10 +806,10 @@ call ddc#custom#patch_global('sourceOptions', #{
       \     isVolatile: v:true,
       \   }
       \ })
-call ddc#custom#patch_global('sources', ['omni'])
-call ddc#custom#patch_global('sourceOptions', #{
-      \   omni: #{ mark: 'O' },
-      \ })
+"call ddc#custom#patch_global('sources', ['omni'])
+"call ddc#custom#patch_global('sourceOptions', #{
+"      \   omni: #{ mark: 'O' },
+"      \ })
 " TODO: from ddc-source-omni README
 " Example: Use vimtex
 "call vimtex#init()

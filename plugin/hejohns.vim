@@ -836,8 +836,8 @@ call ddc#enable_terminal_completion()
 call ddc#enable()
 
 " pum.vim
-inoremap <expr> <TAB> pum#entered() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
-inoremap <expr> <S-TAB> pum#entered() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
+inoremap <expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
+inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>

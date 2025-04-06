@@ -776,23 +776,25 @@ call ddc#custom#patch_global('sources', [
             \ 'cmdline',
             \ 'input',
             \ 'line',
+            \ 'dictionary',
             \ ])
 call ddc#custom#patch_global('sourceOptions', #{
-      \   around: #{ mark: 'A' },
-      \   line: #{ mark: 'line' },
+      \   around: #{ mark: '[A]' },
+      \   line: #{ mark: '[line]' },
       \   file: #{
-      \     mark: 'F',
+      \     mark: '[🗎]',
       \     isVolatile: v:true,
       \     forceCompletionPattern: '\S/\S*',
       \   },
       \   cmdline: #{
-      \     mark: 'cmdline',
+      \     mark: '[cmdline]',
       \   },
-      \   cmdline_history: #{ mark: 'history' },
+      \   cmdline_history: #{ mark: '[history]' },
       \   input: #{
-      \     mark: 'input',
+      \     mark: '[input]',
       \     isVolatile: v:true,
       \   },
+      \   dictionary: #{ mark: '[dict]' },
       \   _: #{
       \     matchers: ['matcher_fuzzy'],
       \     sorters: ['sorter_fuzzy'],
@@ -802,6 +804,11 @@ call ddc#custom#patch_global('sourceOptions', #{
 call ddc#custom#patch_global('sourceParams', #{
       \   around: #{ maxSize: 1000 },
       \   line: #{ maxSize: 1000 },
+      \   dictionary: #{
+      \     dictPaths: ['/usr/share/dict/words', '/usr/share/dict/american-english'],
+      \     smartcase: v:true,
+      \     isVolatile: v:true,
+      \   },
       \ })
 "call ddc#custom#patch_global('sources', ['omni'])
 "call ddc#custom#patch_global('sourceOptions', #{
@@ -838,4 +845,6 @@ call ddc#enable()
 " pum.vim
 inoremap <expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
 inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
+" thus, <ESC> will cancel the completion, kj will not (the currently selected
+" completion will remain)
 inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>"

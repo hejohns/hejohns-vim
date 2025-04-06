@@ -772,8 +772,8 @@ autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('
 call ddc#custom#patch_global('sources', [
             \ 'around',
             \ 'file',
-            \ 'cmdline',
             \ 'cmdline_history',
+            \ 'cmdline',
             \ 'input',
             \ 'line',
             \ ])
@@ -836,8 +836,8 @@ call ddc#enable_terminal_completion()
 call ddc#enable()
 
 " pum.vim
-inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
-inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <expr> <TAB> pum#entered() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
+inoremap <expr> <S-TAB> pum#entered() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>

@@ -836,6 +836,7 @@ function MyDdcConf() abort
           \     limitBytes: 5000000,
           \     fromAltBuf: v:true,
           \     forceCollect: v:true,
+          \     bufNameStyle: 'basename',
           \   },
           \ })
     set dictionary+=/usr/share/dict/words

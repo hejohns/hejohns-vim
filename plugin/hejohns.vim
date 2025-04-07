@@ -859,8 +859,11 @@ function MyDdcConf() abort
 endfunction
 function MyDdcInit() abort
     if exists('g:loaded_denops')
-        autocmd User DenopsPluginPost:ddc ++once call MyDdcConf() | call ddc#enable()
+        " ddc doesn't register as a denops plugin until ddc#enable is called
+        " (instead of a main.ts, ddc calls ddc#plugin#load manually)
+        autocmd User DenopsPluginPost:ddc ++once call MyDdcConf()
         autocmd User DenopsPluginFail:ddc ++once echoerr '[hejohns-vim] denops plugin ddc failed to load-- autocomplete will not work'
+        call ddc#enable()
     endif
 endfunction
 

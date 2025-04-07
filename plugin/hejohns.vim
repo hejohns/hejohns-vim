@@ -50,6 +50,7 @@ if has('wildignore') " why do we need 'wildignore' ?
 endif
 " default spell on
 " (dumb but non autocmd gets clobbered by other syntax files)
+" NOTE: 2025-04-07: this is so so ugly, but has seemed to work okay
 augroup spell_default_on
     autocmd!
     " VimEnter for first window, WinNew for the rest

@@ -9,11 +9,12 @@ let g:hejohns#plugins_sourced = 1
 "Plug 'https://github.com/xavierd/clang_complete.git', {'for': []}
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'for': g:myLSLangs,
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" NOTE: 2025-04-07: ddc-source-lsp requires us to use vim-lsp instead
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'for': g:myLSLangs,
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
 Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
 " handle both neovim and vim 8 with python
@@ -85,3 +86,5 @@ Plug 'https://github.com/Shougo/pum.vim', executable('deno') ? {} : {'for': []} 
 Plug 'https://github.com/Shougo/ddc-ui-pum', executable('deno') ? {} : {'for': []} " apparently required by a lot of ddc
 Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} " ddc filter
 Plug 'https://github.com/matsui54/denops-popup-preview.vim', executable('deno') ? {} : {'for': []}  " TODO: I'm not sure what this does
+Plug 'https://github.com/prabirshrestha/vim-lsp'
+Plug 'https://github.com/mattn/vim-lsp-settings'

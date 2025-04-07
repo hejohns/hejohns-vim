@@ -892,3 +892,8 @@ function MyDdcInit() abort
         call ddc#enable()
     endif
 endfunction
+
+" vim-lsp
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()

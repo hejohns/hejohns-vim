@@ -858,6 +858,6 @@ inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>
 
 " denops-vim-plug-update
 function! g:Test() abort
-    echo 'FOOBAR'
+    echoerr 'FOOBAR'
 endfunction
 let g:denops_vim_plug_error_callback = 'g:Test' "'hejohns#PlugUpdate'

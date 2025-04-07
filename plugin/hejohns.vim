@@ -775,12 +775,16 @@ function s:init_denops_subplugin() abort
 endfunction
 autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))
 
+" denops-vim-plug-update
+let g:denops_vim_plug_update_error_callback = 'hejohns#PlugUpdate'
+
 " ddc.vim
 " (in order of candidate rank, to use the deoplete terminology)
 autocmd VimEnter * ++once call MyDdcInit()
 function MyDdcConf() abort
     call ddc#custom#patch_global('sources', [
                 \ 'file',
+                \ 'lsp',
                 \ 'around',
                 \ 'cmdline_history',
                 \ 'cmdline',
@@ -805,6 +809,10 @@ function MyDdcConf() abort
           \     isVolatile: v:true,
           \   },
           \   dictionary: #{ mark: '[dict]' },
+          \   lsp: #{
+          \     mark: '[lsp]',
+          \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
+          \   },
           \   _: #{
           \     matchers: ['matcher_fuzzy'],
           \     sorters: ['sorter_fuzzy'],
@@ -817,6 +825,10 @@ function MyDdcConf() abort
           \   dictionary: #{
           \     smartcase: v:true,
           \     isVolatile: v:true,
+          \   },
+          \   lsp: #{
+          \     enableResolveItem: v:true,
+          \     enableAdditionalTextEdit: v:true,
           \   },
           \ })
     set dictionary+=/usr/share/dict/words
@@ -857,6 +869,11 @@ function MyDdcConf() abort
     " thus, <ESC> will cancel the completion, kj will not (the currently
     " selected completion will remain)
     inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>"
+
+    " denops-popup-preview
+    call popup_preview#enable()
+
+    " ddc-source-lsp
 endfunction
 function MyDdcInit() abort
     if exists('g:loaded_denops')
@@ -867,6 +884,3 @@ function MyDdcInit() abort
         call ddc#enable()
     endif
 endfunction
-
-" denops-vim-plug-update
-let g:denops_vim_plug_update_error_callback = 'hejohns#PlugUpdate'

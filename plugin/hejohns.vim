@@ -605,10 +605,6 @@ autocmd VimEnter * ++once if exists('g:loaded_lightline_bufferline') | set nosho
 " lightline tabline is way too slow when there are many buffers.
 " Anyways, having a massive tabline isn't super helpful in that case.
 function MyLightlineBufferFilter(bufn)
-    " this is confusing, but we're using not the actual buffer number, but the index into
-    " TODO: I'm assuming getbufinfo returns a list sorted by bufnr
-    " I don't know if this is always the case
-    " Could sort it every time?
     let l:bufinfo = sort(map(getbufinfo({'buflisted': 1}), 'v:val["bufnr"]'), 'n')
     let l:bufn = index(l:bufinfo, a:bufn)
     " do not show unlisted buffers
@@ -786,12 +782,14 @@ function MyDdcConf() abort
                 \ 'file',
                 \ 'lsp',
                 \ 'around',
+                \ 'buffer',
                 \ 'cmdline_history',
                 \ 'cmdline',
                 \ 'input',
                 \ 'line',
                 \ 'dictionary',
                 \ ])
+    " TODO: we may need to change the lsp sorter to lsp_sorter-kind
     call ddc#custom#patch_global('sourceOptions', #{
           \   around: #{ mark: '[A]' },
           \   line: #{ mark: '[line]' },
@@ -813,6 +811,7 @@ function MyDdcConf() abort
           \     mark: '[lsp]',
           \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
           \   },
+          \   buffer: #{ mark: '[buf]' },
           \   _: #{
           \     matchers: ['matcher_fuzzy'],
           \     sorters: ['sorter_fuzzy'],
@@ -829,6 +828,14 @@ function MyDdcConf() abort
           \   lsp: #{
           \     enableResolveItem: v:true,
           \     enableAdditionalTextEdit: v:true,
+          \     enableDisplayDetail: v:true,
+          \     lspEngine: 'vim-lsp',
+          \   },
+          \   buffer: #{
+          \     requireSameFiletype: v:false,
+          \     limitBytes: 5000000,
+          \     fromAltBuf: v:true,
+          \     forceCollect: v:true,
           \   },
           \ })
     set dictionary+=/usr/share/dict/words
@@ -868,7 +875,7 @@ function MyDdcConf() abort
     inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
     " thus, <ESC> will cancel the completion, kj will not (the currently
     " selected completion will remain)
-    inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>"
+    inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' .. "\<ESC>" : "\<ESC>"
 
     " denops-popup-preview
     call popup_preview#enable()

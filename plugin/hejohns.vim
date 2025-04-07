@@ -645,6 +645,13 @@ function MyStatusline() abort
     endif
 endfunction
 
+" NOTE:
+" We used to just use deoplete, but we're now using ddc whenever possible.
+" We're taking "whenever possible" to just mean "whenever
+" `executable('deno')`", thus:
+" - the ./plugins.vim TODO
+" - TODO
+
 " deoplete
 autocmd VimEnter * ++once call MyDeopleteInit()
 " needs to run before deoplete does, but after the deoplete is sourced
@@ -770,8 +777,8 @@ autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('
 " ddc.vim
 " (in order of candidate rank, to use the deoplete terminology)
 call ddc#custom#patch_global('sources', [
-            \ 'around',
             \ 'file',
+            \ 'around',
             \ 'cmdline_history',
             \ 'cmdline',
             \ 'input',

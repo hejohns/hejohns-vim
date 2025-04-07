@@ -776,85 +776,93 @@ autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('
 
 " ddc.vim
 " (in order of candidate rank, to use the deoplete terminology)
-call ddc#custom#patch_global('sources', [
-            \ 'file',
-            \ 'around',
-            \ 'cmdline_history',
-            \ 'cmdline',
-            \ 'input',
-            \ 'line',
-            \ 'dictionary',
-            \ ])
-call ddc#custom#patch_global('sourceOptions', #{
-      \   around: #{ mark: '[A]' },
-      \   line: #{ mark: '[line]' },
-      \   file: #{
-      \     mark: '[🗎]',
-      \     isVolatile: v:true,
-      \     forceCompletionPattern: '\S/\S*',
-      \   },
-      \   cmdline: #{
-      \     mark: '[cmdline]',
-      \   },
-      \   cmdline_history: #{ mark: '[history]' },
-      \   input: #{
-      \     mark: '[input]',
-      \     isVolatile: v:true,
-      \   },
-      \   dictionary: #{ mark: '[dict]' },
-      \   _: #{
-      \     matchers: ['matcher_fuzzy'],
-      \     sorters: ['sorter_fuzzy'],
-      \     converters: ['converter_fuzzy']
-      \   },
-      \ })
-call ddc#custom#patch_global('sourceParams', #{
-      \   around: #{ maxSize: 1000 },
-      \   line: #{ maxSize: 1000 },
-      \   dictionary: #{
-      \     dictPaths: ['/usr/share/dict/words', '/usr/share/dict/american-english'],
-      \     smartcase: v:true,
-      \     isVolatile: v:true,
-      \   },
-      \ })
-"call ddc#custom#patch_global('sources', ['omni'])
-"call ddc#custom#patch_global('sourceOptions', #{
-"      \   omni: #{ mark: 'O' },
-"      \ })
-" TODO: from ddc-source-omni README
-" Example: Use vimtex
-"call vimtex#init()
-"call ddc#custom#patch_filetype(['tex'], 'sourceOptions', #{
-"      \   omni: #{
-"      \     forceCompletionPattern: g:vimtex#re#deoplete,
-"      \   },
-"      \ })
-"call ddc#custom#patch_filetype(['tex'], 'sourceParams', #{
-"      \   omni: #{ omnifunc: 'vimtex#complete#omnifunc' },
-"      \ })
+autocmd VimEnter * ++once call MyDdcInit()
+function MyDdcConf() abort
+    call ddc#custom#patch_global('sources', [
+                \ 'file',
+                \ 'around',
+                \ 'cmdline_history',
+                \ 'cmdline',
+                \ 'input',
+                \ 'line',
+                \ 'dictionary',
+                \ ])
+    call ddc#custom#patch_global('sourceOptions', #{
+          \   around: #{ mark: '[A]' },
+          \   line: #{ mark: '[line]' },
+          \   file: #{
+          \     mark: '[🗎]',
+          \     isVolatile: v:true,
+          \     forceCompletionPattern: '\S/\S*',
+          \   },
+          \   cmdline: #{
+          \     mark: '[cmdline]',
+          \   },
+          \   cmdline_history: #{ mark: '[history]' },
+          \   input: #{
+          \     mark: '[input]',
+          \     isVolatile: v:true,
+          \   },
+          \   dictionary: #{ mark: '[dict]' },
+          \   _: #{
+          \     matchers: ['matcher_fuzzy'],
+          \     sorters: ['sorter_fuzzy'],
+          \     converters: ['converter_fuzzy']
+          \   },
+          \ })
+    call ddc#custom#patch_global('sourceParams', #{
+          \   around: #{ maxSize: 1000 },
+          \   line: #{ maxSize: 1000 },
+          \   dictionary: #{
+          \     smartcase: v:true,
+          \     isVolatile: v:true,
+          \   },
+          \ })
+    set dictionary+=/usr/share/dict/words
+    set dictionary+=/usr/share/dict/american-english
+    "call ddc#custom#patch_global('sources', ['omni'])
+    "call ddc#custom#patch_global('sourceOptions', #{
+    "      \   omni: #{ mark: 'O' },
+    "      \ })
+    " TODO: from ddc-source-omni README
+    " Example: Use vimtex
+    "call vimtex#init()
+    "call ddc#custom#patch_filetype(['tex'], 'sourceOptions', #{
+    "      \   omni: #{
+    "      \     forceCompletionPattern: g:vimtex#re#deoplete,
+    "      \   },
+    "      \ })
+    "call ddc#custom#patch_filetype(['tex'], 'sourceParams', #{
+    "      \   omni: #{ omnifunc: 'vimtex#complete#omnifunc' },
+    "      \ })
 
-call ddc#custom#patch_global('backspaceCompletion', v:true)
-" from ddc-option-cmdlineSources
-call ddc#custom#patch_global('cmdlineSources', {
-    \ ':': ['cmdline_history', 'cmdline', 'around'],
-    \ '@': ['cmdline_history', 'input', 'file', 'around'],
-    \ '>': ['cmdline_history', 'input', 'file', 'around'],
-    \ '/': ['around', 'line'],
-    \ '?': ['around', 'line'],
-    \ '-': ['around', 'line'],
-    \ '=': ['input'],
-    \ })
-call ddc#custom#patch_global('ui', 'pum')
-call ddc#enable_terminal_completion()
+    call ddc#custom#patch_global('backspaceCompletion', v:true)
+    " from ddc-option-cmdlineSources
+    call ddc#custom#patch_global('cmdlineSources', {
+        \ ':': ['cmdline_history', 'cmdline', 'around'],
+        \ '@': ['cmdline_history', 'input', 'file', 'around'],
+        \ '>': ['cmdline_history', 'input', 'file', 'around'],
+        \ '/': ['around', 'line'],
+        \ '?': ['around', 'line'],
+        \ '-': ['around', 'line'],
+        \ '=': ['input'],
+        \ })
+    call ddc#custom#patch_global('ui', 'pum')
+    call ddc#enable_terminal_completion()
 
-call ddc#enable()
-
-" pum.vim
-inoremap <expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
-inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
-" thus, <ESC> will cancel the completion, kj will not (the currently selected
-" completion will remain)
-inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>"
+    " pum.vim
+    inoremap <expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
+    inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
+    " thus, <ESC> will cancel the completion, kj will not (the currently
+    " selected completion will remain)
+    inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' : "\<ESC>"
+endfunction
+function MyDdcInit() abort
+    if exists('g:loaded_denops')
+        autocmd User DenopsPluginPost:ddc ++once call MyDdcConf() | call ddc#enable()
+        autocmd User DenopsPluginFail:ddc ++once echoerr '[hejohns-vim] denops plugin ddc failed to load-- autocomplete will not work'
+    endif
+endfunction
 
 " denops-vim-plug-update
 let g:denops_vim_plug_update_error_callback = 'hejohns#PlugUpdate'

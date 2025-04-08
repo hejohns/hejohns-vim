@@ -894,6 +894,11 @@ function MyDdcInit() abort
 endfunction
 
 " vim-lsp
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
+"set foldmethod=expr
+"  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+"  \ foldtext=lsp#ui#vim#folding#foldtext()
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_float_cursor = 1
+let g:lsp_inlay_hints_enabled = 1
+let g:lsp_max_buffer_size = -1
+let g:lsp_semantic_enabled = 1

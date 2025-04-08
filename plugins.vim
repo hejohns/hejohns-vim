@@ -88,3 +88,4 @@ Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} 
 Plug 'https://github.com/matsui54/denops-popup-preview.vim', executable('deno') ? {} : {'for': []}  " TODO: I'm not sure what this does
 Plug 'https://github.com/prabirshrestha/vim-lsp'
 Plug 'https://github.com/mattn/vim-lsp-settings'
+Plug 'https://github.com/rhysd/vim-healthcheck' " vim-lsp supports vim-healthcheck, which hopefully makes it easier to debug lsp configuration issues (I didn't love this about LanguageClient)

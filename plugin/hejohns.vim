@@ -310,130 +310,130 @@ EOF
     endfunction
 endif
 
-" LanguageClient-neovim
-" (and any pip stuff)
-" (and any filetype specific options)
-if has('perl')
-    function s:ft_specific(ft)
-        augroup filetype_specific
-            autocmd! * <buffer>
-        augroup END
-        let g:myPerlArg = a:ft
-        if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
-            perl filetype_options
-        endif
-    endfunction
-    perl << EOF
-    use strict;
-    use warnings FATAL => 'all', NONFATAL => 'redefine';
-
-    my ($_success, $lsLangs) = AEval('g:myLSLangs');
-    my @lsLangs = split(' ', $lsLangs);
-
-    my %no_LS_opt2ft = (
-        'setlocal shiftwidth=2' =>
-        ['haskell', 'cabal', 'cabalconfig', 'cabalproject', 'nix'],
-        'autocmd filetype_specific BufWritePost <buffer> call hejohns#dispatch_on_BufWrite()' =>
-        ['tex'],
-        'nnoremap <buffer> <C-\>ll :let g:myDispatchToggle = (exists("g:myDispatchToggle") && g:myDispatchToggle) ? 0 : 1<CR>' =>
-        ['tex'],
-        'call hejohns#vimtex_options()' =>
-        ['tex'],
-        'nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>' =>
-        ['tex'],
-        # TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
-        # this hack ``just works''
-        'setlocal filetype=tex' =>
-        ['tex'],
-        # vimtex-complete-auto
-        # NOTE: this blocks
-        "silent! call deoplete#custom#buffer_var('omni', 'input_patterns', {'tex': g:vimtex#re#deoplete})" =>
-        ['tex'],
-        # NOTE: julia unicode input doesn't play well w/ deoplete
-        # when EnableL2U, autocomplete is sync and may hang vim
-        # I can't find a easy way to dig into this problem
-        # hopefully you (I) don't need async autocomplete and unicode input together too often...
-        'call EnableL2U()' =>
-        ['tex', 'coq'],
-        'call hejohns#initialize_clang_complete()' =>
-        ['c', 'cpp'],
-    );
-    my %LS_opt2ft = (
-        'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>
-        [@lsLangs],
-        'nnoremap <buffer> gd :call LanguageClient#textDocument_definition()<CR>' =>
-        [(grep {!/^perl$/} @lsLangs)],
-        'nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>' =>
-        [(grep {!/^perl$/} @lsLangs)],
-        'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
-        ['go'],
-        # "call deoplete#custom#buffer_option('auto_complete', has('nvim'))" =>
-        # ['c', 'cpp'],
-    );
-
-    sub filetype_options{
-        my $success;
-        ($success, my $filetype) = SEval('g:myPerlArg');
-        $filetype //= '';
-        if($filetype eq 'plaintex'){
-            VIM::DoCommand("silent !echo '[error] &ft plaintex should be masqueraded as tex'");
-        }
-        foreach my $k (keys %no_LS_opt2ft){
-            if(grep {/^$filetype$/} @{$no_LS_opt2ft{$k}}){
-                VIM::DoCommand($k);
-            }
-        }
-        RETRY:
-        ($success, my $ls_running) = SEval('g:myLSRunning');
-        if($ls_running){
-            # TODO: check LS executable is present or raise message
-            # and maybe autoinstall? (if we nix it enough)
-            foreach my $k (keys %LS_opt2ft){
-                if(grep {/^$filetype$/} @{$LS_opt2ft{$k}}){
-                    VIM::DoCommand($k);
-                }
-            }
-        }
-        else{
-            my $success; #don't bother...
-            ($success, my $lsLangs) = AEval('g:myLSLangs');
-            my @lsLangs = split(' ', $lsLangs);
-            push @lsLangs, qw(vim); # vim-vint requires pip install
-            # NOTE: can't figure out why plaintex shows up
-            # but it messes up the buffer local remappings
-            VOID_EVAL_LAST_WARNINGS: {
-                if($filetype && grep {/^$filetype$/} @lsLangs){
-                    # https://github.com/jaredly/reason-language-server
-                    # (which we're no longer using)
-                    #my $pipHasNeovim = `pip3 list 2>&1 | grep 'neovim' 2>&1`;
-                    #if($? >> 8){
-                    #    my $pipSuccess = `pip3 install neovim 2>&1`;
-                    #    if($? >> 8){
-                    #        VIM::DoCommand("silent !echo '[warning] `pip3 install neovim` failed. Not using langauge server.'");
-                    #        last VOID_EVAL_LAST_WARNINGS;
-                    #    }
-                    #}
-                    #VIM::DoCommand('pythonx import neovim');
-                    # enable autocomplete
-                    VIM::DoCommand("let g:myLSRunning = 1");
-                    VIM::DoCommand("command LSRename :call LanguageClient#textDocument_rename()<CR>");
-                    VIM::DoCommand("command LSTDef :call LanguageClient#textDocument_typeDefinition()<CR>");
-                    goto RETRY;
-                }
-            }
-        }
-    }
-EOF
-else
-    silent !echo '[warning] Need +perl to set filetype specific options'
-    silent !echo '[warning] Need +perl to initialize language server correctly'
-endif
+"" LanguageClient-neovim
+"" (and any pip stuff)
+"" (and any filetype specific options)
+"if has('perl')
+"    function s:ft_specific(ft)
+"        augroup filetype_specific
+"            autocmd! * <buffer>
+"        augroup END
+"        let g:myPerlArg = a:ft
+"        if !(exists('g:myDisableFTSpecific') && g:myDisableFTSpecific == 1)
+"            perl filetype_options
+"        endif
+"    endfunction
+"    perl << EOF
+"    use strict;
+"    use warnings FATAL => 'all', NONFATAL => 'redefine';
+"
+"    my ($_success, $lsLangs) = AEval('g:myLSLangs');
+"    my @lsLangs = split(' ', $lsLangs);
+"
+"    my %no_LS_opt2ft = (
+"        'setlocal shiftwidth=2' =>
+"        ['haskell', 'cabal', 'cabalconfig', 'cabalproject', 'nix'],
+"        'autocmd filetype_specific BufWritePost <buffer> call hejohns#dispatch_on_BufWrite()' =>
+"        ['tex'],
+"        'nnoremap <buffer> <C-\>ll :let g:myDispatchToggle = (exists("g:myDispatchToggle") && g:myDispatchToggle) ? 0 : 1<CR>' =>
+"        ['tex'],
+"        'call hejohns#vimtex_options()' =>
+"        ['tex'],
+"        'nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>' =>
+"        ['tex'],
+"        # TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
+"        # this hack ``just works''
+"        'setlocal filetype=tex' =>
+"        ['tex'],
+"        # vimtex-complete-auto
+"        # NOTE: this blocks
+"        "silent! call deoplete#custom#buffer_var('omni', 'input_patterns', {'tex': g:vimtex#re#deoplete})" =>
+"        ['tex'],
+"        # NOTE: julia unicode input doesn't play well w/ deoplete
+"        # when EnableL2U, autocomplete is sync and may hang vim
+"        # I can't find a easy way to dig into this problem
+"        # hopefully you (I) don't need async autocomplete and unicode input together too often...
+"        'call EnableL2U()' =>
+"        ['tex', 'coq'],
+"        'call hejohns#initialize_clang_complete()' =>
+"        ['c', 'cpp'],
+"    );
+"    my %LS_opt2ft = (
+"        'nnoremap <buffer> ;ls :call LanguageClient_contextMenu()<CR>' =>
+"        [@lsLangs],
+"        'nnoremap <buffer> gd :call LanguageClient#textDocument_definition()<CR>' =>
+"        [(grep {!/^perl$/} @lsLangs)],
+"        'nnoremap <buffer> K :call LanguageClient#textDocument_hover()<CR>' =>
+"        [(grep {!/^perl$/} @lsLangs)],
+"        'autocmd filetype_specific BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()' =>
+"        ['go'],
+"        # "call deoplete#custom#buffer_option('auto_complete', has('nvim'))" =>
+"        # ['c', 'cpp'],
+"    );
+"
+"    sub filetype_options{
+"        my $success;
+"        ($success, my $filetype) = SEval('g:myPerlArg');
+"        $filetype //= '';
+"        if($filetype eq 'plaintex'){
+"            VIM::DoCommand("silent !echo '[error] &ft plaintex should be masqueraded as tex'");
+"        }
+"        foreach my $k (keys %no_LS_opt2ft){
+"            if(grep {/^$filetype$/} @{$no_LS_opt2ft{$k}}){
+"                VIM::DoCommand($k);
+"            }
+"        }
+"        RETRY:
+"        ($success, my $ls_running) = SEval('g:myLSRunning');
+"        if($ls_running){
+"            # TODO: check LS executable is present or raise message
+"            # and maybe autoinstall? (if we nix it enough)
+"            foreach my $k (keys %LS_opt2ft){
+"                if(grep {/^$filetype$/} @{$LS_opt2ft{$k}}){
+"                    VIM::DoCommand($k);
+"                }
+"            }
+"        }
+"        else{
+"            my $success; #don't bother...
+"            ($success, my $lsLangs) = AEval('g:myLSLangs');
+"            my @lsLangs = split(' ', $lsLangs);
+"            push @lsLangs, qw(vim); # vim-vint requires pip install
+"            # NOTE: can't figure out why plaintex shows up
+"            # but it messes up the buffer local remappings
+"            VOID_EVAL_LAST_WARNINGS: {
+"                if($filetype && grep {/^$filetype$/} @lsLangs){
+"                    # https://github.com/jaredly/reason-language-server
+"                    # (which we're no longer using)
+"                    #my $pipHasNeovim = `pip3 list 2>&1 | grep 'neovim' 2>&1`;
+"                    #if($? >> 8){
+"                    #    my $pipSuccess = `pip3 install neovim 2>&1`;
+"                    #    if($? >> 8){
+"                    #        VIM::DoCommand("silent !echo '[warning] `pip3 install neovim` failed. Not using langauge server.'");
+"                    #        last VOID_EVAL_LAST_WARNINGS;
+"                    #    }
+"                    #}
+"                    #VIM::DoCommand('pythonx import neovim');
+"                    # enable autocomplete
+"                    VIM::DoCommand("let g:myLSRunning = 1");
+"                    VIM::DoCommand("command LSRename :call LanguageClient#textDocument_rename()<CR>");
+"                    VIM::DoCommand("command LSTDef :call LanguageClient#textDocument_typeDefinition()<CR>");
+"                    goto RETRY;
+"                }
+"            }
+"        }
+"    }
+"EOF
+"else
+"    silent !echo '[warning] Need +perl to set filetype specific options'
+"    silent !echo '[warning] Need +perl to initialize language server correctly'
+"endif
 augroup filetype_options
     autocmd!
     autocmd FileType plaintex setlocal filetype=tex
     autocmd BufRead,BufNewFile *.tree setfiletype tex
-    " other plugins may clobber our mappings
-    autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
+    "" other plugins may clobber our mappings
+    "autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END
 
 " julia latex2unicode

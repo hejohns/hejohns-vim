@@ -122,8 +122,9 @@ map ;b <Plug>Sneak_,
 noremap ;m :bnext<CR>
 "noremap ;N :bNext<CR>
 noremap ;n :bprevious<CR>
-noremap ;t :tabnext<CR>
-noremap ;T :tabprev<CR>
+" NOTE: 2025-04-07: I only just learned that this is already gt and gT...
+"noremap ;t :tabnext<CR>
+"noremap ;T :tabprev<CR>
 " https://stackoverflow.com/a/2084221
 noremap ;: :OverCommandLine<CR>
 " spell stuff
@@ -904,7 +905,18 @@ let g:lsp_max_buffer_size = -1
 let g:lsp_semantic_enabled = 1
 augroup vim_lsp_maps
     autocmd!
+    " NOTE: I can't think of a very good convention, but let's use our
+    " favorite leader ; as "prime"
     autocmd User lsp_buffer_enabled nnoremap <buffer> K <plug>(lsp-hover)
+    " It's still convenient to have the normal (keywordprg) K, even when hover
+    " is available
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;k K
+    " in this case, lsp-definition is a more accurate gd anyways, so there's
+    " no need to preserve the original semantics
     autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;gd <plug>(lsp-peek-definition)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;gt <plug>(lsp-peek-type-definition)
+    "autocmd User lsp_buffer_enabled nnoremap <buffer> ;gt <plug>(lsp-type-definition)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;rf <plug>(lsp-references)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;rn <plug>(lsp-rename)
 augroup END

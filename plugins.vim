@@ -89,3 +89,4 @@ Plug 'https://github.com/Shougo/denops-popup-preview.vim', executable('deno') ? 
 Plug 'https://github.com/prabirshrestha/vim-lsp'
 Plug 'https://github.com/mattn/vim-lsp-settings'
 Plug 'https://github.com/rhysd/vim-healthcheck' " vim-lsp supports vim-healthcheck, which hopefully makes it easier to debug lsp configuration issues (I didn't love this about LanguageClient)
+Plug 'https://github.com/Shougo/deol.nvim'

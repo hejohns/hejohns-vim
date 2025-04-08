@@ -904,5 +904,7 @@ let g:lsp_max_buffer_size = -1
 let g:lsp_semantic_enabled = 1
 augroup vim_lsp_maps
     autocmd!
-    autocmd User lsp_buffer_enabled nnoremap <buffer> K <Cmd>LspHover<CR>
+    autocmd User lsp_buffer_enabled nnoremap <buffer> K <plug>(lsp-hover)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;gd <plug>(lsp-peek-definition)
 augroup END

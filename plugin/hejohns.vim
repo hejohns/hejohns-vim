@@ -933,5 +933,8 @@ let g:denops#server#deno_args = [
 let g:denops#server#deno_args += ['--unstable-ffi']
 
 call ddt#custom#patch_global(#{
-    \   ui: 'shell',
+    \   ui: #{
+    \     name: 'shell',
+    \     params: #{ shellHistoryPath: '/tmp/abc' },
+    \   },
     \ })

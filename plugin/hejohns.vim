@@ -922,30 +922,4 @@ augroup vim_lsp_maps
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;a <plug>(lsp-code-action-float)
 augroup END
 
-" deol.vim
-autocmd FileType deol call s:deol_settings()
-function! s:deol_settings()
-    nnoremap <buffer> <C-n>  <Plug>(deol_next_prompt)
-    nnoremap <buffer> <C-p>  <Plug>(deol_previous_prompt)
-    nnoremap <buffer> <CR>   <Plug>(deol_execute_line)
-    nnoremap <buffer> A      <Plug>(deol_start_append_last)
-    nnoremap <buffer> I      <Plug>(deol_start_insert_first)
-    nnoremap <buffer> a      <Plug>(deol_start_append)
-    nnoremap <buffer> e      <Plug>(deol_edit)
-    nnoremap <buffer> i      <Plug>(deol_start_insert)
-    nnoremap <buffer> q      <Plug>(deol_quit)
-endfunction
-
-autocmd BufEnter deol-edit@default call s:deol_edit_settings()
-function! s:deol_edit_settings()
-    nnoremap <buffer> <CR>  <Plug>(deol_execute_line)
-    nnoremap <buffer> <BS>  <Plug>(deol_backspace)
-    nnoremap <buffer> <C-h> <Plug>(deol_backspace)
-    nnoremap <buffer> q     <Plug>(deol_quit)
-    nnoremap <buffer> <C-c> <Plug>(deol_ctrl_c)
-    inoremap <buffer> <CR>  <Plug>(deol_execute_line)
-    inoremap <buffer> <BS>  <Plug>(deol_backspace)
-    inoremap <buffer> <C-h> <Plug>(deol_backspace)
-    inoremap <buffer> <C-c> <Plug>(deol_ctrl_c)
-    inoremap <buffer> <C-d> <Plug>(deol_ctrl_d)
-endfunction
+" ddt.vim

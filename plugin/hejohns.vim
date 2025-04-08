@@ -919,4 +919,5 @@ augroup vim_lsp_maps
     "autocmd User lsp_buffer_enabled nnoremap <buffer> ;gt <plug>(lsp-type-definition)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rf <plug>(lsp-references)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rn <plug>(lsp-rename)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;a <plug>(lsp-code-action-float)
 augroup END

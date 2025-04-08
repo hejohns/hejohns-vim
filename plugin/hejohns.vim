@@ -915,7 +915,7 @@ augroup vim_lsp_maps
     " no need to preserve the original semantics
     autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;gd <plug>(lsp-peek-definition)
-    autocmd User lsp_buffer_enabled nnoremap <buffer> ;gt <plug>(lsp-peek-type-definition)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;t <plug>(lsp-peek-type-definition)
     "autocmd User lsp_buffer_enabled nnoremap <buffer> ;gt <plug>(lsp-type-definition)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rf <plug>(lsp-references)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rn <plug>(lsp-rename)

@@ -85,7 +85,7 @@ Plug 'https://github.com/matsui54/ddc-source-buffer', executable('deno') ? {} : 
 Plug 'https://github.com/Shougo/pum.vim', executable('deno') ? {} : {'for': []} " required by ddc-ui-pum
 Plug 'https://github.com/Shougo/ddc-ui-pum', executable('deno') ? {} : {'for': []} " apparently required by a lot of ddc
 Plug 'https://github.com/tani/ddc-fuzzy', executable('deno') ? {} : {'for': []} " ddc filter
-Plug 'https://github.com/Shougo/denops-popup-preview.vim', executable('deno') ? #{branch: 'fix_error'} : {'for': []}  " TODO: I'm not sure what this does
+Plug 'https://github.com/Shougo/denops-popup-preview.vim', executable('deno') ? #{branch: 'fix_error'} : {'for': []}  " TODO: there's a luaeval error on lsp completion preview
 Plug 'https://github.com/prabirshrestha/vim-lsp'
 Plug 'https://github.com/mattn/vim-lsp-settings'
 Plug 'https://github.com/rhysd/vim-healthcheck' " vim-lsp supports vim-healthcheck, which hopefully makes it easier to debug lsp configuration issues (I didn't love this about LanguageClient)

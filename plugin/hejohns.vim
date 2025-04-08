@@ -881,6 +881,7 @@ function MyDdcConf() abort
 
     " denops-popup-preview
     call popup_preview#enable()
+    let g:popup_preview_config = #{ debug: v:true }
 
     " ddc-source-lsp
 endfunction

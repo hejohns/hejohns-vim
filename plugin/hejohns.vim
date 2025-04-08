@@ -902,3 +902,7 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_inlay_hints_enabled = 1
 let g:lsp_max_buffer_size = -1
 let g:lsp_semantic_enabled = 1
+augroup vim_lsp_maps
+    autocmd!
+    autocmd User lsp_buffer_enabled nnoremap <buffer> K <Cmd>LspHover<CR>
+augroup END

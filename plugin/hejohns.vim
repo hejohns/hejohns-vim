@@ -923,3 +923,15 @@ augroup vim_lsp_maps
 augroup END
 
 " ddt.vim
+" default denops#server#deno_args
+let g:denops#server#deno_args = [
+    \   '-q',
+    \   '--no-lock',
+    \   '-A',
+    \ ]
+" required by ddt-ui-shell
+let g:denops#server#deno_args += ['--unstable-ffi']
+
+call ddt#custom#patch_global(#{
+    \   ui: 'shell',
+    \ })

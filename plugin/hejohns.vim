@@ -938,6 +938,7 @@ call ddt#custom#patch_global('name', 'shell')
 call ddt#custom#patch_global('uiParams', #{
     \   shell: #{
     \     prompt: '%%',
+    \     promptPattern : '%% ',
     \     userPrompt: '"| " .. fnamemodify(getcwd(), ":~")',
     \     shellHistoryPath: '/tmp/abc',
     \   },

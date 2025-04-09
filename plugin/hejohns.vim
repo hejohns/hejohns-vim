@@ -932,7 +932,8 @@ let g:denops#server#deno_args = [
 " required by ddt-ui-shell
 let g:denops#server#deno_args += ['--unstable-ffi']
 
-call ddt#custom#patch_global('ui', #{
-    \     name: 'shell',
-    \     params: #{ shellHistoryPath: '/tmp/abc' },
+call ddt#custom#patch_global('ui', 'shell')
+call ddt#custom#patch_global('uiOptions', #{})
+call ddt#custom#patch_global('uiParams', #{
+    \     shellHistoryPath: '/tmp/abc',
     \ })

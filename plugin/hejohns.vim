@@ -770,7 +770,7 @@ function s:init_denops_subplugin() abort
     call denops#notify('hejohns-vim', 'init', [])
     call denops#notify('hejohns-vim', 'start_timers', [['statusline_time']])
 endfunction
-autocmd User DenopsReady call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))
+autocmd User DenopsReady ++once call denops#plugin#wait_async('hejohns-vim', function('s:init_denops_subplugin'))
 
 " denops-vim-plug-update
 let g:denops_vim_plug_update_error_callback = 'hejohns#PlugUpdate'
@@ -784,8 +784,8 @@ function MyDdcConf() abort
                 \ 'lsp',
                 \ 'around',
                 \ 'buffer',
-                \ 'cmdline_history',
                 \ 'cmdline',
+                \ 'cmdline_history',
                 \ 'input',
                 \ 'line',
                 \ 'dictionary',
@@ -858,10 +858,11 @@ function MyDdcConf() abort
     "      \   omni: #{ omnifunc: 'vimtex#complete#omnifunc' },
     "      \ })
 
+    call ddc#custom#patch_global('autoCompleteEvents', ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
     call ddc#custom#patch_global('backspaceCompletion', v:true)
     " from ddc-option-cmdlineSources
     call ddc#custom#patch_global('cmdlineSources', {
-        \ ':': ['cmdline_history', 'cmdline', 'around'],
+        \ ':': ['cmdline', 'input', 'cmdline_history', 'around'],
         \ '@': ['cmdline_history', 'input', 'file', 'around'],
         \ '>': ['cmdline_history', 'input', 'file', 'around'],
         \ '/': ['around', 'line'],
@@ -873,11 +874,31 @@ function MyDdcConf() abort
     call ddc#enable_terminal_completion()
 
     " pum.vim
-    inoremap <expr> <TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : "\<TAB>"
-    inoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : "\<S-TAB>"
+    " NOTE: ddc#map#can_complete returns whether "can complete now", rather
+    " than "could complete (in the future)", which means we can't use it to
+    " run manual_complete when the pum isn't visible for some reason
+    inoremap <expr> <TAB> pum#visible() ?
+        \ '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+        \ (pumvisible() ?
+        \     "\<C-N>" :
+        \     "\<TAB>")
+    inoremap <expr> ;<TAB> pum#visible() ?
+        \ '<Cmd>call ddc#hide()<CR>' :
+        \ '<Cmd>call ddc#map#manual_complete()<CR>'
+    inoremap <expr> <S-TAB> pum#visible() ?
+        \ '<Cmd>call pum#map#insert_relative(-1)<CR>' :
+        \ (pumvisible() ?
+        \     "\<C-P>" :
+        \     "\<S-TAB>")
     " thus, <ESC> will cancel the completion, kj will not (the currently
     " selected completion will remain)
-    inoremap <expr> <ESC> pum#visible() ? '<Cmd>call pum#map#cancel()<CR>' .. "\<ESC>" : "\<ESC>"
+    inoremap <expr> <ESC> pum#visible() ?
+        \ '<Cmd>call pum#map#cancel()<CR><ESC>' :
+        \ "\<ESC>"
+    " based on https://zenn.dev/shougo/articles/ddc-vim-pum-vim
+    nnoremap : <Cmd>call ddc#enable_cmdline_completion()<CR>:
+    nnoremap ;: :
+    " TODO: command line mode
 
     " denops-popup-preview
     call popup_preview#enable()
@@ -953,5 +974,8 @@ augroup ddt_ui_shell
     autocmd FileType ddt-shell nnoremap <buffer> <C-c> <Cmd>call ddt#ui#do_action('terminate')<CR>
     autocmd FileType ddt-shell inoremap <buffer> <C-c> <Cmd>call ddt#ui#do_action('terminate')<CR>
     autocmd FileType ddt-shell nnoremap <buffer> ;r <Cmd>call ddt#ui#do_action('redraw')<CR>
+    autocmd FileType ddt-shell inoremap <buffer> <Up> <Cmd>call ddt#ui#do_action('previousPrompt')<CR>
+    autocmd FileType ddt-shell inoremap <buffer> <Down> <Cmd>call ddt#ui#do_action('nextPrompt')<CR>
+    autocmd FileType ddt-shell inoremap <buffer> <Right> <Cmd>call ddt#ui#do_action('pastePrompt')<CR>
 augroup END
 nnoremap ;s <Cmd>call ddt#start()<CR>

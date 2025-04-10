@@ -944,3 +944,14 @@ call ddt#custom#patch_global('uiParams', #{
     \     split: 'floating',
     \   },
     \ })
+" based on https://mikoto2000.blogspot.com/2025/01/ddtvim.html
+" and https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/ddt.vim
+augroup ddt_ui_shell
+    autocmd!
+    autocmd FileType ddt-shell nnoremap <buffer> <CR> <Cmd>call ddt#ui#do_action('executeLine')<CR>
+    autocmd FileType ddt-shell inoremap <buffer> <CR> <Cmd>call ddt#ui#do_action('executeLine')<CR>
+    autocmd FileType ddt-shell nnoremap <buffer> <C-c> <Cmd>call ddt#ui#do_action('terminate')<CR>
+    autocmd FileType ddt-shell inoremap <buffer> <C-c> <Cmd>call ddt#ui#do_action('terminate')<CR>
+    autocmd FileType ddt-shell nnoremap <buffer> ;r <Cmd>call ddt#ui#do_action('redraw')<CR>
+augroup END
+nnoremap ;s <Cmd>call ddt#start()<CR>

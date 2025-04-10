@@ -938,7 +938,7 @@ let s:ddt_ui_shell_history_path = tempname()
 call ddt#custom#patch_global('uiParams', #{
     \   shell: #{
     \     prompt: '%',
-    \     promptPattern : '% ',
+    \     promptPattern : '%\s*',
     \     userPrompt: '"| " .. fnamemodify(getcwd(), ":~")',
     \     shellHistoryPath: s:ddt_ui_shell_history_path,
     \     split: 'floating',

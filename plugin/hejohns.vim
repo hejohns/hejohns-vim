@@ -932,15 +932,15 @@ let g:denops#server#deno_args = [
 " required by ddt-ui-shell
 let g:denops#server#deno_args += ['--unstable-ffi']
 
-call ddt#custom#patch_global('ui', 'shell')
-call ddt#custom#patch_global('name', 'shell')
-"call ddt#custom#patch_global('uiOptions', #{})
+call ddt#custom#patch_global('ui', 'shell') " which ddt-ui- to use
+call ddt#custom#patch_global('name', 'default') " for some reason, the name has to be nonempty?
+let s:ddt_ui_shell_history_path = tempname()
 call ddt#custom#patch_global('uiParams', #{
     \   shell: #{
     \     prompt: '%',
-    \     promptPattern : '% ',
+    \     promptPattern : '%\s*',
     \     userPrompt: '"| " .. fnamemodify(getcwd(), ":~")',
-    \     shellHistoryPath: '/tmp/abc',
+    \     shellHistoryPath: s:ddt_ui_shell_history_path,
     \     split: 'floating',
     \   },
     \ })

@@ -73,7 +73,7 @@ set shortmess-=S
 set smarttab
 set backspace=nostop
 set spell
-inoremap kj <ESC>
+inoremap kj <Esc>
 inoremap jk <C-w>
 " this is tricky...
 function! s:lk() abort
@@ -104,7 +104,7 @@ function! s:lk() abort
         "call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])
     endif
 endfunction
-inoremap lk <ESC>:call <SID>lk()<CR>
+inoremap lk <Esc>:call <SID>lk()<CR>
 " the df and fd mappings were originally for a standard QWERTY keyboard where
 " <BS> and <DEL> are hard to reach, but I don't need these on a kinesis
 " Advantage 2
@@ -119,9 +119,10 @@ noremap ;; :update<CR>
 map ;f <Plug>Sneak_;
 " to be more mnemonic consistent
 map ;b <Plug>Sneak_,
-noremap ;m :bnext<CR>
+noremap ;m <Cmd>bnext<CR>
 "noremap ;N :bNext<CR>
-noremap ;n :bprevious<CR>
+noremap ;n <Cmd>bprevious<CR>
+noremap ;d <Cmd>bdelete<CR>
 " NOTE: 2025-04-07: I only just learned that this is already gt and gT...
 "noremap ;t :tabnext<CR>
 "noremap ;T :tabprev<CR>
@@ -132,7 +133,7 @@ noremap ;son :setlocal spell spelllang=en<CR>:call s:set_spell_colors()<CR>
 noremap ;soff :setlocal spell spelllang=<CR>
 noremap <expr> ;st (&spelllang == '' ? ':setlocal spell spelllang=en<CR>' : ':setlocal spelllang=""<CR>')
 " spell fix
-noremap ;sf viw<ESC>a<C-X><C-s>
+noremap ;sf viw<Esc>a<C-X><C-s>
 " I'm dumb
 "noremap ;sf h/\s\\|\n<CR>:let @/ = ''<CR>i<C-X><C-s>
 " https://stackoverflow.com/a/48721323
@@ -148,8 +149,8 @@ endif
 nnoremap Q gq
 vnoremap Q gq
 " NOTE: I'm assuming we don't need to default behavior
-inoremap <C-Y> <ESC><C-Y>a
-inoremap <C-E> <ESC><C-E>a
+inoremap <C-Y> <Esc><C-Y>a
+inoremap <C-E> <Esc><C-E>a
 " <C-\> is my leader for infrequent keys
 noremap <C-\>rn :set invrelativenumber<CR>
 noremap <C-\>n :set invnumber<CR>
@@ -517,7 +518,7 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 "nmap s H<Plug>SneakLabel_s
-" use <TAB> if there are too many sneak matches
+" use <Tab> if there are too many sneak matches
 "nnoremap S H:call sneak#wrap('', 3, 0, 1, 2)<CR>
 function MySneakLabel_s() abort
     autocmd User SneakLeave ++once call setcursorcharpos(line('.'), charcol('.') + 1)
@@ -530,7 +531,7 @@ nnoremap s :call MySneakLabel_s()<CR>
 " slowly learn the commands
 
 " This is the "modern" external grep search 
-" To populate quickfix, use <(S-)TAB> to select multiple entries from the popup
+" To populate quickfix, use <(S-)Tab> to select multiple entries from the popup
 " and :cwindow or :copen
 command SearchBuffersFzf Lines
 command SearchBufferFzf BLines
@@ -685,8 +686,8 @@ function MyDeopleteConf() abort
     " try to reduce flicker?
     let g:myDeopleteNumProcesses = min([g:myDeopleteNumProcesses, 8])
     call deoplete#custom#option('num_processes', g:myDeopleteNumProcesses)
-    inoremap <expr> <TAB> MyDeopleteTab()
-    inoremap <expr> <S-TAB> MyDeopleteSTab()
+    inoremap <expr> <Tab> MyDeopleteTab()
+    inoremap <expr> <S-Tab> MyDeopleteSTab()
 endfunction
 function MyDeopleteInit() abort
     if exists('g:loaded_deoplete')
@@ -698,7 +699,7 @@ function MyDeopleteTab()
     if pumvisible()
         return "\<C-n>"
     elseif hejohns#deoplete_check_back_space()
-        return "\<TAB>"
+        return "\<Tab>"
     else
         " NOTE: this should run iff deoplete auto_complete is disabled (v:false).
         " We have to disable automatic completion sometimes
@@ -727,8 +728,8 @@ function MyDeopleteSTab()
     if pumvisible()
         return "\<C-p>"
     elseif hejohns#deoplete_check_back_space()
-        " TODO: what is i_<S-TAB> supposed to do?
-        return "\<S-TAB>"
+        " TODO: what is i_<S-Tab> supposed to do?
+        return "\<S-Tab>"
     else
         # see MyDeopleteTab
         call deoplete#custom#option('auto_complete_popup', 'manual')
@@ -877,30 +878,64 @@ function MyDdcConf() abort
     " NOTE: ddc#map#can_complete returns whether "can complete now", rather
     " than "could complete (in the future)", which means we can't use it to
     " run manual_complete when the pum isn't visible for some reason
-    inoremap <expr> <TAB> pum#visible() ?
+    "
+    " So let's keep things simple and have (smart)<Tab> "only" do the
+    " "obvious" thing and force completion with another key
+
+    noremap! <expr> <Plug>(hejohns-vim-ddc-pum-complete) pum#visible() ?
         \ '<Cmd>call pum#map#insert_relative(+1)<CR>' :
         \ (pumvisible() ?
         \     "\<C-N>" :
-        \     "\<TAB>")
-    inoremap <expr> ;<TAB> pum#visible() ?
+        \     "\<Tab>")
+    noremap! <expr> <Plug>(hejohns-vim-ddc-pum-force-complete) pum#visible() ?
         \ '<Cmd>call ddc#hide()<CR>' :
         \ '<Cmd>call ddc#map#manual_complete()<CR>'
-    inoremap <expr> <S-TAB> pum#visible() ?
+    noremap! <expr> <Plug>(hejohns-vim-ddc-pum-reverse-complete) pum#visible() ?
         \ '<Cmd>call pum#map#insert_relative(-1)<CR>' :
         \ (pumvisible() ?
         \     "\<C-P>" :
-        \     "\<S-TAB>")
-    " thus, <ESC> will cancel the completion, kj will not (the currently
+        \     "\<S-Tab>")
+    " <Esc> will cancel the completion, kj will not (the currently
     " selected completion will remain)
-    inoremap <expr> <ESC> pum#visible() ?
-        \ '<Cmd>call pum#map#cancel()<CR><ESC>' :
-        \ "\<ESC>"
+    noremap! <expr> <Plug>(hejohns-vim-ddc-pum-cancel) pum#visible() ?
+        \ '<Cmd>call pum#map#cancel()<CR><Esc>' :
+        \ "\<Esc>"
+
+    imap <Tab> <Plug>(hejohns-vim-ddc-pum-complete)
+    imap ;<Tab> <Plug>(hejohns-vim-ddc-pum-force-complete)
+    imap <S-Tab> <Plug>(hejohns-vim-ddc-pum-reverse-complete)
+    imap <Esc> <Plug>(hejohns-vim-ddc-pum-cancel)
+
     " based on https://zenn.dev/shougo/articles/ddc-vim-pum-vim
-    nnoremap : <Cmd>call ddc#enable_cmdline_completion()<CR>:
+    "nnoremap : <Cmd>call ddc#enable_cmdline_completion()<CR>:
+    function s:ddt_ui_shell_cmdline_epilogue() abort
+        cunmap <buffer> <Tab>
+        cunmap <buffer> ;<Tab>
+        cunmap <buffer> <S-Tab>
+        cunmap <buffer> <Esc>
+        cunmap <buffer> <CR>
+    endfunction
+    function s:ddt_ui_shell_cmdline_prologue() abort
+        cmap <buffer> <Tab> <Plug>(hejohns-vim-ddc-pum-complete)
+        cmap <buffer> ;<Tab> <Plug>(hejohns-vim-ddc-pum-force-complete)
+        cmap <buffer> <S-Tab> <Plug>(hejohns-vim-ddc-pum-reverse-complete)
+        cmap <buffer> <Esc> <Plug>(hejohns-vim-ddc-pum-cancel)
+        " there's something weird where if we don't sleep, some commands that
+        " popup the "Hit Enter" message glitch out and only show for a split
+        " second and mess up the cmdline
+        cmap <expr> <buffer> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR><Cmd>sleep 100ms<CR><CR>' : "\<CR>"
+        autocmd ddc_pum CmdlineLeave <buffer=abuf> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
+        call ddc#enable_cmdline_completion()
+    endfunction
+    augroup ddc_pum
+        autocmd! *
+    augroup END
+    nnoremap : <Cmd>autocmd ddc_pum CmdlineEnter <buffer> ++once call <SID>ddt_ui_shell_cmdline_prologue()<CR>:
     nnoremap ;: :
-    " TODO: command line mode
 
     " denops-popup-preview
+    " TODO: there's some luaeval error with the popup_preview on lsp
+    " completions
     call popup_preview#enable()
 
     " ddc-source-lsp
@@ -955,13 +990,12 @@ let g:denops#server#deno_args += ['--unstable-ffi']
 
 call ddt#custom#patch_global('ui', 'shell') " which ddt-ui- to use
 call ddt#custom#patch_global('name', 'default') " for some reason, the name has to be nonempty?
-let s:ddt_ui_shell_history_path = tempname()
 call ddt#custom#patch_global('uiParams', #{
     \   shell: #{
     \     prompt: '%',
     \     promptPattern : '%\s*',
     \     userPrompt: '"| " .. fnamemodify(getcwd(), ":~")',
-    \     shellHistoryPath: s:ddt_ui_shell_history_path,
+    \     shellHistoryPath: expand('~/.ddt_ui_shell_history'),
     \     split: 'floating',
     \   },
     \ })

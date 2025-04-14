@@ -875,6 +875,8 @@ function MyDdcConf() abort
     call ddc#enable_terminal_completion()
 
     " pum.vim
+    call pum#set_option('preview_delay', 100)
+    call pum#set_option('use_setline', v:true) " I don't think I've ever wanted to . an autocompletion insertion
     " NOTE: ddc#map#can_complete returns whether "can complete now", rather
     " than "could complete (in the future)", which means we can't use it to
     " run manual_complete when the pum isn't visible for some reason

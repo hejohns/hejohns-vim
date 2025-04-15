@@ -23,6 +23,9 @@ set shiftwidth=4
 set cindent
 set formatoptions +=cro
 set hlsearch
+if has('reltime') " follow defaults.vim, to prevent vim from hanging
+    set incsearch
+endif
 set nopaste
 set foldmethod=indent
 set foldcolumn=0
@@ -51,6 +54,8 @@ endif
 " default spell on
 " (dumb but non autocmd gets clobbered by other syntax files)
 " NOTE: 2025-04-07: this is so so ugly, but has seemed to work okay
+" NOTE: 2025-04-14: this pops up the built-in pum, which is NOT the same as
+" the pum.vim pum
 augroup spell_default_on
     autocmd!
     " VimEnter for first window, WinNew for the rest
@@ -76,6 +81,10 @@ set spell
 inoremap kj <Esc>
 inoremap jk <C-w>
 " this is tricky...
+" NOTE: 2025-04-14: I tried to rewrite this to avoid manually setting the
+" entire line, but somehow it seems like Ex and "high level" vimscript doesn't
+" quite do what we want-- ie why is it so hard to insert 'lk' while processing
+" a mapping for 'lk'???
 function! s:lk() abort
     let l:orig_line = getline('.')
     let l:orig_cursorpos = charcol('.')
@@ -86,25 +95,25 @@ function! s:lk() abort
     "endif
     " avoid remappings
     "normal! alk
-    call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos))
+    call setline('.', strcharpart(l:orig_line, 0, l:orig_cursorpos - 1) .. 'lk' .. strcharpart(l:orig_line, l:orig_cursorpos - 1))
     " NOTE: setcursorcharpos(0, charcol('.')) moves the cursor when col > 61?????
-    call setcursorcharpos(line('.'), l:orig_cursorpos + 2)
+    " NOTE: 2025-04-14: I think this bug has since been fixed at some point
+    call setcursorcharpos(0, l:orig_cursorpos + 1)
     "call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
     " try to stop the weirdness
     "stopinsert
-    call setcursorcharpos(line('.'), charcol('.') - 1)
     "call setcharpos('.', [0, line('.'), charcol('.') - 1, 0])
     if strlen(system('aspell list', expand('<cword>')))
         call setline('.', l:orig_line)
-        call setcursorcharpos(line('.'), l:orig_cursorpos + 2)
+        stopinsert
         "call setcharpos('.', [0, line('.'), l:orig_cursorpos + 2, 0])
     else
         startinsert
-        call setcursorcharpos(line('.'), charcol('.') + 2)
         "call setcharpos('.', [0, line('.'), charcol('.') + 2, 0])
     endif
+    call setcursorcharpos(0, l:orig_cursorpos + 2)
 endfunction
-inoremap lk <Esc>:call <SID>lk()<CR>
+inoremap lk <Cmd>call <SID>lk()<CR>
 " the df and fd mappings were originally for a standard QWERTY keyboard where
 " <BS> and <DEL> are hard to reach, but I don't need these on a kinesis
 " Advantage 2
@@ -126,8 +135,20 @@ noremap ;d <Cmd>bdelete<CR>
 " NOTE: 2025-04-07: I only just learned that this is already gt and gT...
 "noremap ;t :tabnext<CR>
 "noremap ;T :tabprev<CR>
-" https://stackoverflow.com/a/2084221
-noremap ;: :OverCommandLine<CR>
+" NOTE: 2025-04-14: As much as I like vim-over for having been the original
+" :substitute preview, traces.vim doesn't setup a fake cmdline mode and is
+" therefore
+" - easier to use with other plugins like ddc.vim
+" - doesn't require explicit key mappings
+"
+" A big downside is that traces.vim currently (and probably will never-- see
+" https://github.com/markonm/traces.vim/issues/38) preview the replacement
+" alongside the match, unlike vim-over and subsequently neovim.
+"
+" So I am seriously grateful for vim-over, but it looks like I'll be using
+" traces.vim from now on
+"" https://stackoverflow.com/a/2084221
+"noremap ;: <Cmd>OverCommandLine<CR>
 " spell stuff
 noremap ;son :setlocal spell spelllang=en<CR>:call s:set_spell_colors()<CR>
 noremap ;soff :setlocal spell spelllang=<CR>
@@ -926,18 +947,19 @@ function MyDdcConf() abort
         " popup the "Hit Enter" message glitch out and only show for a split
         " second and mess up the cmdline
         cmap <expr> <buffer> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR><Cmd>sleep 100ms<CR><CR>' : "\<CR>"
-        autocmd ddc_pum CmdlineLeave <buffer=abuf> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
+        autocmd ddc_pum CmdlineLeave <buffer> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
         call ddc#enable_cmdline_completion()
     endfunction
     augroup ddc_pum
         autocmd! *
     augroup END
-    nnoremap : <Cmd>autocmd ddc_pum CmdlineEnter <buffer> ++once call <SID>ddt_ui_shell_cmdline_prologue()<CR>:
-    nnoremap ;: :
+    nnoremap ;: <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>:
+    nnoremap ;/ <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>/
+    nnoremap ;? <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>?
 
     " denops-popup-preview
     " TODO: there's some luaeval error with the popup_preview on lsp
-    " completions
+    " completions?
     call popup_preview#enable()
 
     " ddc-source-lsp

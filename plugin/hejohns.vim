@@ -1031,6 +1031,9 @@ call ddt#custom#patch_global('uiParams', #{
     \     shellHistoryPath: expand('~/.ddt_ui_shell_history'),
     \     split: 'floating',
     \   },
+    \   terminal: #{
+    \     command: ['bash'],
+    \   },
     \ })
 " based on https://mikoto2000.blogspot.com/2025/01/ddtvim.html
 " and https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/ddt.vim
@@ -1046,3 +1049,4 @@ augroup ddt_ui_shell
     autocmd FileType ddt-shell inoremap <buffer> <Right> <Cmd>call ddt#ui#do_action('pastePrompt')<CR>
 augroup END
 nnoremap ;sh <Cmd>call ddt#start()<CR>
+nnoremap ;term <Cmd>call ddt#start(#{ui: 'terminal'})<CR>

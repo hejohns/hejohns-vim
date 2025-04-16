@@ -93,4 +93,5 @@ Plug 'https://github.com/rhysd/vim-healthcheck' " vim-lsp supports vim-healthche
 Plug 'https://github.com/lambdalisue/vim-guise', executable('deno') ? {} : {'for': []}
 Plug 'https://github.com/Shougo/ddt.vim', executable('deno') ? {} : {'for': []}
 Plug 'https://github.com/Shougo/ddt-ui-shell', executable('deno') ? {} : {'for': []} " ddt ui
+Plug 'https://github.com/Shougo/ddt-ui-terminal/', executable('deno') ? {} : {'for': []} " ddt ui
 Plug 'https://github.com/markonm/traces.vim.git'

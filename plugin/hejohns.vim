@@ -844,7 +844,7 @@ function MyDdcConf() abort
           \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
           \   },
           \   buffer: #{ mark: '[buf]' },
-          \   shell: #{ mark: '[shell]'},
+          \   shell: #{ mark: '[sh]'},
           \   _: #{
           \     matchers: ['matcher_fuzzy'],
           \     sorters: ['sorter_fuzzy'],

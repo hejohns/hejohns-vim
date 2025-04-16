@@ -889,6 +889,8 @@ function MyDdcConf() abort
     call ddc#custom#patch_global('autoCompleteEvents', ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
     call ddc#custom#patch_global('backspaceCompletion', v:true)
     " from ddc-option-cmdlineSources
+    " TODO: 2025-04-15: I don't think these are all in quite the right order we want, but
+    " eh it's okayish so far?
     call ddc#custom#patch_global('cmdlineSources', {
         \ ':': ['cmdline', 'input', 'cmdline_history', 'around'],
         \ '@': ['cmdline_history', 'input', 'file', 'around'],
@@ -953,12 +955,12 @@ function MyDdcConf() abort
         " popup the "Hit Enter" message glitch out and only show for a split
         " second and mess up the cmdline
         cmap <expr> <buffer> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR><Cmd>sleep 100ms<CR><CR>' : "\<CR>"
-        autocmd ddc_pum CmdlineLeave <buffer> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
+        augroup ddc_pum
+            autocmd! *
+            autocmd CmdlineLeave <buffer> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
+        augroup END
         call ddc#enable_cmdline_completion()
     endfunction
-    augroup ddc_pum
-        autocmd! *
-    augroup END
     nnoremap ;: <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>:
     nnoremap ;/ <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>/
     nnoremap ;? <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>?

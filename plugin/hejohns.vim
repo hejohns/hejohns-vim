@@ -809,7 +809,7 @@ let g:denops_vim_plug_update_error_callback = 'hejohns#PlugUpdate'
 " (in order of candidate rank, to use the deoplete terminology)
 autocmd VimEnter * ++once call MyDdcInit()
 function MyDdcConf() abort
-    call ddc#custom#patch_global('sources', [
+    let l:sources = [
                 \ 'file',
                 \ 'lsp',
                 \ 'around',
@@ -820,10 +820,9 @@ function MyDdcConf() abort
                 \ 'shell',
                 \ 'dictionary',
                 \ 'line',
-                \ ])
-    call ddc#custom#patch_filetype('vim', 'sources', [
-                \ 'vim',
-                \ ])
+                \ ]
+    call ddc#custom#patch_global('sources', l:sources)
+    call ddc#custom#patch_filetype('vim', 'sources', ['vim'] + l:sources)
     " TODO: we may need to change the lsp sorter to lsp_sorter-kind
     call ddc#custom#patch_global('sourceOptions', #{
           \   around: #{ mark: '[A]' },

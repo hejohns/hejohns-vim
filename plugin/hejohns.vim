@@ -821,6 +821,9 @@ function MyDdcConf() abort
                 \ 'dictionary',
                 \ 'line',
                 \ ])
+    call ddc#custom#patch_filetype('vim', 'sources', [
+                \ 'vim',
+                \ ])
     " TODO: we may need to change the lsp sorter to lsp_sorter-kind
     call ddc#custom#patch_global('sourceOptions', #{
           \   around: #{ mark: '[A]' },
@@ -844,7 +847,11 @@ function MyDdcConf() abort
           \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
           \   },
           \   buffer: #{ mark: '[buf]' },
-          \   shell: #{ mark: '[sh]'},
+          \   shell: #{ mark: '[sh]' },
+          \   vim: #{
+          \     mark: '[vim]',
+          \     isVolatile: v:true,
+          \   },
           \   _: #{
           \     matchers: ['matcher_fuzzy'],
           \     sorters: ['sorter_fuzzy'],
@@ -1037,6 +1044,7 @@ call ddt#custom#patch_global('uiParams', #{
     \ })
 " based on https://mikoto2000.blogspot.com/2025/01/ddtvim.html
 " and https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/ddt.vim
+" and https://zenn.dev/shougo/articles/ddt-vim-beta
 augroup ddt_ui_shell
     autocmd!
     autocmd FileType ddt-shell nnoremap <buffer> <CR> <Cmd>call ddt#ui#do_action('executeLine')<CR>

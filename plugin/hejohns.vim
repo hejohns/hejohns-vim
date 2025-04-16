@@ -817,9 +817,9 @@ function MyDdcConf() abort
                 \ 'cmdline',
                 \ 'cmdline_history',
                 \ 'input',
-                \ 'line',
                 \ 'shell',
                 \ 'dictionary',
+                \ 'line',
                 \ ])
     " TODO: we may need to change the lsp sorter to lsp_sorter-kind
     call ddc#custom#patch_global('sourceOptions', #{

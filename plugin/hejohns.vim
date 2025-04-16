@@ -155,6 +155,10 @@ noremap ;soff :setlocal spell spelllang=<CR>
 noremap <expr> ;st (&spelllang == '' ? ':setlocal spell spelllang=en<CR>' : ':setlocal spelllang=""<CR>')
 " spell fix
 noremap ;sf viw<Esc>a<C-X><C-s>
+" NOTE: 2025-04-15: I try really hard to reserve ; as a normal leader, but
+" I've been getting really annoyed going from insert to normal mode and back
+" just to fix the spelling of what I just typed
+inoremap ;s <C-X><C-s>
 " I'm dumb
 "noremap ;sf h/\s\\|\n<CR>:let @/ = ''<CR>i<C-X><C-s>
 " https://stackoverflow.com/a/48721323

@@ -818,6 +818,7 @@ function MyDdcConf() abort
                 \ 'cmdline_history',
                 \ 'input',
                 \ 'line',
+                \ 'shell',
                 \ 'dictionary',
                 \ ])
     " TODO: we may need to change the lsp sorter to lsp_sorter-kind
@@ -843,6 +844,7 @@ function MyDdcConf() abort
           \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
           \   },
           \   buffer: #{ mark: '[buf]' },
+          \   shell: #{ mark: '[shell]'},
           \   _: #{
           \     matchers: ['matcher_fuzzy'],
           \     sorters: ['sorter_fuzzy'],

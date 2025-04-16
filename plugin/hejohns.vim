@@ -158,7 +158,7 @@ noremap ;sf viw<Esc>a<C-X><C-s>
 " NOTE: 2025-04-15: I try really hard to reserve ; as a normal leader, but
 " I've been getting really annoyed going from insert to normal mode and back
 " just to fix the spelling of what I just typed
-inoremap <expr> ;s exists('*pum#visible') ?
+inoremap <expr> ;sf exists('*pum#visible') ?
     \ (pum#visible() ?
     \     '<Cmd>call ddc#hide()<CR><C-X><C-s>' :
     \     '<C-X><C-s>') :

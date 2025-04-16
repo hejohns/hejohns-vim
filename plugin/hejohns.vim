@@ -997,10 +997,7 @@ augroup vim_lsp_maps
     autocmd!
     " NOTE: I can't think of a very good convention, but let's use our
     " favorite leader ; as "prime"
-    autocmd User lsp_buffer_enabled nnoremap <buffer> K <plug>(lsp-hover)
-    " It's still convenient to have the normal (keywordprg) K, even when hover
-    " is available
-    autocmd User lsp_buffer_enabled nnoremap <buffer> ;k K
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ;k <plug>(lsp-hover)
     " in this case, lsp-definition is a more accurate gd anyways, so there's
     " no need to preserve the original semantics
     autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
@@ -1046,4 +1043,4 @@ augroup ddt_ui_shell
     autocmd FileType ddt-shell inoremap <buffer> <Down> <Cmd>call ddt#ui#do_action('nextPrompt')<CR>
     autocmd FileType ddt-shell inoremap <buffer> <Right> <Cmd>call ddt#ui#do_action('pastePrompt')<CR>
 augroup END
-nnoremap ;s <Cmd>call ddt#start()<CR>
+nnoremap ;sh <Cmd>call ddt#start()<CR>

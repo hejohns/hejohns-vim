@@ -1056,4 +1056,6 @@ augroup ddt_ui_shell
     autocmd FileType ddt-shell inoremap <buffer> <Right> <Cmd>call ddt#ui#do_action('pastePrompt')<CR>
 augroup END
 nnoremap ;sh <Cmd>call ddt#start()<CR>
-nnoremap ;term <Cmd>call ddt#start(#{ui: 'terminal'})<CR>
+" NOTE: I don't think I understand what the terminal ui does, or at least I
+" don't find it useful
+"nnoremap ;term <Cmd>call ddt#start(#{ui: 'terminal'})<CR>

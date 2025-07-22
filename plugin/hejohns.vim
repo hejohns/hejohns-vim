@@ -196,6 +196,8 @@ inoremap <C-\>"o ö
 " https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
 " Allow saving of files as sudo
 cmap w!! w !sudo tee > /dev/null %
+" useful for writing comments
+inoremap <expr> ;today {-> strftime('%Y-%m-%d')}()
 
 " fold settings
 " https://stackoverflow.com/a/54739345
@@ -978,7 +980,7 @@ function MyDdcConf() abort
     " denops-popup-preview
     " TODO: there's some luaeval error with the popup_preview on lsp
     " completions?
-    call popup_preview#enable()
+    "call popup_preview#enable()
 
     " ddc-source-lsp
 endfunction
@@ -1015,6 +1017,9 @@ augroup vim_lsp_maps
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rf <plug>(lsp-references)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;rn <plug>(lsp-rename)
     autocmd User lsp_buffer_enabled nnoremap <buffer> ;a <plug>(lsp-code-action-float)
+    " NOTE: 2025-07-22: I never use the default ]d and [d, so I'm
+    autocmd User lsp_buffer_enabled nnoremap <buffer> ]d <plug>(lsp-next-diagnostic)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> [d <plug>(lsp-prev-diagnostic)
 augroup END
 
 " ddt.vim
@@ -1059,3 +1064,131 @@ nnoremap ;sh <Cmd>call ddt#start()<CR>
 " NOTE: I don't think I understand what the terminal ui does, or at least I
 " don't find it useful
 "nnoremap ;term <Cmd>call ddt#start(#{ui: 'terminal'})<CR>
+
+" ddu.vim
+" This is from 'help ddu-examples' and the ddu-ui-ff-faq
+" You must set the default ui.
+" NOTE: ff ui
+" https://github.com/Shougo/ddu-ui-ff
+" NOTE: 2025-07-22: As far as I can tell, the only other canonical (and
+" available) ddu-ui is ddu-ui-filer, which seems well, better suited to
+" listing and finding files, but I'm afraid it's even less mature than
+" ddu-ui-ff, so we'll stick with this for now?
+"
+" for some reason setting ui to a dictionary doesn't seem to work
+"
+" The 'floating' split only works in nvim unfortunately
+call ddu#custom#patch_global('ui', 'ff')
+call ddu#custom#patch_global('uiParams', #{
+    \   ff: #{
+    \     split: 'horizontal',
+    \     displaySourceName: 'long',
+    \     previewFloating: v:true,
+    \   },
+    \ })
+
+autocmd FileType ddu-ff call s:ddu_my_settings()
+function! s:ddu_my_settings() abort
+  nnoremap <buffer><silent> <CR>
+        \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
+  nnoremap <buffer><silent> <Space>
+        \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
+  nnoremap <buffer><silent> i
+        \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
+  nnoremap <buffer><silent> q
+        \ <Cmd>call ddu#ui#do_action('quit')<CR>
+  nnoremap <buffer><silent> p
+        \ <Cmd>call ddu#ui#do_action('togglePreview')<CR>
+  nnoremap <buffer><silent> a
+        \ <Cmd>call ddu#ui#do_action('chooseAction')<CR>
+  " TODO: 2025-07-22: highlight columns
+  if b:ddu_ui_name ==# 'default'
+      "setlocal syntax=vim
+      syntax case ignore " not really necessary
+      syntax match ddu_ff_sourcename /^\S\+/
+      syntax match ddu_ff_value /\S\+$/
+      highlight ddu_ff_sourcename ctermfg=4
+      highlight ddu_ff_value ctermfg=8
+  endif
+endfunction
+
+" You must set the default action.
+" NOTE: file kind
+" https://github.com/Shougo/ddu-kind-file
+"
+" NOTE: 2025-07-22: most non-default actions should be available by
+" chooseAction
+" TODO: I have not yet needed an action that requires a non-default param, but
+" I also haven't really used ddu yet
+call ddu#custom#patch_global('kindOptions', #{
+    \     action: #{
+    \       defaultAction: 'do',
+    \     },
+    \     file: #{
+    \       defaultAction: 'open',
+    \     },
+    \     word: #{
+    \       defaultAction: 'append',
+    \     },
+    \     lsp: #{
+    \       defaultAction: 'open',
+    \     },
+    \     lsp_codeAction: #{
+    \       defaultAction: 'apply',
+    \     },
+    \ })
+
+" Specify matcher.
+" NOTE: matcher_substring filter
+" https://github.com/Shougo/ddu-filter-matcher_substring
+call ddu#custom#patch_global('sourceOptions', #{
+    \   _: #{
+    \     matchers: ['matcher_substring'],
+    \   },
+    \ })
+
+" Set default sources
+" NOTE: file source
+" https://github.com/Shougo/ddu-source-file_rec
+"
+" NOTE: 2025-07-22: There doesn't seem to me a good notion of default
+" sources...
+call ddu#custom#patch_global('sources',
+    \ [
+    \   #{ name: 'file' },
+    \   #{ name: 'lsp_definition' },
+    \ ])
+call ddu#custom#patch_global('sourceParams', #{
+    \ lsp_definition: #{ clientName: 'vim-lsp' },
+    \ })
+
+" Change base path.
+" NOTE: "path" must be full path.
+"
+" In a rare exception, I'll patch sourceOptions twice, because the first
+" occurrence is for the matcher which really is just coincidentally a
+" sourceOption
+call ddu#custom#patch_global('sourceOptions', #{
+      \   file_rec: #{ path: expand("~") },
+      \   file: #{ path: expand("~") },
+      \ })
+
+" Set buffer-name specific configuration
+"call ddu#custom#patch_local('files', #{
+"    \   sources: [
+"    \     #{ name: 'file', params: {} },
+"    \     #{ name: 'file_old', params: {} },
+"    \ ],
+"    \ })
+
+" Specify buffer name
+"call ddu#start(#{ name: 'files' })
+
+" Specify source with params
+" NOTE: file_rec source
+" https://github.com/Shougo/ddu-source-file_rec
+"call ddu#start(#{
+"    \   sources: [
+"    \     #{ name: 'file_rec', params: #{ path: expand('~') } },
+"    \   ],
+"    \ })

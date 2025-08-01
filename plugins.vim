@@ -98,6 +98,7 @@ Plug 'https://github.com/Shougo/ddt-ui-terminal/', executable('deno') ? {} : {'f
 Plug 'https://github.com/markonm/traces.vim.git'
 Plug 'https://github.com/Shougo/ddu.vim', executable('deno') ? {} : #{for: []}
 Plug 'https://github.com/Shougo/ddu-ui-ff', executable('deno') ? {} : #{for: []} " ddu ui
+Plug 'https://github.com/Shougo/ddu-ui-filer', executable('deno') ? {} : #{for: []} " ddu ui
 Plug 'https://github.com/Shougo/ddu-kind-file', executable('deno') ? {} : #{for: []} " ddu kind
 Plug 'https://github.com/Shougo/ddu-kind-word', executable('deno') ? {} : #{for: []} " ddu kind
 Plug 'https://github.com/Shougo/ddu-filter-matcher_substring', executable('deno') ? {} : #{for: []} " ddu filter
@@ -107,6 +108,9 @@ Plug 'https://github.com/Shougo/ddu-source-file_rec', executable('deno') ? {} : 
 " bundles ddu kind lsp and lsp_codeAction (why not split it off??)
 Plug 'https://github.com/uga-rosa/ddu-source-lsp', executable('deno') ? {} : #{for: []} " ddu source
 Plug 'https://github.com/shun/ddu-source-buffer', executable('deno') ? {} : #{for: []} " ddu source
+Plug 'https://github.com/shun/ddu-source-rg', executable('deno') ? {} : #{for: []} " ddu source
+Plug 'https://github.com/matsui54/ddu-source-help', executable('deno') ? {} : #{for: []} " ddu source
+Plug 'https://github.com/Shougo/ddu-source-line', executable('deno') ? {} : #{for: []} " ddu source
 " 2025-07-22: I don't find this to be super useful, but I'll leave this since
 " it's harmless enough
 Plug 'https://github.com/Shougo/ddu-commands.vim', executable('deno') ? {} : #{for: []}

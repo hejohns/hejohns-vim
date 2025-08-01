@@ -572,10 +572,12 @@ command SearchBufferFzf BLines
 " Populates quickfix
 function MySearchBuffersVim(pat) abort
     cexpr []
-    execute 'bufdo vimgrepadd ' .. a:pat .. ' %'
+    " some buffers may not contain the pattern, and vimgrepadd errors on no
+    " match by default
+    silent! execute 'bufdo vimgrepadd ' .. a:pat .. ' %'
     cwindow
 endfunction
-command -nargs=1 SearchBuffersVim call MySearchBuffersVim(<f-args>)
+command -nargs=1 SearchBuffersVim call MySearchBuffersVim("<args>")
 command -nargs=1 SearchBufferVim vimgrep <args> % | cwindow
 if executable('bat') == 0
     silent !echo '[optional] Need `bat` for :Ag, :Lines, ...'
@@ -903,8 +905,9 @@ function MyDdcConf() abort
     " from ddc-option-cmdlineSources
     " TODO: 2025-04-15: I don't think these are all in quite the right order we want, but
     " eh it's okayish so far?
+    " 2025-07-31: Added file source to :
     call ddc#custom#patch_global('cmdlineSources', {
-        \ ':': ['cmdline', 'input', 'cmdline_history', 'around'],
+        \ ':': ['cmdline', 'input', 'cmdline_history', 'around', 'file'],
         \ '@': ['cmdline_history', 'input', 'file', 'around'],
         \ '>': ['cmdline_history', 'input', 'file', 'around'],
         \ '/': ['around', 'line'],
@@ -951,14 +954,14 @@ function MyDdcConf() abort
 
     " based on https://zenn.dev/shougo/articles/ddc-vim-pum-vim
     "nnoremap : <Cmd>call ddc#enable_cmdline_completion()<CR>:
-    function s:ddt_ui_shell_cmdline_epilogue() abort
+    function s:ddc_cmdline_epilogue() abort
         cunmap <buffer> <Tab>
         cunmap <buffer> ;<Tab>
         cunmap <buffer> <S-Tab>
         cunmap <buffer> <Esc>
         cunmap <buffer> <CR>
     endfunction
-    function s:ddt_ui_shell_cmdline_prologue() abort
+    function s:ddc_cmdline_prologue() abort
         cmap <buffer> <Tab> <Plug>(hejohns-vim-ddc-pum-complete)
         cmap <buffer> ;<Tab> <Plug>(hejohns-vim-ddc-pum-force-complete)
         cmap <buffer> <S-Tab> <Plug>(hejohns-vim-ddc-pum-reverse-complete)
@@ -969,13 +972,13 @@ function MyDdcConf() abort
         cmap <expr> <buffer> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR><Cmd>sleep 100ms<CR><CR>' : "\<CR>"
         augroup ddc_pum
             autocmd! *
-            autocmd CmdlineLeave <buffer> ++once call <SID>ddt_ui_shell_cmdline_epilogue()
+            autocmd CmdlineLeave <buffer> ++once call <SID>ddc_cmdline_epilogue()
         augroup END
         call ddc#enable_cmdline_completion()
     endfunction
-    nnoremap ;: <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>:
-    nnoremap ;/ <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>/
-    nnoremap ;? <Cmd>call <SID>ddt_ui_shell_cmdline_prologue()<CR>?
+    nnoremap ;: <Cmd>call <SID>ddc_cmdline_prologue()<CR>:
+    nnoremap ;/ <Cmd>call <SID>ddc_cmdline_prologue()<CR>/
+    nnoremap ;? <Cmd>call <SID>ddc_cmdline_prologue()<CR>?
 
     " denops-popup-preview
     " TODO: there's some luaeval error with the popup_preview on lsp
@@ -1066,41 +1069,52 @@ nnoremap ;sh <Cmd>call ddt#start()<CR>
 "nnoremap ;term <Cmd>call ddt#start(#{ui: 'terminal'})<CR>
 
 " ddu.vim
+"
 " This is from 'help ddu-examples' and the ddu-ui-ff-faq
 " You must set the default ui.
+"
 " NOTE: ff ui
 " https://github.com/Shougo/ddu-ui-ff
-" NOTE: 2025-07-22: As far as I can tell, the only other canonical (and
-" available) ddu-ui is ddu-ui-filer, which seems well, better suited to
-" listing and finding files, but I'm afraid it's even less mature than
-" ddu-ui-ff, so we'll stick with this for now?
-"
-" for some reason setting ui to a dictionary doesn't seem to work
+" 2025-07-22: for some reason setting ui to a dictionary doesn't seem to work
 "
 " The 'floating' split only works in nvim unfortunately
+"
+" 2025-07-28: As much as I like how `previewFloating: v:true` looks, it truncates instead
+" of wrapping lines, so we need to use a split preview after all
 call ddu#custom#patch_global('ui', 'ff')
 call ddu#custom#patch_global('uiParams', #{
     \   ff: #{
     \     split: 'horizontal',
     \     displaySourceName: 'long',
-    \     previewFloating: v:true,
+    \     previewFloating: v:false,
+    \   },
+    \   filer: #{
+    \     split: 'horizontal',
+    \     previewFloating: v:false,
     \   },
     \ })
 
-autocmd FileType ddu-ff call s:ddu_my_settings()
-function! s:ddu_my_settings() abort
+" 2025-07-28: The notion of "common" ddu ui settings depends on what ui s
+" these settings are common for...
+" For now, we just mean maps shared between ddu-ui-ff and ddu-ui-filer
+function! s:ddu_ui_common_settings() abort
   nnoremap <buffer><silent> <CR>
         \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
   nnoremap <buffer><silent> <Space>
         \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
-  nnoremap <buffer><silent> i
-        \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> q
         \ <Cmd>call ddu#ui#do_action('quit')<CR>
+  nnoremap <buffer><silent> i
+        \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> p
         \ <Cmd>call ddu#ui#do_action('togglePreview')<CR>
   nnoremap <buffer><silent> a
         \ <Cmd>call ddu#ui#do_action('chooseAction')<CR>
+endfunction
+
+autocmd FileType ddu-ff call s:ddu_ff_my_settings()
+function! s:ddu_ff_my_settings() abort
+  call s:ddu_ui_common_settings()
   " TODO: 2025-07-22: highlight columns
   if b:ddu_ui_name ==# 'default'
       "setlocal syntax=vim
@@ -1110,6 +1124,13 @@ function! s:ddu_my_settings() abort
       highlight ddu_ff_sourcename ctermfg=4
       highlight ddu_ff_value ctermfg=8
   endif
+endfunction
+
+autocmd FileType ddu-filer call s:ddu_filer_my_settings()
+function! s:ddu_filer_my_settings() abort
+  call s:ddu_ui_common_settings()
+  nnoremap <buffer> o
+  \ <Cmd>call ddu#ui#do_action('expandItem')<CR>
 endfunction
 
 " You must set the default action.
@@ -1136,6 +1157,9 @@ call ddu#custom#patch_global('kindOptions', #{
     \     lsp_codeAction: #{
     \       defaultAction: 'apply',
     \     },
+    \     help: #{
+    \       defaultAction: 'open',
+    \     },
     \ })
 
 " Specify matcher.
@@ -1158,8 +1182,11 @@ call ddu#custom#patch_global('sources',
     \   #{ name: 'file' },
     \   #{ name: 'lsp_definition' },
     \ ])
-call ddu#custom#patch_global('sourceParams', #{
-    \ lsp_definition: #{ clientName: 'vim-lsp' },
+call ddu#custom#patch_global('sourceParams',
+    \ #{
+    \   lsp_definition: #{ clientName: 'vim-lsp' },
+    \   lsp_references: #{ clientName: 'vim-lsp' },
+    \   lsp_documentSymbol: #{ clientName: 'vim-lsp' },
     \ })
 
 " Change base path.
@@ -1192,3 +1219,21 @@ call ddu#custom#patch_global('sourceOptions', #{
 "    \     #{ name: 'file_rec', params: #{ path: expand('~') } },
 "    \   ],
 "    \ })
+"
+command -nargs=1 -complete=file SearchFilesDdu call ddu#start(#{ ui: 'filer', sources: [ #{ name: 'file', options: #{ path: "<args>" } } ] })
+" This command doesn't start with 'Search*' because fzf-vim ships with the
+" default command :Buffers, which is like :buffers, but can be used to search
+" for and select a buffer
+command BuffersDdu call ddu#start(#{ sources: [ #{ name: 'buffer' } ] })
+" TODO: the line source is only for the current buffer. For a SearchBuffersDdu
+" command, we'd want to search every buffer
+" We should be able to fork the line source and get lines from all buffers
+" easily
+" NOTE: DduRg is close to what we'd want, except it searches everything in the
+" path, not only open buffers
+"command -nargs=1 SearchBuffersDdu call ddu#start(<args>)
+"nnoremap ;;/ <Cmd>call ddu#start(#{ sources: [ #{ name: 'line' }, #{ name: 'lsp_definition' } ] })<CR>
+
+" TODO: 2025-07-31: Actually do something useful with lsp information
+command SearchLspDdu call ddu#start(#{ sources: [ #{ name: 'lsp_definition' }, #{ name: 'lsp_references' }, #{ name: 'lsp_documentSymbol' } ] })
+command SearchHelpDdu call ddu#start(#{ sources: [ #{ name: 'help' } ] })

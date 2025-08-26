@@ -115,3 +115,4 @@ Plug 'https://github.com/Shougo/ddu-source-line', executable('deno') ? {} : #{fo
 " it's harmless enough
 Plug 'https://github.com/Shougo/ddu-commands.vim', executable('deno') ? {} : #{for: []}
 Plug 'andymass/vim-matchup'
+Plug 'https://github.com/rhysd/conflict-marker.vim'

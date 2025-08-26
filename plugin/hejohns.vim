@@ -463,7 +463,8 @@ endif
 augroup filetype_options
     autocmd!
     autocmd FileType plaintex setlocal filetype=tex
-    autocmd BufRead,BufNewFile *.tree setfiletype tex
+    " :help new-filetype
+    autocmd BufRead,BufNewFile *.tree setfiletype forester
     "" other plugins may clobber our mappings
     "autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END
@@ -1025,6 +1026,12 @@ augroup vim_lsp_maps
     autocmd User lsp_buffer_enabled nnoremap <buffer> [d <plug>(lsp-prev-diagnostic)
 augroup END
 
+let g:forester = split(exists('$FORESTER') ? $FORESTER : 'forester')
+call lsp#register_server(#{
+            \   name: 'forester lsp',
+            \   cmd: add(g:forester, 'lsp'),
+            \   allowlist: ['forester'],
+            \ })
 " ddt.vim
 " default denops#server#deno_args
 let g:denops#server#deno_args = [

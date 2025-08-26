@@ -1027,6 +1027,9 @@ augroup vim_lsp_maps
 augroup END
 
 let g:forester = split(exists('$FORESTER') ? $FORESTER : 'forester')
+" 2025-08-25: lsp#register_server requires g:lsp_log_file to be defined unless
+" we call it from a silenced function or something
+let g:lsp_log_file = ''
 call lsp#register_server(#{
             \   name: 'forester lsp',
             \   cmd: add(g:forester, 'lsp'),

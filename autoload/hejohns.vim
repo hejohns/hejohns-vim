@@ -255,32 +255,36 @@ function! hejohns#calendar_sync_pull() abort
     else
         silent !echo '[optional] Need `git` for syncing calendar.vim'
     endif
+    " if we :q while in :Calendar, we should still sync
+    let g:myCalendarDirty = 1
     " finally, call the original calendar.vim
     Calendar
 endfunction
 
 function! hejohns#calendar_sync_push() abort
-    if executable('git')
-        try
-            execute 'cd ' ..  g:myCalendarPath
-        catch
-            " TODO: this will not work, since terminal is already getting
-            " repainted and stuff
-            " (idk how terminals really work)
-            "
-            " This only works before vim takes control of the screen
-            silent !echo '[warning] "' .. g:myCalendarPath .. '" may not exist'
-            return
-        endtry
-        if strlen(system('git add -A -n')) && !v:shell_error
-            if !exists('g:myCalenderSshAgent')
-                call hejohns#calendar_set_ssh_agent()
+    if exists('g:myCalendarDirty') && g:myCalendarDirty
+        if executable('git')
+            try
+                execute 'cd ' ..  g:myCalendarPath
+            catch
+                " TODO: this will not work, since terminal is already getting
+                " repainted and stuff
+                " (idk how terminals really work)
+                "
+                " This only works before vim takes control of the screen
+                silent !echo '[warning] "' .. g:myCalendarPath .. '" may not exist'
+                return
+            endtry
+            if strlen(system('git add -A -n')) && !v:shell_error
+                if !exists('g:myCalenderSshAgent')
+                    call hejohns#calendar_set_ssh_agent()
+                endif
+                call system('git add -A .')
+                call system('git commit -m "bump"')
+                call hejohns#calendar_with_ssh_env('git push')
             endif
-            call system('git add -A .')
-            call system('git commit -m "bump"')
-            call hejohns#calendar_with_ssh_env('git push')
+            cd -
         endif
-        cd -
     endif
 endfunction
 

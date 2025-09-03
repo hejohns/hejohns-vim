@@ -982,9 +982,7 @@ function MyDdcConf() abort
     nnoremap ;? <Cmd>call <SID>ddc_cmdline_prologue()<CR>?
 
     " denops-popup-preview
-    " TODO: there's some luaeval error with the popup_preview on lsp
-    " completions?
-    "call popup_preview#enable()
+    call popup_preview#enable()
 
     " ddc-source-lsp
 endfunction

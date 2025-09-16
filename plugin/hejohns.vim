@@ -951,7 +951,10 @@ function MyDdcConf() abort
     imap <Tab> <Plug>(hejohns-vim-ddc-pum-complete)
     imap ;<Tab> <Plug>(hejohns-vim-ddc-pum-force-complete)
     imap <S-Tab> <Plug>(hejohns-vim-ddc-pum-reverse-complete)
-    imap <Esc> <Plug>(hejohns-vim-ddc-pum-cancel)
+    " 2025-09-11: While maybe a good idea in theory, I use <Esc> way more on
+    " the Kinesis, and if we really want to undo a completion we can always
+    " just undo
+    "imap <Esc> <Plug>(hejohns-vim-ddc-pum-cancel)
 
     " based on https://zenn.dev/shougo/articles/ddc-vim-pum-vim
     "nnoremap : <Cmd>call ddc#enable_cmdline_completion()<CR>:

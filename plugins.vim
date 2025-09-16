@@ -41,7 +41,7 @@ let g:hejohns#vim_signify_pre = has('nvim') || has('patch-8.0.902')
 Plug 'mhinz/vim-signify', g:hejohns#vim_signify_pre ? {} : {'tag': 'legacy'}
 Plug 'LnL7/vim-nix', {'for': 'nix'}
 Plug 'mbbill/undotree'
-Plug 'tpope/vim-dispatch', {'for': ['tex', 'ocaml', 'c', 'cpp']} " NOTE: but we may want for more langs later
+Plug 'tpope/vim-dispatch', {'for': ['forester', 'tex', 'ocaml', 'c', 'cpp']} " NOTE: but we may want for more langs later
 Plug 'vim-utils/vim-man', has('nvim') ? {'for': []} : {} " replaces ``builtin'' :Man ?
 " I had performance problems with airline
 "Plug 'vim-airline/vim-airline'

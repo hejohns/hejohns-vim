@@ -478,12 +478,17 @@ function EnableL2U()
     let g:latex_to_unicode_eager = 0
     let g:latex_to_unicode_auto = 1 " enable space driven auto completion
     let g:latex_to_unicode_file_types = '*' " on all
+    " 2025-09-30: This no longer plays well with ddc tab
+    let g:latex_to_unicode_tab = 'command'
+    " I doubt I'll use this ever, but at least have an option?
+    inoremap ;;<Tab> <C-X><C-U>
     call LaTeXtoUnicode#Init()
     call LaTeXtoUnicode#Enable()
 endfunction
 command L2UEnable call EnableL2U()
 function DisableL2U()
     call LaTeXtoUnicode#Disable()
+    unmap ;;<Tab>
 endfunction
 command L2UDisable call DisableL2U()
 nnoremap <C-\>lon :call EnableL2U()<CR>
@@ -817,6 +822,7 @@ function MyDdcConf() abort
     let l:sources = [
                 \ 'file',
                 \ 'lsp',
+                \ 'omni',
                 \ 'around',
                 \ 'buffer',
                 \ 'cmdline',
@@ -855,6 +861,9 @@ function MyDdcConf() abort
           \   vim: #{
           \     mark: '[vim]',
           \     isVolatile: v:true,
+          \   },
+          \   omni: #{
+          \     mark: '[omni]',
           \   },
           \   _: #{
           \     matchers: ['matcher_fuzzy'],

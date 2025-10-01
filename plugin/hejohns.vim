@@ -488,7 +488,7 @@ endfunction
 command L2UEnable call EnableL2U()
 function DisableL2U()
     call LaTeXtoUnicode#Disable()
-    unmap ;;<Tab>
+    iunmap ;;<Tab>
 endfunction
 command L2UDisable call DisableL2U()
 nnoremap <C-\>lon :call EnableL2U()<CR>

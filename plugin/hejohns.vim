@@ -902,7 +902,7 @@ function MyDdcConf() abort
     endfunction
     augroup ddc_omni
         autocmd! *
-        autocmd BufEnter * s:ddc_check_omnifunc()
+        autocmd BufEnter * call s:ddc_check_omnifunc()
     augroup END
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english

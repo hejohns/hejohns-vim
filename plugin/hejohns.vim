@@ -870,6 +870,11 @@ function MyDdcConf() abort
           \     converters: ['converter_fuzzy']
           \   },
           \ })
+    " 2025-10-01: I see why I had disabled the omni source...
+    " When the omnifunc is set to something nonexistent, everytime ddc tries
+    " to asynchronously run sources while I'm typing, ddc errors out filling
+    " the screen with red error messages every two seconds
+    autocmd BufEnter * call ddc#custom#patch_buffer('sourceOptions', #{ omni: #{ omnifunc: exists('*' .. &omnifunc) ? &omnifunc : ''}})
     call ddc#custom#patch_global('sourceParams', #{
           \   around: #{ maxSize: 1000 },
           \   line: #{ maxSize: 1000 },

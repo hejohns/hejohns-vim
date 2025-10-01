@@ -895,9 +895,14 @@ function MyDdcConf() abort
     " When the omnifunc is set to something nonexistent, everytime ddc tries
     " to asynchronously run sources while I'm typing, ddc errors out filling
     " the screen with red error messages every two seconds
+    function s:ddc_check_omnifunc() abort
+        if !exists('*' .. &omnifunc)
+            setlocal omnifunc=
+        endif
+    endfunction
     augroup ddc_omni
         autocmd! *
-        autocmd BufEnter * call ddc#custom#patch_buffer('sourceParams', #{ omni: #{ omnifunc: exists('*' .. &omnifunc) ? &omnifunc : ''}})
+        autocmd BufEnter * s:ddc_check_omnifunc()
     augroup END
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english

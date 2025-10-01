@@ -896,7 +896,7 @@ function MyDdcConf() abort
     " to asynchronously run sources while I'm typing, ddc errors out filling
     " the screen with red error messages every two seconds
     function s:ddc_check_omnifunc() abort
-        if !exists('*' .. &omnifunc)
+        if !empty(&omnifunc) && !exists('*' .. &omnifunc)
             setlocal omnifunc=
         endif
     endfunction

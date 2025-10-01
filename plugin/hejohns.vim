@@ -897,7 +897,7 @@ function MyDdcConf() abort
     " the screen with red error messages every two seconds
     augroup ddc_omni
         autocmd! *
-        autocmd BufEnter * call ddc#custom#patch_buffer('sourceParams', #{ omni: #{ omnifunc: (!empty(&omnifunc) && exists('*' .. &omnifunc)) ? &omnifunc : ''}})
+        autocmd BufNewFile,BufEnter * call ddc#custom#patch_buffer('sourceParams', #{ omni: #{ omnifunc: (!empty(&omnifunc) && exists('*' .. &omnifunc)) ? &omnifunc : ''}})
     augroup END
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english

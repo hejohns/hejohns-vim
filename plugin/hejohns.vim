@@ -895,6 +895,8 @@ function MyDdcConf() abort
     " When the omnifunc is set to something nonexistent, everytime ddc tries
     " to asynchronously run sources while I'm typing, ddc errors out filling
     " the screen with red error messages every two seconds
+    " 2025-10-15: This still doesn't seem to stop the errors when editing git
+    " commit messages. Let's go nuclear with when the autocommands fire...
     function s:ddc_patch_omni() abort
         if empty(&omnifunc) || !exists('*' .. &omnifunc)
             setlocal omnifunc=
@@ -902,7 +904,7 @@ function MyDdcConf() abort
     endfunction
     augroup ddc_omni
         autocmd! *
-        autocmd VimEnter,BufNew,BufEnter * call s:ddc_patch_omni()
+        autocmd VimEnter,BufNew,BufEnter,InsertEnter,TextChangedP * call s:ddc_patch_omni()
     augroup END
     set dictionary+=/usr/share/dict/words
     set dictionary+=/usr/share/dict/american-english

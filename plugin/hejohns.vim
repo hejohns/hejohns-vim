@@ -350,9 +350,6 @@ function s:ft_specific(ft)
     if a:ft ==# 'tex' || a:ft ==# 'latex' || a:ft ==# 'plaintex'
         call hejohns#vimtex_options()
         nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>
-        " TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
-        " this hack ``just works''
-        setlocal filetype=tex
     endif
 endfunction
 

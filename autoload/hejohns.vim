@@ -19,13 +19,13 @@ function! hejohns#delete_view() abort
     diffoff
 endfunction
 
-" LanguageClient-neovim
-function! hejohns#enable_ft_specific() abort
-    unlet g:myDisableFTSpecific
-endfunction
-function! hejohns#disable_ft_specific() abort
-    let g:myDisableFTSpecific = 1
-endfunction
+"" LanguageClient-neovim
+"function! hejohns#enable_ft_specific() abort
+"    unlet g:myDisableFTSpecific
+"endfunction
+"function! hejohns#disable_ft_specific() abort
+"    let g:myDisableFTSpecific = 1
+"endfunction
 
 " vimtex
 function! hejohns#vimtex_options() abort
@@ -44,7 +44,7 @@ function! hejohns#vimtex_options() abort
             if executable('lualatex')
             " _ value modified
             let g:vimtex_compiler_latexmk_engines = {
-                \ '_'                : '-pdflua',
+                \ '_'                : '-lualatex',
                 \ 'pdflatex'         : '-pdf',
                 \ 'dvipdfex'         : '-pdfdvi',
                 \ 'lualatex'         : '-lualatex',

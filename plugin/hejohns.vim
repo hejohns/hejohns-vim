@@ -342,6 +342,20 @@ EOF
     endfunction
 endif
 
+function s:ft_specific(ft)
+    augroup filetype_specific
+        autocmd! * <buffer>
+    augroup END
+
+    if a:ft ==# 'tex' || a:ft ==# 'latex' || a:ft ==# 'plaintex'
+        call hejohns#vimtex_options()
+        nnoremap <buffer> <localleader>lt :call vimtex#fzf#run()<CR>
+        " TODO: some ft autocmd (not mine) needs to fire late to get vimtex conceal to work correctly
+        " this hack ``just works''
+        setlocal filetype=tex
+    endif
+endfunction
+
 "" LanguageClient-neovim
 "" (and any pip stuff)
 "" (and any filetype specific options)
@@ -466,7 +480,7 @@ augroup filetype_options
     " :help new-filetype
     autocmd BufRead,BufNewFile *.tree setfiletype forester
     "" other plugins may clobber our mappings
-    "autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
+    autocmd VimEnter,BufEnter * execute 'call s:ft_specific("' . &filetype . '")'
 augroup END
 
 " julia latex2unicode

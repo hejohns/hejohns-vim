@@ -1070,11 +1070,6 @@ call lsp#register_server(#{
             \   cmd: add(g:forester, 'lsp'),
             \   allowlist: ['forester'],
             \ })
-call lsp#register_server(#{
-            \   name: 'haskell lsp',
-            \   cmd: ['haskell-language-server', '--lsp'],
-            \   allowlist: ['haskell'],
-            \ })
 " ddt.vim
 " default denops#server#deno_args
 let g:denops#server#deno_args = [

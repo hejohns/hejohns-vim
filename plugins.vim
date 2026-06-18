@@ -8,7 +8,8 @@ let g:hejohns#plugins_sourced = 1
 
 "Plug 'https://github.com/xavierd/clang_complete.git', {'for': []}
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
+" NOTE: 2026-06-17: jedi has been superseded by zuban
+"Plug 'davidhalter/jedi-vim', {'for': 'python'}
 " NOTE: 2025-04-07: ddc-source-lsp requires us to use vim-lsp instead
 "Plug 'autozimu/LanguageClient-neovim', {
 "    \ 'for': g:myLSLangs,

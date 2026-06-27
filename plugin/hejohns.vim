@@ -176,7 +176,8 @@ else
     silent !echo '[warning] Need +textobjects to use ;sw[ap]'
 endif
 nnoremap Q gq
-vnoremap Q gq
+" TODO: 2026-06-26: We will probably need filetype-specific Q more generally
+vnoremap <expr> Q (&filetype ==? 'forester') ? 'gq' : ':! fmt'
 " NOTE: I'm assuming we don't need to default behavior
 inoremap <C-Y> <Esc><C-Y>a
 inoremap <C-E> <Esc><C-E>a

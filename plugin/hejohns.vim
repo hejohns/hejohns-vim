@@ -177,7 +177,7 @@ else
 endif
 nnoremap Q gq
 " TODO: 2026-06-26: We will probably need filetype-specific Q more generally
-vnoremap <expr> Q (&filetype ==? 'forester') ? 'gq' : ':! fmt'
+vnoremap <expr> Q (&filetype ==? 'forester') ? ':! fmt' : 'gq'
 " NOTE: I'm assuming we don't need to default behavior
 inoremap <C-Y> <Esc><C-Y>a
 inoremap <C-E> <Esc><C-E>a

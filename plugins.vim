@@ -118,3 +118,6 @@ Plug 'https://github.com/Shougo/ddu-commands.vim', executable('deno') ? {} : #{f
 Plug 'andymass/vim-matchup'
 Plug 'https://github.com/rhysd/conflict-marker.vim'
 Plug 'https://github.com/ntpeters/vim-better-whitespace.git'
+" 2026-07-02: Maybe we can slowly move to this instead of fugitive, which is
+" okay but which I've never particularly liked?
+Plug 'https://github.com/lambdalisue/vim-gin'

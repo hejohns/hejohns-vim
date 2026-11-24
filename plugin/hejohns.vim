@@ -864,6 +864,7 @@ function MyDdcConf() abort
           \   },
           \   dictionary: #{ mark: '[dict]' },
           \   lsp: #{
+          \     isVolatile: v:true,
           \     mark: '[lsp]',
           \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
           \   },
